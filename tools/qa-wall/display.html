@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>學思達問答展示牆</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #111;
+      color: #fff;
+      font-family: 'Noto Sans TC', system-ui, sans-serif;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #333;
+    }
+
+    .title-area h1 {
+      font-size: 1.5rem;
+      color: #f97316;
+    }
+
+    .title-area .count {
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 0.2rem;
+    }
+
+    .filters {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 0.4rem 1rem;
+      border: 1px solid #444;
+      border-radius: 99px;
+      background: transparent;
+      color: #ccc;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .filter-btn:hover { border-color: #f97316; color: #f97316; }
+
+    .filter-btn.active {
+      background: #f97316;
+      border-color: #f97316;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .wall {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0.9rem;
+    }
+
+    .note {
+      background: #1e1e1e;
+      border: 1px solid #2a2a2a;
+      border-left: 4px solid #f97316;
+      border-radius: 8px;
+      padding: 0.9rem 1rem;
+      animation: pop-in 0.25s ease;
+    }
+
+    @keyframes pop-in {
+      from { opacity: 0; transform: scale(0.92); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .note .meta {
+      font-size: 0.78rem;
+      color: #f97316;
+      margin-bottom: 0.45rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .note .text {
+      font-size: 0.95rem;
+      color: #e5e5e5;
+      line-height: 1.55;
+      word-break: break-all;
+    }
+
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: #555;
+      padding: 4rem 1rem;
+      font-size: 1rem;
+    }
+
+    .live-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      margin-right: 6px;
+      animation: blink 1.5s ease infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="title-area">
+    <h1><span class="live-dot"></span>學思達問答展示牆</h1>
+    <div class="count" id="count-display">載入中…</div>
+  </div>
+  <div class="filters" id="filter-bar">
+    <button class="filter-btn active" data-filter="全部" onclick="setFilter('全部', this)">全班</button>
+    <button class="filter-btn" data-filter="高一" onclick="setFilter('高一', this)">高一</button>
+    <button class="filter-btn" data-filter="高二" onclick="setFilter('高二', this)">高二</button>
+    <button class="filter-btn" data-filter="高三" onclick="setFilter('高三', this)">高三</button>
+  </div>
+</header>
+
+<div class="wall" id="wall"></div>
+
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import { getFirestore, collection, onSnapshot, query, orderBy }
+    from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+  const app = initializeApp({
+    apiKey: "AIzaSyBMTe5eLI3GKmLz6beXvfnaBgQaXJsr-xM",
+    authDomain: "my-teaching-tools-b8e86.firebaseapp.com",
+    projectId: "my-teaching-tools-b8e86",
+    storageBucket: "my-teaching-tools-b8e86.firebasestorage.app",
+    messagingSenderId: "47224328529",
+    appId: "1:47224328529:web:6e6f761ff6b455f9db0370"
+  });
+  const db = getFirestore(app);
+
+  let allDocs = [];
+  let currentFilter = '全部';
+
+  window.setFilter = function(filter, btn) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  };
+
+  function render() {
+    const wall = document.getElementById('wall');
+    const countEl = document.getElementById('count-display');
+
+    const filtered = currentFilter === '全部'
+      ? allDocs
+      : allDocs.filter(d => d.class_name && d.class_name.startsWith(currentFilter));
+
+    countEl.textContent = `共 ${allDocs.length} 筆｜顯示 ${filtered.length} 筆`;
+
+    if (filtered.length === 0) {
+      wall.innerHTML = '<div class="empty">還沒有回應，等待學生送出中…</div>';
+      return;
+    }
+
+    wall.innerHTML = filtered.map(d => `
+      <div class="note">
+        <div class="meta">${escHtml(d.class_name)} · 座號 ${escHtml(String(d.student_id))}</div>
+        <div class="text">${escHtml(d.response)}</div>
+      </div>
+    `).join('');
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  const q = query(collection(db, 'class_responses'), orderBy('created_at', 'desc'));
+  onSnapshot(q, snapshot => {
+    allDocs = snapshot.docs.map(doc => doc.data());
+    render();
+  }, err => {
+    document.getElementById('count-display').textContent = '連線失敗，請確認 Firestore 規則';
+    console.error(err);
+  });
+</script>
+</body>
+</html>

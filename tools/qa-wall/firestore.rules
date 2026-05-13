@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 學思達問答收集器：class_responses 集合公開可讀可寫
+    match /class_responses/{doc} {
+      allow read, write: if true;
+    }
+
+    // 其他所有集合全部禁止
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
