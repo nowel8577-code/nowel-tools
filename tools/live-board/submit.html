@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>即時共寫看板</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#111;color:#fff;font-family:'Noto Sans TC',system-ui,sans-serif;
+         min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem}
+    .card{background:#1a1a1a;border:1px solid #333;border-radius:12px;
+          padding:2rem 1.5rem;width:100%;max-width:440px}
+    h1{font-size:1.3rem;color:#f97316;text-align:center;margin-bottom:.25rem}
+    .sub{font-size:.82rem;color:#888;text-align:center;margin-bottom:1.75rem}
+    label{display:block;font-size:.88rem;color:#ccc;margin:.9rem 0 .35rem}
+    select,input[type=number],textarea{width:100%;background:#222;border:1px solid #444;
+      border-radius:8px;color:#fff;font-size:1rem;padding:.6rem .8rem;outline:none;
+      transition:border-color .2s}
+    select:focus,input:focus,textarea:focus{border-color:#f97316}
+    textarea{resize:none;height:90px;line-height:1.55}
+    .char{font-size:.76rem;color:#666;text-align:right;margin-top:.25rem}
+    .char.warn{color:#ef4444}
+    .tabs{display:flex;gap:.5rem;margin-bottom:1rem}
+    .tab{flex:1;padding:.55rem;border:1px solid #444;border-radius:8px;background:transparent;
+         color:#aaa;font-size:.9rem;cursor:pointer;text-align:center;transition:all .15s}
+    .tab.active{background:#f97316;border-color:#f97316;color:#fff;font-weight:700}
+    .mode{display:none}.mode.show{display:block}
+    button.submit{margin-top:1.25rem;width:100%;padding:.8rem;background:#f97316;color:#fff;
+      border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s}
+    button.submit:hover:not(:disabled){background:#ea6a0a}
+    button.submit:disabled{opacity:.45;cursor:not-allowed}
+    .err{color:#ef4444;font-size:.82rem;margin-top:.65rem;display:none}
+    .ok{display:none;text-align:center;padding:2rem 1rem}
+    .ok .icon{font-size:3rem;margin-bottom:.6rem}
+    .ok h2{color:#f97316;margin-bottom:.4rem}
+    .ok p{color:#aaa;font-size:.88rem}
+    .ok .again{margin-top:1rem;background:transparent;border:1px solid #f97316;color:#f97316;
+      border-radius:8px;padding:.55rem 1.25rem;cursor:pointer;font-size:.9rem}
+    .ok .again:hover{background:#f97316;color:#fff}
+  </style>
+</head>
+<body>
+<div class="card">
+  <div id="main">
+    <h1>📝 課堂即時互動</h1>
+    <p class="sub">選擇模式後填寫送出</p>
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('share',this)">💬 共寫心得</div>
+      <div class="tab"       onclick="switchTab('ask',  this)">❓ 匿名提問</div>
+    </div>
+
+    <!-- 共同欄位 -->
+    <div id="mode-share" class="mode show">
+      <label for="cls-s">班級</label>
+      <select id="cls-s"><option value="">── 請選擇 ──</option>
+        <optgroup label="高一"><option>高一甲</option><option>高一乙</option><option>高一丙</option><option>高一丁</option><option>高一戊</option></optgroup>
+        <optgroup label="高二"><option>高二甲</option><option>高二乙</option><option>高二丙</option><option>高二丁</option><option>高二戊</option></optgroup>
+        <optgroup label="高三"><option>高三甲</option><option>高三乙</option><option>高三丙</option><option>高三丁</option><option>高三戊</option></optgroup>
+      </select>
+      <label for="seat-s">座號</label>
+      <input type="number" id="seat-s" placeholder="座號（數字）" min="1" max="50">
+      <label for="verse">對應詩句／段落</label>
+      <select id="verse">
+        <option value="自由回應">── 自由回應（不指定段落）──</option>
+        <option value="段落一">段落一</option>
+        <option value="段落二">段落二</option>
+        <option value="段落三">段落三</option>
+        <option value="整體">整體感受</option>
+      </select>
+      <label for="thought">你的心得（80 字以內）</label>
+      <textarea id="thought" maxlength="80" placeholder="輸入你對這段詩文的感受或想法…"></textarea>
+      <div class="char" id="char-s">0 / 80</div>
+    </div>
+
+    <div id="mode-ask" class="mode">
+      <label for="cls-a">班級（選填，不填視為匿名）</label>
+      <select id="cls-a"><option value="匿名">不透露</option>
+        <optgroup label="高一"><option>高一甲</option><option>高一乙</option><option>高一丙</option><option>高一丁</option><option>高一戊</option></optgroup>
+        <optgroup label="高二"><option>高二甲</option><option>高二乙</option><option>高二丙</option><option>高二丁</option><option>高二戊</option></optgroup>
+        <optgroup label="高三"><option>高三甲</option><option>高三乙</option><option>高三丙</option><option>高三丁</option><option>高三戊</option></optgroup>
+      </select>
+      <label for="question">想問什麼？（100 字以內）</label>
+      <textarea id="question" maxlength="100" placeholder="可以是不懂的詞義、讀不通的句子，或任何疑問…"></textarea>
+      <div class="char" id="char-a">0 / 100</div>
+    </div>
+
+    <div class="err" id="err"></div>
+    <button class="submit" id="btn" onclick="send()">送出</button>
+  </div>
+
+  <div class="ok" id="ok">
+    <div class="icon">✅</div>
+    <h2>已送出！</h2>
+    <p>老師會在大螢幕看到你的內容。</p>
+    <button class="again" onclick="again()">再送一則</button>
+  </div>
+</div>
+
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import {getFirestore,collection,addDoc,serverTimestamp}
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const db = getFirestore(initializeApp({
+  apiKey:"AIzaSyBMTe5eLI3GKmLz6beXvfnaBgQaXJsr-xM",
+  authDomain:"my-teaching-tools-b8e86.firebaseapp.com",
+  projectId:"my-teaching-tools-b8e86",
+  storageBucket:"my-teaching-tools-b8e86.firebasestorage.app",
+  messagingSenderId:"47224328529",
+  appId:"1:47224328529:web:6e6f761ff6b455f9db0370"
+}));
+
+let mode = 'share', lastSend = 0;
+
+window.switchTab = (m, el) => {
+  mode = m;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.mode').forEach(d => d.classList.remove('show'));
+  document.getElementById('mode-'+m).classList.add('show');
+};
+
+const bindChar = (id, maxId, max) => {
+  const ta = document.getElementById(id);
+  const ct = document.getElementById(maxId);
+  ta.addEventListener('input', () => {
+    const n = ta.value.length;
+    ct.textContent = `${n} / ${max}`;
+    ct.classList.toggle('warn', n >= max - 5);
+  });
+};
+bindChar('thought','char-s',80);
+bindChar('question','char-a',100);
+
+function showErr(msg){ const e=document.getElementById('err'); e.textContent=msg; e.style.display='block'; }
+function hideErr(){ document.getElementById('err').style.display='none'; }
+
+window.send = async () => {
+  hideErr();
+  const btn = document.getElementById('btn');
+  if (Date.now()-lastSend < 10000) return showErr('10 秒內不能重複送出，請稍候');
+
+  if (mode === 'share') {
+    const cls   = document.getElementById('cls-s').value;
+    const seat  = document.getElementById('seat-s').value;
+    const verse = document.getElementById('verse').value;
+    const thought = document.getElementById('thought').value.trim();
+    if (!cls) return showErr('請選擇班級');
+    if (!seat || +seat < 1 || +seat > 50) return showErr('請輸入正確座號');
+    if (thought.length < 3) return showErr('心得至少 3 個字');
+    btn.disabled = true;
+    try {
+      await addDoc(collection(db,'live_thoughts'),{
+        type:'share', class_name:cls, student_id:+seat,
+        verse, thought, created_at:serverTimestamp()
+      });
+    } catch(e){ showErr('送出失敗，請確認網路'); btn.disabled=false; return; }
+  } else {
+    const cls = document.getElementById('cls-a').value;
+    const q   = document.getElementById('question').value.trim();
+    if (q.length < 3) return showErr('問題至少 3 個字');
+    btn.disabled = true;
+    try {
+      await addDoc(collection(db,'anon_questions'),{
+        class_name:cls, question:q, answered:false, created_at:serverTimestamp()
+      });
+    } catch(e){ showErr('送出失敗，請確認網路'); btn.disabled=false; return; }
+  }
+  lastSend = Date.now();
+  document.getElementById('main').style.display='none';
+  document.getElementById('ok').style.display='block';
+};
+
+window.again = () => {
+  document.getElementById('main').style.display='block';
+  document.getElementById('ok').style.display='none';
+  document.getElementById('btn').disabled = false;
+};
+</script>
+</body>
+</html>

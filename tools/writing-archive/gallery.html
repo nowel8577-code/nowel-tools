@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>數位文學典藏館</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#111;color:#fff;font-family:'Noto Sans TC',system-ui,sans-serif;min-height:100vh;padding:1rem}
+    header{padding-bottom:1rem;border-bottom:1px solid #222;margin-bottom:1.25rem}
+    h1{font-size:1.5rem;color:#a78bfa;margin-bottom:.3rem}
+    .sub{font-size:.82rem;color:#666}
+
+    .toolbar{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;align-items:center}
+    .chip{padding:.32rem .8rem;border:1px solid #444;border-radius:99px;background:transparent;
+          color:#aaa;font-size:.8rem;cursor:pointer;transition:all .15s}
+    .chip:hover{border-color:#a78bfa;color:#a78bfa}
+    .chip.active{background:#a78bfa;border-color:#a78bfa;color:#fff;font-weight:700}
+    .search{flex:1;min-width:160px;max-width:280px;background:#1a1a1a;border:1px solid #333;
+            border-radius:8px;color:#fff;padding:.38rem .75rem;font-size:.85rem;outline:none}
+    .search:focus{border-color:#a78bfa}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.85rem}
+    .work-card{background:#1a1a1a;border:1px solid #252525;border-radius:10px;
+               padding:1rem;cursor:pointer;transition:border-color .2s;display:flex;flex-direction:column;gap:.4rem}
+    .work-card:hover{border-color:#a78bfa}
+    .work-title{font-size:1rem;font-weight:700;color:#e5e5e5}
+    .work-meta{font-size:.75rem;color:#888;display:flex;gap:.5rem;flex-wrap:wrap}
+    .type-tag{font-size:.7rem;padding:.1rem .5rem;border-radius:4px;background:#2d2040;color:#a78bfa}
+    .work-preview{font-size:.82rem;color:#aaa;line-height:1.5;margin-top:.35rem;
+                  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+    .empty{text-align:center;color:#555;padding:4rem;font-size:.95rem;grid-column:1/-1}
+
+    /* Modal */
+    .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;
+              align-items:center;justify-content:center;padding:1rem}
+    .modal-bg.show{display:flex}
+    .modal{background:#1a1a1a;border:1px solid #333;border-radius:12px;
+           max-width:640px;width:100%;max-height:85vh;display:flex;flex-direction:column}
+    .modal-head{padding:1.1rem 1.25rem;border-bottom:1px solid #2a2a2a;display:flex;
+                justify-content:space-between;align-items:flex-start;gap:.5rem}
+    .modal-head h2{font-size:1.15rem;color:#a78bfa}
+    .modal-close{background:transparent;border:none;color:#666;font-size:1.3rem;cursor:pointer;line-height:1}
+    .modal-meta{padding:.6rem 1.25rem;font-size:.78rem;color:#888;border-bottom:1px solid #222;
+                display:flex;gap:.75rem;flex-wrap:wrap}
+    .modal-body{padding:1.1rem 1.25rem;overflow-y:auto;line-height:1.85;font-size:.97rem;color:#ddd;white-space:pre-wrap}
+  </style>
+</head>
+<body>
+<header>
+  <h1>📚 數位文學典藏館</h1>
+  <p class="sub">全班學生作品 · 即時更新</p>
+</header>
+
+<div class="toolbar">
+  <div class="chip active" onclick="setFilter('全部',this)">全部</div>
+  <div class="chip" onclick="setFilter('作文',this)">作文</div>
+  <div class="chip" onclick="setFilter('讀書筆記',this)">讀書筆記</div>
+  <div class="chip" onclick="setFilter('詩作',this)">詩作</div>
+  <div class="chip" onclick="setFilter('短文',this)">短文</div>
+  <div class="chip" onclick="setFilter('心得',this)">心得</div>
+  <input class="search" type="text" id="search" placeholder="🔍 搜尋標題或內容…" oninput="render()">
+</div>
+
+<div class="grid" id="grid"></div>
+
+<!-- Modal -->
+<div class="modal-bg" id="modal-bg" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="m-title"></h2>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-meta" id="m-meta"></div>
+    <div class="modal-body" id="m-body"></div>
+  </div>
+</div>
+
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import {getFirestore,collection,onSnapshot,query,orderBy}
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const db = getFirestore(initializeApp({
+  apiKey:"AIzaSyBMTe5eLI3GKmLz6beXvfnaBgQaXJsr-xM",
+  authDomain:"my-teaching-tools-b8e86.firebaseapp.com",
+  projectId:"my-teaching-tools-b8e86",
+  storageBucket:"my-teaching-tools-b8e86.firebasestorage.app",
+  messagingSenderId:"47224328529",
+  appId:"1:47224328529:web:6e6f761ff6b455f9db0370"
+}));
+
+let all=[], filter='全部';
+
+window.setFilter=(f,el)=>{
+  filter=f;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  render();
+};
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+window.render=()=>{
+  const kw=(document.getElementById('search').value||'').trim().toLowerCase();
+  let list = filter==='全部' ? all : all.filter(d=>d.work_type===filter);
+  if(kw) list=list.filter(d=>(d.title||'').toLowerCase().includes(kw)||(d.content||'').toLowerCase().includes(kw));
+  const grid=document.getElementById('grid');
+  if(!list.length){grid.innerHTML='<div class="empty">尚無符合的作品</div>';return;}
+  grid.innerHTML=list.map((d,i)=>`
+    <div class="work-card" onclick="openWork(${i})">
+      <div class="work-title">${esc(d.title||'（無標題）')}</div>
+      <div class="work-meta">
+        <span>${esc(d.class_name)} · 座號${esc(d.student_id)}</span>
+        <span>${esc(d.school_year||'')}</span>
+      </div>
+      <span class="type-tag">${esc(d.work_type||'作品')}</span>
+      <div class="work-preview">${esc(d.content||'')}</div>
+    </div>`).join('');
+
+  // store for modal — safe global
+  window._works = list;
+};
+
+window.openWork=(i)=>{
+  const d=window._works[i];
+  document.getElementById('m-title').textContent=d.title||'（無標題）';
+  document.getElementById('m-meta').innerHTML=
+    `<span>${esc(d.class_name)} · 座號 ${esc(d.student_id)}</span>`+
+    `<span class="type-tag">${esc(d.work_type)}</span>`+
+    `<span>${esc(d.school_year||'')}</span>`;
+  document.getElementById('m-body').textContent=d.content||'';
+  document.getElementById('modal-bg').classList.add('show');
+};
+
+window.closeModal=(e)=>{
+  if(!e||e.target===document.getElementById('modal-bg')||e.currentTarget?.classList?.contains('modal-close'))
+    document.getElementById('modal-bg').classList.remove('show');
+};
+
+onSnapshot(query(collection(db,'student_works'),orderBy('created_at','desc')),snap=>{
+  all=snap.docs.map(d=>d.data());
+  render();
+});
+</script>
+</body>
+</html>

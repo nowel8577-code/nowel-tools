@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>題庫出卷</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#0f1117;color:#fff;font-family:'Noto Sans TC',system-ui,sans-serif;padding:1.25rem}
+    h1{font-size:1.35rem;color:#34d399;margin-bottom:.2rem}
+    .sub{font-size:.8rem;color:#666;margin-bottom:1.5rem}
+
+    /* Setup */
+    #setup{max-width:540px}
+    .panel{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:1.25rem;margin-bottom:1rem}
+    .panel h2{font-size:.9rem;color:#34d399;margin-bottom:.9rem}
+    label{font-size:.83rem;color:#aaa;display:block;margin:.65rem 0 .25rem}
+    select,input[type=number]{background:#0d1117;border:1px solid #30363d;border-radius:6px;
+      color:#e6edf3;font-size:.9rem;padding:.45rem .7rem;outline:none;transition:border-color .2s}
+    select:focus,input:focus{border-color:#34d399}
+    .chip-row{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.3rem}
+    .chip{padding:.28rem .7rem;background:#1c2128;border:1px solid #30363d;border-radius:5px;
+          font-size:.76rem;color:#8b949e;cursor:pointer;transition:all .15s;user-select:none}
+    .chip.sel{background:#0d3d2a;border-color:#34d399;color:#34d399}
+    .gen-btn{margin-top:1.1rem;padding:.7rem 1.5rem;background:#34d399;color:#0d1117;
+             border:none;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s}
+    .gen-btn:hover{background:#2dd4bf}
+    .gen-btn:disabled{opacity:.45;cursor:not-allowed}
+    .err{color:#f87171;font-size:.8rem;margin-top:.5rem}
+
+    /* Quiz sheet */
+    #quiz-sheet{display:none}
+    .quiz-head{display:flex;justify-content:space-between;align-items:center;
+               margin-bottom:1.25rem;flex-wrap:wrap;gap:.5rem}
+    .quiz-head h2{color:#34d399;font-size:1.1rem}
+    .quiz-meta{font-size:.8rem;color:#666}
+    .print-btn{padding:.45rem 1rem;border:1px solid #34d399;border-radius:7px;background:transparent;
+               color:#34d399;font-size:.85rem;cursor:pointer}
+    .print-btn:hover{background:#0d3d2a}
+    .back-btn{padding:.45rem 1rem;border:1px solid #30363d;border-radius:7px;background:transparent;
+              color:#8b949e;font-size:.85rem;cursor:pointer;margin-right:.5rem}
+    .back-btn:hover{background:#1c2128}
+
+    .q-block{background:#161b22;border:1px solid #21262d;border-radius:8px;
+             padding:1rem 1.1rem;margin-bottom:.75rem}
+    .q-num{font-size:.78rem;color:#666;margin-bottom:.4rem}
+    .q-content{font-size:.98rem;color:#e6edf3;margin-bottom:.65rem;line-height:1.6}
+    .q-tags{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.55rem}
+    .q-tag{font-size:.68rem;padding:.1rem .45rem;background:#1c2128;border:1px solid #30363d;
+           color:#8b949e;border-radius:4px}
+    .diff-easy{background:#0d3d2a;border-color:#34d399;color:#34d399}
+    .diff-mid {background:#2d2a0a;border-color:#fbbf24;color:#fbbf24}
+    .diff-hard {background:#3d0d0d;border-color:#f87171;color:#f87171}
+    .q-opts{display:grid;grid-template-columns:1fr 1fr;gap:.35rem}
+    .q-opt{font-size:.88rem;color:#aaa;padding:.4rem .6rem;background:#0d1117;
+           border:1px solid #1e1e3a;border-radius:6px}
+    .q-opt.correct{background:#0d3d2a;border-color:#34d399;color:#4ade80}
+    .q-explain{font-size:.76rem;color:#666;margin-top:.5rem;line-height:1.5}
+
+    .show-ans-toggle{display:inline-flex;align-items:center;gap:.4rem;cursor:pointer;
+                     font-size:.82rem;color:#8b949e;margin-bottom:.85rem;user-select:none}
+    .show-ans-toggle input{accent-color:#34d399}
+
+    @media print{
+      body{background:#fff;color:#000;padding:.5cm}
+      .quiz-head .print-btn,.back-btn,.show-ans-toggle{display:none}
+      .q-block{background:#fff;border:1px solid #ccc;break-inside:avoid}
+      .q-opt.correct{background:#e6ffe6;border-color:#22c55e;color:#166534}
+    }
+  </style>
+</head>
+<body>
+<h1>📝 題庫出卷</h1>
+<p class="sub">選擇條件 → 自動從題庫篩選出試卷</p>
+
+<div id="setup">
+  <div class="panel">
+    <h2>篩選條件</h2>
+    <label>難度（可多選，不選 = 全部）</label>
+    <div class="chip-row">
+      <div class="chip" data-diff="基礎">🟢 基礎</div>
+      <div class="chip" data-diff="進階">🟡 進階</div>
+      <div class="chip" data-diff="挑戰">🔴 挑戰</div>
+    </div>
+    <label>標籤（可多選，不選 = 全部）</label>
+    <div class="chip-row">
+      <div class="chip" data-tag="修辭">修辭</div>
+      <div class="chip" data-tag="國學常識">國學常識</div>
+      <div class="chip" data-tag="文學流派">文學流派</div>
+      <div class="chip" data-tag="字義">字義</div>
+      <div class="chip" data-tag="句意">句意</div>
+      <div class="chip" data-tag="作者背景">作者背景</div>
+      <div class="chip" data-tag="文言文">文言文</div>
+      <div class="chip" data-tag="白話文">白話文</div>
+      <div class="chip" data-tag="古詩詞">古詩詞</div>
+      <div class="chip" data-tag="現代詩">現代詩</div>
+    </div>
+    <label>題數</label>
+    <input type="number" id="num" value="10" min="1" max="50">
+    <div class="err" id="err"></div>
+    <button class="gen-btn" id="gen-btn" onclick="generate()">生成試卷</button>
+  </div>
+</div>
+
+<div id="quiz-sheet">
+  <div class="quiz-head">
+    <div>
+      <h2 id="quiz-title">國文練習卷</h2>
+      <div class="quiz-meta" id="quiz-meta"></div>
+    </div>
+    <div>
+      <button class="back-btn" onclick="back()">← 重新篩選</button>
+      <button class="print-btn" onclick="window.print()">🖨️ 列印</button>
+    </div>
+  </div>
+  <label class="show-ans-toggle">
+    <input type="checkbox" id="show-ans" onchange="toggleAns()"> 顯示答案與解析
+  </label>
+  <div id="qs"></div>
+</div>
+
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import {getFirestore,collection,getDocs}
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const db = getFirestore(initializeApp({
+  apiKey:"AIzaSyBMTe5eLI3GKmLz6beXvfnaBgQaXJsr-xM",
+  authDomain:"my-teaching-tools-b8e86.firebaseapp.com",
+  projectId:"my-teaching-tools-b8e86",
+  storageBucket:"my-teaching-tools-b8e86.firebasestorage.app",
+  messagingSenderId:"47224328529",
+  appId:"1:47224328529:web:6e6f761ff6b455f9db0370"
+}));
+
+let selDiffs=new Set(), selTags=new Set(), quizData=[];
+
+document.querySelectorAll('[data-diff]').forEach(c=>{
+  c.addEventListener('click',()=>{
+    if(selDiffs.has(c.dataset.diff)){selDiffs.delete(c.dataset.diff);c.classList.remove('sel');}
+    else{selDiffs.add(c.dataset.diff);c.classList.add('sel');}
+  });
+});
+document.querySelectorAll('[data-tag]').forEach(c=>{
+  c.addEventListener('click',()=>{
+    if(selTags.has(c.dataset.tag)){selTags.delete(c.dataset.tag);c.classList.remove('sel');}
+    else{selTags.add(c.dataset.tag);c.classList.add('sel');}
+  });
+});
+
+window.generate=async()=>{
+  const btn=document.getElementById('gen-btn');
+  const err=document.getElementById('err');
+  const num=parseInt(document.getElementById('num').value);
+  err.textContent='';
+  if(!num||num<1){err.textContent='請輸入有效題數';return;}
+  btn.disabled=true; btn.textContent='讀取中…';
+
+  const snap=await getDocs(collection(db,'questions'));
+  let pool=snap.docs.map(d=>({_id:d.id,...d.data()}));
+
+  if(selDiffs.size) pool=pool.filter(d=>selDiffs.has(d.difficulty));
+  if(selTags.size)  pool=pool.filter(d=>(d.tags||[]).some(t=>selTags.has(t)));
+
+  if(!pool.length){err.textContent='符合條件的題目數量不足，請調整篩選條件';btn.disabled=false;btn.textContent='生成試卷';return;}
+
+  pool.sort(()=>Math.random()-.5);
+  quizData=pool.slice(0,num);
+
+  const tags=[...selTags].join('、')||'全部';
+  const diffs=[...selDiffs].join('、')||'全部';
+  document.getElementById('quiz-title').textContent=`國文練習卷（${tags}）`;
+  document.getElementById('quiz-meta').textContent=`難度：${diffs} ｜ 共 ${quizData.length} 題（題庫共 ${pool.length} 題符合條件）`;
+
+  renderQuiz(false);
+  document.getElementById('setup').style.display='none';
+  document.getElementById('quiz-sheet').style.display='block';
+  btn.disabled=false; btn.textContent='生成試卷';
+};
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+const diffClass={基礎:'diff-easy',進階:'diff-mid',挑戰:'diff-hard'};
+
+function renderQuiz(showAns){
+  document.getElementById('qs').innerHTML=quizData.map((d,i)=>`
+    <div class="q-block">
+      <div class="q-num">第 ${i+1} 題</div>
+      <div class="q-content">${esc(d.content)}</div>
+      <div class="q-tags">
+        <span class="q-tag ${diffClass[d.difficulty]||''}">${esc(d.difficulty)}</span>
+        ${(d.tags||[]).map(t=>`<span class="q-tag">${esc(t)}</span>`).join('')}
+        ${d.source?`<span class="q-tag">📌${esc(d.source)}</span>`:''}
+      </div>
+      <div class="q-opts">
+        ${(d.options||[]).map((o,j)=>`
+          <div class="q-opt${showAns&&j===d.answer?' correct':''}">${'ABCD'[j]}. ${esc(o)}</div>`).join('')}
+      </div>
+      ${showAns&&d.explain?`<div class="q-explain">💡 ${esc(d.explain)}</div>`:''}
+    </div>`).join('');
+}
+
+window.toggleAns=()=>{
+  renderQuiz(document.getElementById('show-ans').checked);
+};
+
+window.back=()=>{
+  document.getElementById('setup').style.display='block';
+  document.getElementById('quiz-sheet').style.display='none';
+};
+</script>
+</body>
+</html>

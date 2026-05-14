@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>積分排行榜</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#0d0d1a;color:#fff;font-family:'Noto Sans TC',system-ui,sans-serif;
+         min-height:100vh;padding:1rem}
+    header{padding-bottom:1rem;border-bottom:1px solid #1e1e3a;margin-bottom:1.25rem;
+           display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
+    h1{font-size:1.5rem;color:#818cf8}
+    .dot{display:inline-block;width:8px;height:8px;background:#22c55e;border-radius:50%;
+         margin-right:6px;animation:blink 1.4s ease infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+    .stat{font-size:.82rem;color:#555}
+
+    .tabs{display:flex;gap:.5rem;flex-wrap:wrap}
+    .tab{padding:.35rem .9rem;border:1px solid #3a3a6a;border-radius:99px;background:transparent;
+         color:#888;font-size:.8rem;cursor:pointer;transition:all .15s}
+    .tab:hover{border-color:#818cf8;color:#818cf8}
+    .tab.active{background:#818cf8;border-color:#818cf8;color:#fff;font-weight:700}
+
+    .layout{display:grid;grid-template-columns:1fr 320px;gap:1rem}
+    @media(max-width:800px){.layout{grid-template-columns:1fr}}
+
+    /* Podium */
+    .podium{display:flex;align-items:flex-end;justify-content:center;gap:.75rem;
+            margin-bottom:1.5rem;height:160px}
+    .pod{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+         width:90px;border-radius:8px 8px 0 0;padding:.5rem .3rem;text-align:center}
+    .pod-1{background:linear-gradient(180deg,#fbbf24,#b45309);height:100%}
+    .pod-2{background:linear-gradient(180deg,#94a3b8,#475569);height:75%}
+    .pod-3{background:linear-gradient(180deg,#a16207,#78350f);height:55%}
+    .pod .medal{font-size:1.4rem;margin-bottom:.25rem}
+    .pod .pod-name{font-size:.78rem;font-weight:700;color:#fff;word-break:break-all}
+    .pod .pod-score{font-size:1rem;font-weight:900;color:#fff}
+
+    /* Rank list */
+    .rank-list{display:flex;flex-direction:column;gap:.5rem}
+    .rank-row{display:flex;align-items:center;gap:.75rem;background:#13132a;
+              border:1px solid #1e1e3a;border-radius:8px;padding:.6rem .9rem}
+    .rank-row.top3{border-color:#818cf8}
+    .rank-num{font-size:.9rem;font-weight:700;color:#818cf8;width:26px;text-align:center}
+    .rank-info{flex:1}
+    .rank-name{font-size:.9rem;color:#e5e5e5}
+    .rank-sub{font-size:.72rem;color:#666}
+    .rank-score{font-size:1rem;font-weight:700;color:#fbbf24}
+    .rank-bar-wrap{width:100%;height:4px;background:#1e1e3a;border-radius:2px;margin-top:.3rem}
+    .rank-bar{height:4px;background:#818cf8;border-radius:2px;transition:width .4s}
+    .empty{color:#555;text-align:center;padding:3rem;font-size:.9rem}
+
+    /* Stats panel */
+    .stats-panel{background:#13132a;border:1px solid #1e1e3a;border-radius:10px;padding:1rem}
+    .stats-panel h3{font-size:.9rem;color:#818cf8;margin-bottom:.9rem}
+    .stat-row{display:flex;justify-content:space-between;padding:.45rem 0;
+              border-bottom:1px solid #1e1e3a;font-size:.85rem}
+    .stat-row:last-child{border:none}
+    .stat-label{color:#888}
+    .stat-val{color:#e5e5e5;font-weight:700}
+
+    .class-breakdown{margin-top:1rem}
+    .class-breakdown h3{font-size:.9rem;color:#818cf8;margin-bottom:.7rem}
+    .cb-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem;font-size:.82rem}
+    .cb-name{color:#aaa;width:60px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .cb-bar-wrap{flex:1;height:10px;background:#1e1e3a;border-radius:5px;overflow:hidden}
+    .cb-bar{height:10px;background:#818cf8;border-radius:5px;transition:width .4s}
+    .cb-val{color:#818cf8;font-size:.75rem;width:28px;text-align:right}
+  </style>
+</head>
+<body>
+<header>
+  <div>
+    <h1><span class="dot"></span>詩詞解謎 · 積分排行榜</h1>
+    <div class="stat" id="stat">載入中…</div>
+  </div>
+  <div class="tabs" id="filter-bar">
+    <div class="tab active" onclick="setFilter('全部',this)">全班</div>
+    <div class="tab" onclick="setFilter('高一',this)">高一</div>
+    <div class="tab" onclick="setFilter('高二',this)">高二</div>
+    <div class="tab" onclick="setFilter('高三',this)">高三</div>
+  </div>
+</header>
+
+<div class="layout">
+  <div>
+    <div class="podium" id="podium"></div>
+    <div class="rank-list" id="rank-list"></div>
+  </div>
+  <div>
+    <div class="stats-panel">
+      <h3>📊 本場統計</h3>
+      <div class="stat-row"><span class="stat-label">總參賽人次</span><span class="stat-val" id="s-total">—</span></div>
+      <div class="stat-row"><span class="stat-label">平均分數</span><span class="stat-val" id="s-avg">—</span></div>
+      <div class="stat-row"><span class="stat-label">最高分</span><span class="stat-val" id="s-max">—</span></div>
+      <div class="stat-row"><span class="stat-label">平均答對題數</span><span class="stat-val" id="s-correct">—</span></div>
+    </div>
+    <div class="class-breakdown" id="class-breakdown"></div>
+  </div>
+</div>
+
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import {getFirestore,collection,onSnapshot,query,orderBy}
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const db = getFirestore(initializeApp({
+  apiKey:"AIzaSyBMTe5eLI3GKmLz6beXvfnaBgQaXJsr-xM",
+  authDomain:"my-teaching-tools-b8e86.firebaseapp.com",
+  projectId:"my-teaching-tools-b8e86",
+  storageBucket:"my-teaching-tools-b8e86.firebasestorage.app",
+  messagingSenderId:"47224328529",
+  appId:"1:47224328529:web:6e6f761ff6b455f9db0370"
+}));
+
+let all=[], filter='全部';
+
+window.setFilter=(f,el)=>{
+  filter=f;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  render();
+};
+
+function render(){
+  const data = filter==='全部' ? all
+    : all.filter(d=>d.class_name&&d.class_name.startsWith(filter));
+
+  // Best score per student（同學可以多次作答，取最高）
+  const best={};
+  data.forEach(d=>{
+    const key=`${d.class_name}-${d.student_id}`;
+    if(!best[key]||d.score>best[key].score) best[key]={...d,key};
+  });
+  const ranked=Object.values(best).sort((a,b)=>b.score-a.score);
+
+  document.getElementById('stat').textContent=
+    `共 ${data.length} 次作答 · ${ranked.length} 位學生`;
+
+  // Stats
+  if(ranked.length){
+    const scores=ranked.map(d=>d.score);
+    const avg=(scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(1);
+    const corrects=ranked.map(d=>d.correct_count||0);
+    const avgC=(corrects.reduce((a,b)=>a+b,0)/corrects.length).toFixed(1);
+    document.getElementById('s-total').textContent=data.length;
+    document.getElementById('s-avg').textContent=avg+' 分';
+    document.getElementById('s-max').textContent=Math.max(...scores)+' 分';
+    document.getElementById('s-correct').textContent=avgC+' 題';
+  }
+
+  // Podium
+  const podEl=document.getElementById('podium');
+  const medals=['🥇','🥈','🥉'];
+  const podOrder=[1,0,2]; // 2nd, 1st, 3rd
+  if(ranked.length>=1){
+    podEl.innerHTML=podOrder.map(i=>{
+      const d=ranked[i];
+      if(!d) return '<div class="pod pod-'+(i+1)+'" style="opacity:.15"><div class="medal">—</div></div>';
+      return `<div class="pod pod-${i+1}">
+        <div class="medal">${medals[i]}</div>
+        <div class="pod-name">${d.class_name}<br>座${d.student_id}</div>
+        <div class="pod-score">${d.score}分</div>
+      </div>`;
+    }).join('');
+  } else {
+    podEl.innerHTML='<div style="color:#444;font-size:.9rem;align-self:center">等待學生參賽…</div>';
+  }
+
+  // Rank list
+  const maxScore=ranked[0]?.score||1;
+  const rl=document.getElementById('rank-list');
+  if(!ranked.length){rl.innerHTML='<div class="empty">尚無排名資料</div>';return;}
+  rl.innerHTML=ranked.slice(0,20).map((d,i)=>`
+    <div class="rank-row ${i<3?'top3':''}">
+      <div class="rank-num">${i<3?medals[i]:i+1}</div>
+      <div class="rank-info">
+        <div class="rank-name">${d.class_name} · 座號 ${d.student_id}</div>
+        <div class="rank-sub">答對 ${d.correct_count||0}/${d.total||5} 題</div>
+        <div class="rank-bar-wrap"><div class="rank-bar" style="width:${(d.score/maxScore*100).toFixed(1)}%"></div></div>
+      </div>
+      <div class="rank-score">${d.score}</div>
+    </div>`).join('');
+
+  // Class breakdown
+  const cbMap={};
+  ranked.forEach(d=>{
+    const c=d.class_name||'其他';
+    if(!cbMap[c]){cbMap[c]={total:0,count:0};}
+    cbMap[c].total+=d.score; cbMap[c].count++;
+  });
+  const cbArr=Object.entries(cbMap).map(([c,v])=>({name:c,avg:v.total/v.count,count:v.count}))
+    .sort((a,b)=>b.avg-a.avg);
+  const cbMax=cbArr[0]?.avg||1;
+  const cbEl=document.getElementById('class-breakdown');
+  if(cbArr.length>1){
+    cbEl.innerHTML=`<div class="stats-panel"><h3>🏫 各班平均分</h3>`+
+      cbArr.map(c=>`
+        <div class="cb-row">
+          <div class="cb-name">${c.name}</div>
+          <div class="cb-bar-wrap"><div class="cb-bar" style="width:${(c.avg/cbMax*100).toFixed(1)}%"></div></div>
+          <div class="cb-val">${c.avg.toFixed(0)}</div>
+        </div>`).join('')+'</div>';
+  }
+}
+
+onSnapshot(query(collection(db,'game_scores'),orderBy('created_at','desc')),snap=>{
+  all=snap.docs.map(d=>d.data());
+  render();
+});
+</script>
+</body>
+</html>

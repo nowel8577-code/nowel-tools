@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>詩詞解謎競技場</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#0d0d1a;color:#fff;font-family:'Noto Sans TC',system-ui,sans-serif;
+         min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem}
+    .card{background:#13132a;border:1px solid #2a2a5a;border-radius:14px;
+          padding:2rem 1.5rem;width:100%;max-width:460px}
+    h1{font-size:1.35rem;color:#818cf8;text-align:center;margin-bottom:.2rem}
+    .sub{font-size:.8rem;color:#666;text-align:center;margin-bottom:1.75rem}
+
+    /* Login */
+    label{display:block;font-size:.88rem;color:#ccc;margin:.85rem 0 .3rem}
+    select,input{width:100%;background:#1a1a35;border:1px solid #3a3a6a;
+      border-radius:8px;color:#fff;font-size:.95rem;padding:.6rem .8rem;outline:none;transition:border-color .2s}
+    select:focus,input:focus{border-color:#818cf8}
+    .start-btn{margin-top:1.4rem;width:100%;padding:.8rem;background:#818cf8;color:#fff;
+      border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s}
+    .start-btn:hover{background:#6366f1}
+
+    /* Game */
+    #game-area{display:none}
+    .hud{display:flex;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.5rem}
+    .hud-item{text-align:center}
+    .hud-label{font-size:.7rem;color:#666;margin-bottom:.2rem}
+    .hud-val{font-size:1.1rem;font-weight:700;color:#818cf8}
+    .timer-val{color:#ef4444}
+
+    .q-num{font-size:.78rem;color:#666;margin-bottom:.5rem}
+    .q-text{font-size:1.05rem;line-height:1.7;background:#1a1a35;border-radius:10px;
+             padding:1rem;margin-bottom:1rem;color:#e5e5e5;min-height:80px}
+    .options{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+    .opt{padding:.75rem;background:#1a1a35;border:1px solid #3a3a6a;border-radius:8px;
+         font-size:.92rem;color:#ccc;cursor:pointer;transition:all .15s;text-align:center;line-height:1.4}
+    .opt:hover:not(.locked){border-color:#818cf8;color:#818cf8}
+    .opt.correct{background:#14532d;border-color:#22c55e;color:#4ade80}
+    .opt.wrong  {background:#450a0a;border-color:#ef4444;color:#f87171}
+    .opt.locked {cursor:default}
+
+    .feedback{margin-top:.75rem;font-size:.88rem;padding:.6rem .9rem;border-radius:8px;
+               display:none;line-height:1.5}
+    .feedback.ok {background:#14532d;color:#4ade80}
+    .feedback.bad{background:#450a0a;color:#f87171}
+
+    .next-btn{margin-top:1rem;width:100%;padding:.7rem;background:#818cf8;color:#fff;
+      border:none;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;display:none}
+    .next-btn:hover{background:#6366f1}
+
+    /* Result */
+    #result-area{display:none;text-align:center;padding:1.5rem 0}
+    #result-area .trophy{font-size:3.5rem;margin-bottom:.6rem}
+    #result-area h2{color:#818cf8;font-size:1.4rem;margin-bottom:.5rem}
+    #result-area .score-big{font-size:2.5rem;font-weight:900;color:#fbbf24;margin:.5rem 0}
+    #result-area .detail{font-size:.85rem;color:#888;margin-bottom:1.2rem}
+    .play-again{padding:.65rem 1.5rem;background:#818cf8;color:#fff;border:none;
+      border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer}
+    .play-again:hover{background:#6366f1}
+    .err{color:#ef4444;font-size:.82rem;margin-top:.65rem;display:none}
+  </style>
+</head>
+<body>
+<div class="card">
+  <!-- 登入 -->
+  <div id="login-area">
+    <h1>🎯 詩詞解謎競技場</h1>
+    <p class="sub">答題得分，衝上班級排行榜！</p>
+    <label for="cls">班級</label>
+    <select id="cls"><option value="">── 選擇班級 ──</option>
+      <optgroup label="高一"><option>高一甲</option><option>高一乙</option><option>高一丙</option><option>高一丁</option><option>高一戊</option></optgroup>
+      <optgroup label="高二"><option>高二甲</option><option>高二乙</option><option>高二丙</option><option>高二丁</option><option>高二戊</option></optgroup>
+      <optgroup label="高三"><option>高三甲</option><option>高三乙</option><option>高三丙</option><option>高三丁</option><option>高三戊</option></optgroup>
+    </select>
+    <label for="seat">座號</label>
+    <input type="number" id="seat" placeholder="座號（數字）" min="1" max="50">
+    <div class="err" id="err"></div>
+    <button class="start-btn" onclick="startGame()">開始答題</button>
+  </div>
+
+  <!-- 答題區 -->
+  <div id="game-area">
+    <div class="hud">
+      <div class="hud-item"><div class="hud-label">得分</div><div class="hud-val" id="score">0</div></div>
+      <div class="hud-item"><div class="hud-label">剩餘時間</div><div class="hud-val timer-val" id="timer">30</div></div>
+      <div class="hud-item"><div class="hud-label">答對</div><div class="hud-val" id="correct-count">0</div></div>
+    </div>
+    <div class="q-num" id="q-num"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next-btn" id="next-btn" onclick="nextQ()">下一題 →</button>
+  </div>
+
+  <!-- 結果 -->
+  <div id="result-area">
+    <div class="trophy" id="trophy">🏆</div>
+    <h2>答題完成！</h2>
+    <div class="score-big" id="final-score"></div>
+    <div class="detail" id="final-detail"></div>
+    <button class="play-again" onclick="location.reload()">再玩一次</button>
+  </div>
+</div>
+
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import {getFirestore,collection,addDoc,serverTimestamp}
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const db = getFirestore(initializeApp({
+  apiKey:"AIzaSyBMTe5eLI3GKmLz6beXvfnaBgQaXJsr-xM",
+  authDomain:"my-teaching-tools-b8e86.firebaseapp.com",
+  projectId:"my-teaching-tools-b8e86",
+  storageBucket:"my-teaching-tools-b8e86.firebasestorage.app",
+  messagingSenderId:"47224328529",
+  appId:"1:47224328529:web:6e6f761ff6b455f9db0370"
+}));
+
+// ── 題庫（老師可以直接在這裡增減題目）──────────────────
+const BANK = [
+  {q:'「__」是《岳陽樓記》中描述洞庭湖「浩浩湯湯、橫無際涯」的句子，請選出正確接續：',
+   hint:'浩浩湯湯，橫無際涯，__，氣象萬千。',
+   opts:['朝暉夕陰','春和景明','陰風怒號','長煙一空'], ans:0,
+   explain:'「朝暉夕陰，氣象萬千」形容洞庭湖陰晴變化多端。'},
+  {q:'「春蠶到死絲方盡，蠟炬成灰淚始乾」出自哪位詩人？',
+   hint:'',
+   opts:['李商隱','杜甫','白居易','王維'], ans:0,
+   explain:'出自李商隱《無題》，以春蠶與蠟燭比喻相思之情。'},
+  {q:'下列哪個是「借代」修辭？',
+   hint:'',
+   opts:['巾幗不讓鬚眉','人比黃花瘦','烽火連三月','問君能有幾多愁'], ans:0,
+   explain:'「巾幗」代指女性，「鬚眉」代指男性，為借代手法。'},
+  {q:'「大江東去，浪淘盡，千古風流人物」是哪首詞的開頭？',
+   hint:'',
+   opts:['念奴嬌·赤壁懷古','水調歌頭','永遇樂·京口北固亭懷古','虞美人'], ans:0,
+   explain:'蘇軾《念奴嬌·赤壁懷古》，豪放派代表作。'},
+  {q:'《桃花源記》中，漁人進入桃花源的入口是？',
+   hint:'',
+   opts:['一個山洞（洞口極小）','一條小溪的盡頭','一扇木門','一棵大桃樹後方'], ans:0,
+   explain:'「山有小口，彷彿若有光」，漁人從極窄的山洞進入桃花源。'},
+  {q:'「無可奈何花落去，似曾相識燕歸來」作者是？',
+   hint:'',
+   opts:['晏殊','柳永','歐陽脩','蘇軾'], ans:0,
+   explain:'出自晏殊《浣溪沙》，感嘆時光流逝。'},
+];
+
+function shuffle(arr){ return arr.sort(()=>Math.random()-.5) }
+
+let cls='', seat='', qs=[], qi=0, score=0, correct=0, timer=30, tick=null;
+
+window.startGame = ()=>{
+  cls  = document.getElementById('cls').value;
+  seat = document.getElementById('seat').value;
+  const err = document.getElementById('err');
+  if(!cls){ err.textContent='請選擇班級'; err.style.display='block'; return; }
+  if(!seat||+seat<1||+seat>50){ err.textContent='請輸入正確座號'; err.style.display='block'; return; }
+  err.style.display='none';
+  qs = shuffle([...BANK]).slice(0,5);
+  document.getElementById('login-area').style.display='none';
+  document.getElementById('game-area').style.display='block';
+  loadQ();
+};
+
+function loadQ(){
+  if(qi>=qs.length){ endGame(); return; }
+  const q = qs[qi];
+  document.getElementById('q-num').textContent = `第 ${qi+1} 題 / 共 ${qs.length} 題`;
+  document.getElementById('q-text').innerHTML =
+    q.hint ? `<div style="font-size:.82rem;color:#666;margin-bottom:.5rem">${q.hint}</div>${q.q}` : q.q;
+  document.getElementById('feedback').style.display='none';
+  document.getElementById('next-btn').style.display='none';
+  document.getElementById('score').textContent=score;
+  document.getElementById('correct-count').textContent=correct;
+
+  const opts = q.opts.map((o,i)=>({text:o,idx:i}));
+  document.getElementById('options').innerHTML = opts.map(o=>
+    `<div class="opt" onclick="pick(this,${o.idx})">${o.text}</div>`).join('');
+
+  // Timer
+  clearInterval(tick);
+  timer=30;
+  document.getElementById('timer').textContent=timer;
+  tick=setInterval(()=>{
+    timer--;
+    document.getElementById('timer').textContent=timer;
+    if(timer<=0){ clearInterval(tick); autoFail(); }
+  },1000);
+}
+
+window.pick=(el,idx)=>{
+  clearInterval(tick);
+  document.querySelectorAll('.opt').forEach(o=>o.classList.add('locked'));
+  const q=qs[qi];
+  const fb=document.getElementById('feedback');
+  if(idx===q.ans){
+    el.classList.add('correct');
+    const pts = Math.max(10, timer*3);
+    score+=pts; correct++;
+    fb.className='feedback ok'; fb.style.display='block';
+    fb.innerHTML=`✅ 答對！+${pts} 分<br><span style="font-size:.8rem;color:#86efac">${q.explain}</span>`;
+  } else {
+    el.classList.add('wrong');
+    document.querySelectorAll('.opt')[q.ans].classList.add('correct');
+    fb.className='feedback bad'; fb.style.display='block';
+    fb.innerHTML=`❌ 答錯，正確是「${q.opts[q.ans]}」<br><span style="font-size:.8rem;color:#fca5a5">${q.explain}</span>`;
+  }
+  document.getElementById('score').textContent=score;
+  document.getElementById('correct-count').textContent=correct;
+  document.getElementById('next-btn').style.display='block';
+};
+
+function autoFail(){
+  document.querySelectorAll('.opt').forEach(o=>o.classList.add('locked'));
+  const q=qs[qi];
+  document.querySelectorAll('.opt')[q.ans].classList.add('correct');
+  const fb=document.getElementById('feedback');
+  fb.className='feedback bad'; fb.style.display='block';
+  fb.innerHTML=`⏰ 時間到！正確答案是「${q.opts[q.ans]}」`;
+  document.getElementById('next-btn').style.display='block';
+}
+
+window.nextQ=()=>{ qi++; loadQ(); };
+
+async function endGame(){
+  document.getElementById('game-area').style.display='none';
+  document.getElementById('result-area').style.display='block';
+  document.getElementById('final-score').textContent=`${score} 分`;
+  document.getElementById('final-detail').textContent=`答對 ${correct} / ${qs.length} 題`;
+  document.getElementById('trophy').textContent=
+    score>=qs.length*60?'🏆':score>=qs.length*30?'🥈':'📝';
+  try{
+    await addDoc(collection(db,'game_scores'),{
+      class_name:cls, student_id:+seat, score, correct_count:correct,
+      total:qs.length, created_at:serverTimestamp()
+    });
+  }catch(e){ console.error('上傳分數失敗',e); }
+}
+</script>
+</body>
+</html>

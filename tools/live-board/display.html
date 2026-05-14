@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>即時共寫展示牆</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#111;color:#fff;font-family:'Noto Sans TC',system-ui,sans-serif;min-height:100vh;padding:1rem}
+    header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;
+           padding-bottom:1rem;border-bottom:1px solid #2a2a2a;margin-bottom:1.2rem}
+    h1{font-size:1.4rem;color:#f97316}
+    .dot{display:inline-block;width:8px;height:8px;background:#22c55e;border-radius:50%;
+         margin-right:6px;animation:blink 1.4s ease infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+    .stat{font-size:.82rem;color:#666}
+    .tabs{display:flex;gap:.5rem;flex-wrap:wrap}
+    .tab{padding:.35rem .9rem;border:1px solid #444;border-radius:99px;background:transparent;
+         color:#aaa;font-size:.82rem;cursor:pointer;transition:all .15s}
+    .tab:hover{border-color:#f97316;color:#f97316}
+    .tab.active{background:#f97316;border-color:#f97316;color:#fff;font-weight:700}
+
+    /* Layout: thoughts on left, questions on right */
+    .layout{display:grid;grid-template-columns:1fr 360px;gap:1rem;height:calc(100vh - 110px)}
+    @media(max-width:900px){.layout{grid-template-columns:1fr;height:auto}}
+
+    .panel{background:#161616;border:1px solid #252525;border-radius:10px;
+           display:flex;flex-direction:column;overflow:hidden}
+    .panel-head{padding:.65rem 1rem;border-bottom:1px solid #252525;font-size:.9rem;
+                color:#f97316;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+    .panel-body{flex:1;overflow-y:auto;padding:.75rem}
+
+    /* Thoughts wall */
+    .wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.65rem}
+    .note{background:#1e1e1e;border:1px solid #2a2a2a;border-left:4px solid #f97316;
+          border-radius:8px;padding:.75rem .85rem;animation:pop .25s ease}
+    @keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+    .note .meta{font-size:.72rem;color:#f97316;font-weight:700;margin-bottom:.35rem}
+    .note .verse-tag{font-size:.68rem;background:#292929;color:#aaa;border-radius:4px;
+                     padding:.1rem .4rem;margin-bottom:.4rem;display:inline-block}
+    .note .txt{font-size:.9rem;color:#e5e5e5;line-height:1.5;word-break:break-all}
+
+    /* Questions panel */
+    .qlist{display:flex;flex-direction:column;gap:.6rem}
+    .qcard{background:#1e1e1e;border:1px solid #2a2a2a;border-radius:8px;padding:.75rem;
+           display:flex;flex-direction:column;gap:.35rem;cursor:pointer;transition:border-color .2s}
+    .qcard:hover{border-color:#f97316}
+    .qcard.answered{border-left:4px solid #22c55e;opacity:.55}
+    .qcard .qmeta{font-size:.7rem;color:#888}
+    .qcard .qtxt{font-size:.92rem;color:#e5e5e5;line-height:1.45}
+    .qcard .ans-btn{align-self:flex-end;padding:.25rem .75rem;background:#f97316;
+                    border:none;border-radius:6px;color:#fff;font-size:.78rem;cursor:pointer}
+    .qcard .ans-btn:hover{background:#ea6a0a}
+    .empty{color:#555;text-align:center;padding:3rem 1rem;font-size:.95rem}
+  </style>
+</head>
+<body>
+<header>
+  <div>
+    <h1><span class="dot"></span>即時共寫展示牆</h1>
+    <div class="stat" id="stat">載入中…</div>
+  </div>
+  <div class="tabs" id="filter-bar">
+    <div class="tab active" onclick="setFilter('全部',this)">全班</div>
+    <div class="tab" onclick="setFilter('高一',this)">高一</div>
+    <div class="tab" onclick="setFilter('高二',this)">高二</div>
+    <div class="tab" onclick="setFilter('高三',this)">高三</div>
+  </div>
+</header>
+
+<div class="layout">
+  <div class="panel">
+    <div class="panel-head">💬 即時心得牆 <span id="thought-count">0</span></div>
+    <div class="panel-body"><div class="wall" id="wall"></div></div>
+  </div>
+  <div class="panel">
+    <div class="panel-head">❓ 匿名提問箱 <span id="q-count">0</span></div>
+    <div class="panel-body"><div class="qlist" id="qlist"></div></div>
+  </div>
+</div>
+
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import {getFirestore,collection,onSnapshot,query,orderBy,doc,updateDoc}
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const db = getFirestore(initializeApp({
+  apiKey:"AIzaSyBMTe5eLI3GKmLz6beXvfnaBgQaXJsr-xM",
+  authDomain:"my-teaching-tools-b8e86.firebaseapp.com",
+  projectId:"my-teaching-tools-b8e86",
+  storageBucket:"my-teaching-tools-b8e86.firebasestorage.app",
+  messagingSenderId:"47224328529",
+  appId:"1:47224328529:web:6e6f761ff6b455f9db0370"
+}));
+
+let thoughts=[], questions=[], filter='全部';
+
+window.setFilter = (f,el) => {
+  filter = f;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderThoughts();
+};
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
+
+function renderThoughts(){
+  const filtered = filter==='全部' ? thoughts
+    : thoughts.filter(d=>d.class_name&&d.class_name.startsWith(filter));
+  document.getElementById('thought-count').textContent = filtered.length;
+  document.getElementById('stat').textContent =
+    `共 ${thoughts.length} 則心得 ｜ ${questions.length} 個提問`;
+  const wall = document.getElementById('wall');
+  if(!filtered.length){ wall.innerHTML='<div class="empty">等待學生送出心得…</div>'; return; }
+  wall.innerHTML = filtered.map(d=>`
+    <div class="note">
+      <div class="meta">${esc(d.class_name)} · 座號 ${esc(d.student_id)}</div>
+      <div class="verse-tag">${esc(d.verse||'自由回應')}</div>
+      <div class="txt">${esc(d.thought)}</div>
+    </div>`).join('');
+}
+
+function renderQuestions(){
+  const el = document.getElementById('qlist');
+  document.getElementById('q-count').textContent = questions.length;
+  if(!questions.length){ el.innerHTML='<div class="empty">還沒有提問</div>'; return; }
+  el.innerHTML = questions.map(d=>`
+    <div class="qcard${d.answered?' answered':''}" id="qc-${d.id}">
+      <div class="qmeta">${esc(d.class_name)} ${d.answered?'· ✅ 已回答':''}</div>
+      <div class="qtxt">${esc(d.question)}</div>
+      ${!d.answered?`<button class="ans-btn" onclick="markAnswered('${d.id}')">標記已回答</button>`:''}
+    </div>`).join('');
+}
+
+window.markAnswered = async (id) => {
+  await updateDoc(doc(db,'anon_questions',id),{answered:true});
+};
+
+onSnapshot(query(collection(db,'live_thoughts'),orderBy('created_at','desc')), snap=>{
+  thoughts = snap.docs.map(d=>d.data());
+  renderThoughts();
+});
+
+onSnapshot(query(collection(db,'anon_questions'),orderBy('created_at','desc')), snap=>{
+  questions = snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderQuestions();
+});
+</script>
+</body>
+</html>

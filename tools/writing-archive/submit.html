@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>數位文學典藏 — 上傳作品</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#111;color:#fff;font-family:'Noto Sans TC',system-ui,sans-serif;
+         min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:2rem 1rem}
+    .card{background:#1a1a1a;border:1px solid #333;border-radius:12px;
+          padding:2rem 1.5rem;width:100%;max-width:500px}
+    h1{font-size:1.3rem;color:#a78bfa;text-align:center;margin-bottom:.2rem}
+    .sub{font-size:.82rem;color:#888;text-align:center;margin-bottom:1.75rem}
+    label{display:block;font-size:.88rem;color:#ccc;margin:.9rem 0 .35rem}
+    select,input,textarea{width:100%;background:#222;border:1px solid #444;
+      border-radius:8px;color:#fff;font-size:.95rem;padding:.6rem .8rem;outline:none;transition:border-color .2s}
+    select:focus,input:focus,textarea:focus{border-color:#a78bfa}
+    textarea{resize:vertical;min-height:200px;line-height:1.65}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+    .char{font-size:.75rem;color:#666;text-align:right;margin-top:.2rem}
+    .char.warn{color:#ef4444}
+    .badge-row{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.4rem}
+    .badge{padding:.3rem .7rem;border:1px solid #444;border-radius:6px;font-size:.78rem;
+           color:#aaa;cursor:pointer;transition:all .15s}
+    .badge.sel{background:#a78bfa;border-color:#a78bfa;color:#fff;font-weight:700}
+    button.submit{margin-top:1.5rem;width:100%;padding:.8rem;background:#a78bfa;color:#fff;
+      border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s}
+    button.submit:hover:not(:disabled){background:#8b5cf6}
+    button.submit:disabled{opacity:.45;cursor:not-allowed}
+    .err{color:#ef4444;font-size:.82rem;margin-top:.65rem;display:none}
+    .ok{display:none;text-align:center;padding:2.5rem 1rem}
+    .ok .icon{font-size:3rem;margin-bottom:.6rem}
+    .ok h2{color:#a78bfa;margin-bottom:.4rem}
+    .ok p{color:#aaa;font-size:.88rem}
+    .ok .link{display:inline-block;margin-top:.9rem;color:#a78bfa;text-decoration:underline;cursor:pointer}
+  </style>
+</head>
+<body>
+<div class="card">
+  <div id="main">
+    <h1>📚 數位文學典藏</h1>
+    <p class="sub">上傳你的寫作作品，留存你的文學成長紀錄</p>
+
+    <div class="row">
+      <div>
+        <label for="cls">班級</label>
+        <select id="cls"><option value="">── 選擇 ──</option>
+          <optgroup label="高一"><option>高一甲</option><option>高一乙</option><option>高一丙</option><option>高一丁</option><option>高一戊</option></optgroup>
+          <optgroup label="高二"><option>高二甲</option><option>高二乙</option><option>高二丙</option><option>高二丁</option><option>高二戊</option></optgroup>
+          <optgroup label="高三"><option>高三甲</option><option>高三乙</option><option>高三丙</option><option>高三丁</option><option>高三戊</option></optgroup>
+        </select>
+      </div>
+      <div>
+        <label for="seat">座號</label>
+        <input type="number" id="seat" placeholder="數字" min="1" max="50">
+      </div>
+    </div>
+
+    <label for="title">作品標題</label>
+    <input type="text" id="title" placeholder="給這篇作品一個標題" maxlength="40">
+
+    <label>作品類型</label>
+    <div class="badge-row" id="type-badges">
+      <div class="badge sel" data-val="作文">作文</div>
+      <div class="badge" data-val="讀書筆記">讀書筆記</div>
+      <div class="badge" data-val="詩作">詩作</div>
+      <div class="badge" data-val="短文">短文</div>
+      <div class="badge" data-val="心得">心得</div>
+    </div>
+
+    <label for="school-year">學年度</label>
+    <select id="school-year">
+      <option>114學年度</option>
+      <option>113學年度</option>
+      <option>112學年度</option>
+    </select>
+
+    <label for="content">作品內容（1000 字以內）</label>
+    <textarea id="content" maxlength="1000" placeholder="將作品文字貼入此處…"></textarea>
+    <div class="char" id="char-c">0 / 1000</div>
+
+    <div class="err" id="err"></div>
+    <button class="submit" id="btn" onclick="send()">上傳典藏</button>
+  </div>
+
+  <div class="ok" id="ok">
+    <div class="icon">📖</div>
+    <h2>作品已典藏！</h2>
+    <p>你的作品已存入數位文學典藏庫。</p>
+    <div class="link" onclick="again()">繼續上傳另一篇</div>
+  </div>
+</div>
+
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import {getFirestore,collection,addDoc,serverTimestamp}
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const db = getFirestore(initializeApp({
+  apiKey:"AIzaSyBMTe5eLI3GKmLz6beXvfnaBgQaXJsr-xM",
+  authDomain:"my-teaching-tools-b8e86.firebaseapp.com",
+  projectId:"my-teaching-tools-b8e86",
+  storageBucket:"my-teaching-tools-b8e86.firebasestorage.app",
+  messagingSenderId:"47224328529",
+  appId:"1:47224328529:web:6e6f761ff6b455f9db0370"
+}));
+
+// Badge 切換
+let workType = '作文';
+document.querySelectorAll('#type-badges .badge').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('#type-badges .badge').forEach(x=>x.classList.remove('sel'));
+    b.classList.add('sel');
+    workType = b.dataset.val;
+  });
+});
+
+const ta = document.getElementById('content');
+const ct = document.getElementById('char-c');
+ta.addEventListener('input',()=>{
+  const n=ta.value.length; ct.textContent=`${n} / 1000`;
+  ct.classList.toggle('warn', n>=950);
+});
+
+function showErr(m){const e=document.getElementById('err');e.textContent=m;e.style.display='block'}
+function hideErr(){document.getElementById('err').style.display='none'}
+
+window.send = async ()=>{
+  hideErr();
+  const cls   = document.getElementById('cls').value;
+  const seat  = document.getElementById('seat').value;
+  const title = document.getElementById('title').value.trim();
+  const year  = document.getElementById('school-year').value;
+  const content = ta.value.trim();
+  const btn   = document.getElementById('btn');
+
+  if(!cls)                           return showErr('請選擇班級');
+  if(!seat||+seat<1||+seat>50)       return showErr('請輸入正確座號');
+  if(title.length<2)                 return showErr('請填寫作品標題（至少 2 字）');
+  if(content.length<10)              return showErr('作品內容至少 10 個字');
+
+  btn.disabled=true; btn.textContent='上傳中…';
+  try{
+    await addDoc(collection(db,'student_works'),{
+      class_name:cls, student_id:+seat, title, work_type:workType,
+      school_year:year, content, created_at:serverTimestamp()
+    });
+    document.getElementById('main').style.display='none';
+    document.getElementById('ok').style.display='block';
+  }catch(e){
+    showErr('上傳失敗，請確認網路連線');
+    btn.disabled=false; btn.textContent='上傳典藏';
+  }
+};
+
+window.again=()=>{
+  document.getElementById('main').style.display='block';
+  document.getElementById('ok').style.display='none';
+  document.getElementById('btn').disabled=false;
+  document.getElementById('btn').textContent='上傳典藏';
+};
+</script>
+</body>
+</html>

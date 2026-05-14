@@ -1,0 +1,26 @@
+rules_version = '2';
+// ── 全工具合併版 Firestore Rules ──────────────────────────
+// 把這份貼到 Firebase Console → Firestore → 規則，一次到位。
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 1. 學思達問答收集器 (qa-wall)
+    match /class_responses/{doc}    { allow read, write: if true; }
+
+    // 2. 課堂即時互動 (live-board)
+    match /live_thoughts/{doc}      { allow read, write: if true; }
+    match /anon_questions/{doc}     { allow read, write: if true; }
+
+    // 3. 數位寫作典藏 (writing-archive)
+    match /student_works/{doc}      { allow read, write: if true; }
+
+    // 4. 遊戲化學習 (poem-game)
+    match /game_scores/{doc}        { allow read, write: if true; }
+
+    // 5. 教材題庫 (question-bank)
+    match /questions/{doc}          { allow read, write: if true; }
+
+    // 其他所有集合全禁
+    match /{document=**}            { allow read, write: if false; }
+  }
+}
