@@ -7,451 +7,542 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap');
 
-    *{box-sizing:border-box;margin:0;padding:0}
+    *{ box-sizing:border-box; margin:0; padding:0; }
+
     :root{
-      --bg:#08080f;
-      --card:#10101e;
-      --card2:#161628;
-      --border:#252540;
-      --gold:#f5c842;
-      --gold2:#e8a820;
-      --red:#e84545;
-      --green:#2ecc71;
-      --blue:#4a9eff;
-      --purple:#9b6dff;
-      --text:#f0ede6;
-      --muted:#7a7a9a;
+      --parchment : #f7f0e2;
+      --parchment2: #ede3ce;
+      --paper     : #fdf8f0;
+      --ink       : #3b2a1a;
+      --ink-light : #7a5c3a;
+      --moss      : #4a7c59;
+      --moss-light: #6ba57a;
+      --sky       : #6b9ab8;
+      --sky-light : #9ec4d8;
+      --amber     : #c8762a;
+      --amber-light:#e8a050;
+      --red-soft  : #c0453a;
+      --border    : #c8b090;
+      --shadow    : rgba(59,42,26,.15);
     }
 
-    html{scroll-behavior:smooth}
+    html{ scroll-behavior:smooth }
+
     body{
-      background:var(--bg);
-      color:var(--text);
-      font-family:'Noto Sans TC',system-ui,sans-serif;
-      min-height:100vh;
-      overflow-x:hidden;
+      background: var(--parchment);
+      color: var(--ink);
+      font-family: 'Noto Sans TC', system-ui, sans-serif;
+      min-height: 100vh;
+      /* 羊皮紙紋理 */
+      background-image:
+        radial-gradient(ellipse 120% 80% at 15% 5%,  rgba(107,165,122,.12) 0%, transparent 55%),
+        radial-gradient(ellipse 80%  60% at 85% 95%, rgba(107,154,184,.10) 0%, transparent 55%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
     }
 
-    /* ── 背景紋理 ── */
-    body::before{
+    /* 裝飾草葉（純 CSS） */
+    body::before, body::after{
+      content:''; position:fixed; pointer-events:none; z-index:0;
+      font-size:5rem; opacity:.07;
+    }
+    body::before{ content:'🌿'; top:-1rem; left:-1rem; transform:rotate(-20deg); }
+    body::after { content:'🍃'; bottom:-1rem; right:-1rem; transform:rotate(15deg); }
+
+    /* ═══════════════════════════════
+       通用卡片
+    ═══════════════════════════════ */
+    .card{
+      background: var(--paper);
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 4px 20px var(--shadow), 0 1px 4px rgba(0,0,0,.06);
+      position: relative;
+      overflow: hidden;
+    }
+    /* 卡片頂端草紋條 */
+    .card::before{
       content:'';
-      position:fixed;inset:0;
-      background:
-        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(155,109,255,.06) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 80% 90%, rgba(245,200,66,.05) 0%, transparent 60%);
-      pointer-events:none;z-index:0;
+      display:block; height:5px; width:100%;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--moss) 0px, var(--moss) 18px,
+        var(--moss-light) 18px, var(--moss-light) 28px,
+        var(--amber-light) 28px, var(--amber-light) 36px,
+        var(--moss-light) 36px, var(--moss-light) 46px
+      );
+      opacity:.6;
     }
 
-    /* ══════════════════════════════
+    /* ═══════════════════════════════
        HUB
-    ══════════════════════════════ */
+    ═══════════════════════════════ */
     #hub{
-      position:relative;z-index:1;
-      max-width:560px;margin:0 auto;
-      padding:2rem 1rem 3rem;
+      position:relative; z-index:1;
+      max-width:620px; margin:0 auto;
+      padding:2.5rem 1.25rem 3rem;
     }
 
-    /* 標題區 */
-    .hub-hero{text-align:center;margin-bottom:2rem}
-    .hub-badge{
+    /* 主標題 */
+    .hero{ text-align:center; margin-bottom:2rem; }
+    .hero-eyebrow{
       display:inline-block;
-      font-size:.72rem;letter-spacing:.18em;
-      color:var(--gold);border:1px solid rgba(245,200,66,.3);
-      border-radius:99px;padding:.3rem .9rem;margin-bottom:1rem;
-      background:rgba(245,200,66,.07);
+      font-size:.78rem; letter-spacing:.2em; color:var(--moss);
+      border:1.5px solid var(--moss); border-radius:99px;
+      padding:.28rem 1rem; margin-bottom:1rem;
+      background:rgba(74,124,89,.08);
     }
-    .hub-hero h1{
-      font-family:'Noto Serif TC',serif;
-      font-size:2rem;font-weight:900;
-      line-height:1.25;
-      background:linear-gradient(135deg,#f5c842 0%,#fff6d6 50%,#e8a820 100%);
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-      background-clip:text;
-      margin-bottom:.5rem;
+    .hero h1{
+      font-family:'Noto Serif TC', serif;
+      font-size:2.4rem; font-weight:900; line-height:1.2;
+      color:var(--ink); margin-bottom:.5rem;
     }
-    .hub-hero p{font-size:.85rem;color:var(--muted)}
+    .hero h1 span{ color:var(--moss); }
+    .hero p{ font-size:.9rem; color:var(--ink-light); }
 
-    /* 登入卡 */
-    .login-card{
-      background:var(--card);
-      border:1px solid var(--border);
+    /* 登入框 */
+    .login-box{
+      background:var(--parchment2);
+      border:1.5px solid var(--border);
       border-radius:16px;
       padding:1.25rem 1.5rem;
-      margin-bottom:1.5rem;
+      margin-bottom:1.75rem;
     }
-    .login-card .row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-    .login-card label{font-size:.78rem;color:var(--muted);display:block;margin-bottom:.35rem}
-    .login-card select,
-    .login-card input{
+    .login-box .row{ display:grid; grid-template-columns:1fr 1fr; gap:.9rem; }
+    .login-box label{ font-size:.82rem; color:var(--ink-light); display:block; margin-bottom:.35rem; font-weight:500; }
+    .login-box select,
+    .login-box input{
       width:100%;
-      background:#0a0a18;
-      border:1px solid var(--border);
+      background:var(--paper);
+      border:1.5px solid var(--border);
       border-radius:10px;
-      color:var(--text);
-      font-size:.95rem;
+      color:var(--ink);
+      font-size:1rem;
       padding:.6rem .85rem;
       outline:none;
-      transition:border-color .2s,box-shadow .2s;
+      transition:border-color .2s, box-shadow .2s;
+      font-family:inherit;
     }
-    .login-card select:focus,
-    .login-card input:focus{
-      border-color:rgba(245,200,66,.5);
-      box-shadow:0 0 0 3px rgba(245,200,66,.08);
+    .login-box select:focus,
+    .login-box input:focus{
+      border-color:var(--moss);
+      box-shadow:0 0 0 3px rgba(74,124,89,.12);
     }
-    .login-err{color:var(--red);font-size:.8rem;margin-top:.55rem;display:none}
+    .login-err{ color:var(--red-soft); font-size:.82rem; margin-top:.55rem; display:none; }
 
     /* 模式卡片 */
-    .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+    .mode-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
     .mode-card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:1.4rem 1.1rem 1.2rem;
+      background:var(--paper);
+      border:2px solid var(--border);
+      border-radius:18px;
+      padding:1.6rem 1.2rem 1.4rem;
       text-align:center;
       cursor:pointer;
-      transition:transform .2s,box-shadow .25s,border-color .2s;
-      position:relative;overflow:hidden;
+      transition:transform .2s, box-shadow .2s, border-color .2s;
+      box-shadow:0 3px 12px var(--shadow);
+      position:relative;
     }
-    .mode-card::before{
-      content:'';position:absolute;inset:0;
-      opacity:0;transition:opacity .25s;
+    .mode-card:hover{
+      transform:translateY(-5px);
+      box-shadow:0 10px 28px var(--shadow);
     }
-    .mode-card:hover{transform:translateY(-4px)}
-    .mode-card:hover::before{opacity:1}
-
-    .mc-gold::before{background:radial-gradient(ellipse at 50% 0%,rgba(245,200,66,.12),transparent 70%)}
-    .mc-purple::before{background:radial-gradient(ellipse at 50% 0%,rgba(155,109,255,.12),transparent 70%)}
-    .mc-green::before{background:radial-gradient(ellipse at 50% 0%,rgba(46,204,113,.12),transparent 70%)}
-    .mc-blue::before{background:radial-gradient(ellipse at 50% 0%,rgba(74,158,255,.12),transparent 70%)}
-
-    .mode-card:hover.mc-gold{border-color:rgba(245,200,66,.4);box-shadow:0 8px 32px rgba(245,200,66,.1)}
-    .mode-card:hover.mc-purple{border-color:rgba(155,109,255,.4);box-shadow:0 8px 32px rgba(155,109,255,.1)}
-    .mode-card:hover.mc-green{border-color:rgba(46,204,113,.4);box-shadow:0 8px 32px rgba(46,204,113,.1)}
-    .mode-card:hover.mc-blue{border-color:rgba(74,158,255,.4);box-shadow:0 8px 32px rgba(74,158,255,.1)}
-
-    .mode-icon{font-size:2.4rem;margin-bottom:.65rem;display:block}
-    .mode-card h3{font-size:.95rem;font-weight:700;margin-bottom:.35rem}
-    .mode-card p{font-size:.72rem;color:var(--muted);line-height:1.55}
-    .mc-gold h3{color:var(--gold)}
-    .mc-purple h3{color:var(--purple)}
-    .mc-green h3{color:var(--green)}
-    .mc-blue h3{color:var(--blue)}
-    .mode-num{
-      position:absolute;top:.7rem;right:.8rem;
-      font-size:.65rem;color:var(--muted);
-      background:rgba(255,255,255,.04);
-      border-radius:4px;padding:.15rem .4rem;
+    .mode-card.mc-moss:hover  { border-color:var(--moss); }
+    .mode-card.mc-sky:hover   { border-color:var(--sky); }
+    .mode-card.mc-amber:hover { border-color:var(--amber); }
+    .mode-card.mc-red:hover   { border-color:var(--red-soft); }
+    .mode-icon{ font-size:2.8rem; display:block; margin-bottom:.7rem; }
+    .mode-card h3{
+      font-family:'Noto Serif TC', serif;
+      font-size:1.05rem; font-weight:700; margin-bottom:.35rem;
+    }
+    .mc-moss h3  { color:var(--moss); }
+    .mc-sky h3   { color:var(--sky); }
+    .mc-amber h3 { color:var(--amber); }
+    .mc-red h3   { color:var(--red-soft); }
+    .mode-card p{ font-size:.78rem; color:var(--ink-light); line-height:1.55; }
+    .mode-badge{
+      position:absolute; top:.7rem; right:.8rem;
+      font-size:.65rem; color:var(--ink-light);
+      background:var(--parchment2);
+      border:1px solid var(--border);
+      border-radius:5px; padding:.15rem .45rem;
     }
 
-    /* ══════════════════════════════
+    /* ═══════════════════════════════
        GAME SHELL
-    ══════════════════════════════ */
+    ═══════════════════════════════ */
     #game{
-      display:none;
-      position:relative;z-index:1;
-      max-width:640px;margin:0 auto;
-      padding:1rem;
+      display:none; position:relative; z-index:1;
+      max-width:680px; margin:0 auto;
+      padding:1.25rem;
     }
-    .g-topbar{
-      display:flex;align-items:center;gap:.75rem;
+    .g-bar{
+      display:flex; align-items:center; gap:.85rem;
       margin-bottom:1.25rem;
     }
     .g-back{
-      background:rgba(255,255,255,.05);
-      border:1px solid var(--border);
-      color:var(--muted);
-      border-radius:10px;padding:.45rem .85rem;
-      font-size:.82rem;cursor:pointer;
-      transition:all .15s;white-space:nowrap;
-      flex-shrink:0;
+      background:var(--paper);
+      border:1.5px solid var(--border);
+      border-radius:10px;
+      color:var(--ink-light);
+      padding:.5rem 1rem;
+      font-size:.85rem; cursor:pointer;
+      transition:all .15s; white-space:nowrap;
+      font-family:inherit;
     }
-    .g-back:hover{background:rgba(255,255,255,.09);color:var(--text)}
-    .g-info{flex:1;min-width:0}
-    .g-title{font-size:.95rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .g-sub{font-size:.75rem;color:var(--muted);margin-top:.1rem}
+    .g-back:hover{ background:var(--parchment2); color:var(--ink); }
+    .g-info{ flex:1; }
+    .g-title{
+      font-family:'Noto Serif TC', serif;
+      font-size:1.05rem; font-weight:700; color:var(--ink);
+    }
+    .g-sub{ font-size:.78rem; color:var(--ink-light); margin-top:.1rem; }
 
-    /* ══════════════════════════════
-       SHARED COMPONENTS
-    ══════════════════════════════ */
+    /* ═══════════════════════════════
+       共用元件
+    ═══════════════════════════════ */
     .panel{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:1.4rem 1.5rem;
+      background:var(--paper);
+      border:2px solid var(--border);
+      border-radius:20px;
+      padding:1.75rem;
+      box-shadow:0 4px 20px var(--shadow);
     }
-    @media(max-width:480px){.panel{padding:1.1rem 1rem}}
+    @media(max-width:480px){ .panel{ padding:1.25rem 1.1rem; } }
 
     /* 進度條 */
-    .prog-wrap{height:4px;background:#1a1a30;border-radius:2px;margin-bottom:1.25rem;overflow:hidden}
-    .prog-bar{height:4px;border-radius:2px;transition:width .4s ease;background:linear-gradient(90deg,var(--gold2),var(--gold))}
+    .prog-wrap{
+      height:8px; background:var(--parchment2);
+      border-radius:4px; margin-bottom:1.5rem;
+      border:1px solid var(--border); overflow:hidden;
+    }
+    .prog-bar{
+      height:8px; border-radius:4px;
+      background:linear-gradient(90deg, var(--moss), var(--moss-light));
+      transition:width .5s ease;
+    }
 
-    /* HUD 數值列 */
-    .hud{display:flex;gap:.6rem;margin-bottom:1.25rem}
+    /* HUD */
+    .hud{ display:flex; gap:.75rem; margin-bottom:1.5rem; }
     .hud-box{
-      flex:1;text-align:center;
-      background:#0a0a18;border:1px solid var(--border);
-      border-radius:10px;padding:.5rem .5rem .45rem;
+      flex:1; text-align:center;
+      background:var(--parchment2);
+      border:1.5px solid var(--border);
+      border-radius:14px;
+      padding:.65rem .5rem .55rem;
     }
-    .hud-label{font-size:.64rem;color:var(--muted);letter-spacing:.05em;margin-bottom:.15rem}
-    .hud-val{font-size:1.15rem;font-weight:700}
-    .hv-gold{color:var(--gold)}
-    .hv-red{color:var(--red)}
-    .hv-green{color:var(--green)}
+    .hud-label{ font-size:.68rem; color:var(--ink-light); margin-bottom:.2rem; letter-spacing:.05em; }
+    .hud-val{ font-size:1.3rem; font-weight:700; }
+    .hv-moss  { color:var(--moss); }
+    .hv-amber { color:var(--amber); }
+    .hv-red   { color:var(--red-soft); }
 
-    /* 計時器環 */
-    .timer-ring-wrap{position:relative;width:52px;height:52px;flex-shrink:0}
-    .timer-ring-wrap svg{transform:rotate(-90deg)}
-    .timer-track{fill:none;stroke:#1a1a30;stroke-width:4}
-    .timer-fill{fill:none;stroke:var(--gold);stroke-width:4;stroke-linecap:round;
-                stroke-dasharray:138;stroke-dashoffset:0;transition:stroke-dashoffset .9s linear,stroke .3s}
-    .timer-fill.danger{stroke:var(--red);animation:pulse-red .4s ease infinite alternate}
-    @keyframes pulse-red{from{stroke-opacity:1}to{stroke-opacity:.4}}
-    .timer-num{
-      position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-      font-size:.95rem;font-weight:700;color:var(--gold);
+    /* 計時環 */
+    .timer-wrap{
+      position:relative; width:62px; height:62px;
+      flex-shrink:0;
     }
-    .timer-num.danger{color:var(--red)}
+    .timer-wrap svg{ transform:rotate(-90deg); }
+    .t-track{ fill:none; stroke:var(--parchment2); stroke-width:5; }
+    .t-fill {
+      fill:none; stroke:var(--moss); stroke-width:5;
+      stroke-linecap:round;
+      stroke-dasharray:163; stroke-dashoffset:0;
+      transition:stroke-dashoffset 1s linear, stroke .3s;
+    }
+    .t-fill.danger{ stroke:var(--red-soft); animation:t-pulse .5s ease infinite alternate; }
+    @keyframes t-pulse{ from{opacity:1} to{opacity:.35} }
+    .timer-num{
+      position:absolute; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1rem; font-weight:700; color:var(--moss);
+    }
+    .timer-num.danger{ color:var(--red-soft); }
 
     /* 題目文字 */
     .q-text{
-      font-size:1rem;line-height:1.8;color:var(--text);
-      background:#0a0a18;border:1px solid var(--border);
-      border-radius:12px;padding:1rem 1.1rem;
-      margin-bottom:1rem;
-    }
-    .q-hint{font-size:.78rem;color:var(--muted);margin-bottom:.5rem}
-
-    /* 選項按鈕 */
-    .opts{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
-    @media(max-width:360px){.opts{grid-template-columns:1fr}}
-    .opt{
-      display:flex;align-items:flex-start;gap:.5rem;
-      background:#0a0a18;
+      font-family:'Noto Serif TC', serif;
+      font-size:1.1rem; line-height:1.9; color:var(--ink);
+      background:var(--parchment2);
       border:1.5px solid var(--border);
-      border-radius:12px;
-      padding:.75rem .85rem;
-      font-size:.88rem;color:var(--muted);
-      cursor:pointer;transition:all .15s;
-      text-align:left;line-height:1.5;
+      border-radius:14px;
+      padding:1.1rem 1.25rem;
+      margin-bottom:1.2rem;
     }
-    .opt-letter{
-      flex-shrink:0;width:22px;height:22px;
-      border-radius:6px;border:1.5px solid currentColor;
-      display:flex;align-items:center;justify-content:center;
-      font-size:.72rem;font-weight:700;margin-top:.05rem;
-    }
-    .opt:hover:not(.locked){border-color:rgba(245,200,66,.5);color:var(--text);background:#12121f}
-    .opt.correct{border-color:var(--green);background:rgba(46,204,113,.1);color:#6ee7b7}
-    .opt.correct .opt-letter{border-color:var(--green);background:var(--green);color:#000}
-    .opt.wrong{border-color:var(--red);background:rgba(232,69,69,.1);color:#fca5a5}
-    .opt.wrong .opt-letter{border-color:var(--red);background:var(--red);color:#fff}
-    .opt.locked{cursor:default}
 
-    /* 解析框 */
-    .explain-box{
-      margin-top:.85rem;border-radius:10px;
-      padding:.8rem 1rem;font-size:.83rem;line-height:1.6;
-      display:none;animation:fadeUp .25s ease;
+    /* 選項 */
+    .opts{ display:grid; grid-template-columns:1fr 1fr; gap:.7rem; }
+    @media(max-width:360px){ .opts{ grid-template-columns:1fr; } }
+    .opt{
+      display:flex; align-items:flex-start; gap:.6rem;
+      background:var(--parchment2);
+      border:2px solid var(--border);
+      border-radius:14px;
+      padding:.85rem .95rem;
+      font-size:.95rem; color:var(--ink-light);
+      cursor:pointer; transition:all .18s;
+      text-align:left; line-height:1.55;
+      font-family:inherit;
     }
-    .explain-ok {background:rgba(46,204,113,.1);border:1px solid rgba(46,204,113,.25);color:#6ee7b7}
-    .explain-bad{background:rgba(232,69,69,.1);border:1px solid rgba(232,69,69,.25);color:#fca5a5}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+    .opt-ltr{
+      flex-shrink:0; width:26px; height:26px;
+      border-radius:8px; border:2px solid var(--border);
+      display:flex; align-items:center; justify-content:center;
+      font-size:.75rem; font-weight:700; color:var(--ink-light);
+      margin-top:.05rem; background:var(--paper);
+    }
+    .opt:hover:not(.locked){
+      border-color:var(--moss); color:var(--ink);
+      background:var(--paper);
+      box-shadow:0 3px 10px var(--shadow);
+    }
+    .opt.correct{ border-color:var(--moss); background:rgba(74,124,89,.1); color:var(--moss); }
+    .opt.correct .opt-ltr{ background:var(--moss); border-color:var(--moss); color:#fff; }
+    .opt.wrong{ border-color:var(--red-soft); background:rgba(192,69,58,.08); color:var(--red-soft); }
+    .opt.wrong .opt-ltr{ background:var(--red-soft); border-color:var(--red-soft); color:#fff; }
+    .opt.locked{ cursor:default; }
+
+    /* 解析 */
+    .explain-box{
+      display:none; margin-top:1rem;
+      border-radius:12px; padding:.9rem 1.1rem;
+      font-size:.88rem; line-height:1.65;
+      animation:fadeUp .25s ease;
+      font-family:'Noto Serif TC', serif;
+    }
+    .exp-ok { background:rgba(74,124,89,.1);  border:1.5px solid rgba(74,124,89,.3);  color:var(--moss); }
+    .exp-bad{ background:rgba(192,69,58,.08); border:1.5px solid rgba(192,69,58,.25); color:var(--red-soft); }
+    @keyframes fadeUp{ from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
 
     /* 下一題按鈕 */
     .next-btn{
-      display:none;margin-top:.9rem;width:100%;
-      padding:.8rem;
-      background:linear-gradient(135deg,var(--gold2),var(--gold));
-      color:#1a0e00;border:none;border-radius:12px;
-      font-size:.95rem;font-weight:700;cursor:pointer;
-      transition:filter .2s,transform .1s;
+      display:none; margin-top:1rem; width:100%;
+      padding:.9rem;
+      background:var(--moss); color:#fff;
+      border:none; border-radius:14px;
+      font-size:1rem; font-weight:700; cursor:pointer;
+      transition:filter .2s, transform .1s;
+      font-family:inherit;
+      box-shadow:0 3px 10px rgba(74,124,89,.3);
     }
-    .next-btn:hover{filter:brightness(1.1)}
-    .next-btn:active{transform:scale(.98)}
+    .next-btn:hover{ filter:brightness(1.08); }
+    .next-btn:active{ transform:scale(.98); }
 
-    /* ══════════════════════════════
-       MODE 2 填空
-    ══════════════════════════════ */
-    .blank-q-num{font-size:.78rem;color:var(--muted);margin-bottom:.75rem}
+    /* ═══════════════════════════════
+       填空
+    ═══════════════════════════════ */
     .blank-sentence{
-      font-family:'Noto Serif TC',serif;
-      font-size:1.05rem;line-height:2.2;color:var(--text);
-      background:#0a0a18;border:1px solid var(--border);
-      border-radius:12px;padding:1rem 1.1rem;
-      margin-bottom:1rem;
+      font-family:'Noto Serif TC', serif;
+      font-size:1.15rem; line-height:2.4; color:var(--ink);
+      background:var(--parchment2);
+      border:1.5px solid var(--border);
+      border-radius:14px; padding:1.1rem 1.25rem;
+      margin-bottom:1.1rem;
     }
     .blank{
       display:inline-block;
-      min-width:64px;padding:0 .4rem;
-      border-bottom:2px solid var(--purple);
-      color:var(--purple);font-weight:700;
-      text-align:center;cursor:pointer;
+      min-width:72px; padding:0 .4rem;
+      border-bottom:3px solid var(--sky);
+      color:var(--sky); font-weight:700;
+      text-align:center; cursor:pointer;
       border-radius:4px 4px 0 0;
       transition:background .15s;
     }
-    .blank:hover{background:rgba(155,109,255,.1)}
-    .blank.filled{border-color:var(--green);color:var(--green)}
-    .blank.wrong-fill{border-color:var(--red);color:var(--red);animation:shake .3s ease}
-
-    .word-pool{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1rem}
+    .blank:hover{ background:rgba(107,154,184,.12); }
+    .blank.filled{ border-color:var(--moss); color:var(--moss); }
+    .blank.wrong-fill{ border-color:var(--red-soft); color:var(--red-soft); animation:shake .3s ease; }
+    .word-pool{ display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:1.1rem; }
     .word-chip{
-      padding:.4rem .9rem;
-      background:rgba(155,109,255,.1);
-      border:1px solid rgba(155,109,255,.35);
-      border-radius:8px;font-size:.88rem;color:var(--purple);
-      cursor:pointer;transition:all .15s;user-select:none;
+      padding:.45rem 1rem;
+      background:var(--parchment2);
+      border:1.5px solid var(--border);
+      border-radius:10px;
+      font-size:.95rem; color:var(--ink);
+      cursor:pointer; transition:all .15s; user-select:none;
+      font-family:inherit;
     }
-    .word-chip:hover{background:rgba(155,109,255,.2)}
-    .word-chip.selected{background:rgba(155,109,255,.25);border-color:var(--purple);outline:2px solid var(--purple)}
-    .word-chip.used{opacity:.25;pointer-events:none}
+    .word-chip:hover{ border-color:var(--sky); color:var(--sky); background:rgba(107,154,184,.08); }
+    .word-chip.selected{ border-color:var(--sky); background:rgba(107,154,184,.15); color:var(--sky); font-weight:700; }
+    .word-chip.used{ opacity:.25; pointer-events:none; }
+    .act-row{ display:flex; gap:.65rem; flex-wrap:wrap; }
+    .btn-check{
+      padding:.75rem 1.5rem;
+      background:var(--sky); color:#fff;
+      border:none; border-radius:12px;
+      font-size:.95rem; font-weight:700; cursor:pointer;
+      transition:filter .18s; font-family:inherit;
+      box-shadow:0 3px 10px rgba(107,154,184,.35);
+    }
+    .btn-check:hover{ filter:brightness(1.08); }
+    .btn-reset{
+      padding:.75rem 1.1rem;
+      background:var(--parchment2); border:1.5px solid var(--border);
+      color:var(--ink-light); border-radius:12px;
+      font-size:.95rem; cursor:pointer; transition:all .15s;
+      font-family:inherit;
+    }
+    .btn-reset:hover{ border-color:var(--ink-light); color:var(--ink); }
+    .inline-msg{
+      display:none; margin-top:.85rem;
+      border-radius:12px; padding:.8rem 1.1rem;
+      font-size:.88rem; line-height:1.6;
+      animation:fadeUp .2s ease;
+    }
 
-    .check-btn{
-      padding:.7rem 1.4rem;
-      background:linear-gradient(135deg,#7c3aed,var(--purple));
-      color:#fff;border:none;border-radius:10px;
-      font-size:.9rem;font-weight:700;cursor:pointer;transition:filter .2s;
+    /* ═══════════════════════════════
+       配對
+    ═══════════════════════════════ */
+    .match-intro{ font-size:.88rem; color:var(--ink-light); margin-bottom:1.1rem; line-height:1.6; }
+    .match-cols{ display:grid; grid-template-columns:1fr 1fr; gap:.85rem; }
+    .match-col h4{
+      font-size:.75rem; color:var(--ink-light);
+      letter-spacing:.1em; text-align:center;
+      margin-bottom:.6rem; text-transform:uppercase;
     }
-    .check-btn:hover{filter:brightness(1.1)}
-    .reset-btn{
-      padding:.7rem 1.1rem;background:transparent;
-      border:1px solid var(--border);color:var(--muted);
-      border-radius:10px;font-size:.9rem;cursor:pointer;margin-left:.5rem;
-      transition:all .15s;
-    }
-    .reset-btn:hover{border-color:#aaa;color:var(--text)}
-    .blank-msg{margin-top:.75rem;border-radius:10px;padding:.7rem 1rem;
-               font-size:.83rem;line-height:1.5;display:none;animation:fadeUp .2s ease}
-
-    /* ══════════════════════════════
-       MODE 3 配對
-    ══════════════════════════════ */
-    .match-intro{font-size:.83rem;color:var(--muted);margin-bottom:1rem;line-height:1.5}
-    .match-cols{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-    .match-col h4{font-size:.72rem;color:var(--muted);letter-spacing:.08em;text-align:center;margin-bottom:.5rem}
-    .match-col{display:flex;flex-direction:column;gap:.45rem}
+    .match-col{ display:flex; flex-direction:column; gap:.5rem; }
     .match-item{
-      background:#0a0a18;border:1.5px solid var(--border);border-radius:10px;
-      padding:.65rem .8rem;font-size:.83rem;color:var(--muted);
-      cursor:pointer;transition:all .15s;line-height:1.5;text-align:center;
+      background:var(--parchment2);
+      border:2px solid var(--border);
+      border-radius:12px;
+      padding:.7rem .85rem;
+      font-size:.88rem; color:var(--ink-light);
+      cursor:pointer; transition:all .18s;
+      line-height:1.5; text-align:center;
+      font-family:inherit;
     }
-    .match-item:hover:not(.matched){border-color:rgba(46,204,113,.4);color:var(--text)}
-    .match-item.selected{border-color:var(--gold);background:rgba(245,200,66,.08);color:var(--gold)}
-    .match-item.matched{border-color:var(--green);background:rgba(46,204,113,.08);color:#6ee7b7;cursor:default}
-    .match-item.wrong-m{border-color:var(--red);background:rgba(232,69,69,.08);animation:shake .35s ease}
-    .match-msg{margin-top:.85rem;border-radius:10px;padding:.7rem 1rem;
-               font-size:.83rem;display:none;animation:fadeUp .2s ease}
+    .match-item:hover:not(.matched){ border-color:var(--moss); color:var(--ink); background:var(--paper); }
+    .match-item.selected{ border-color:var(--amber); background:rgba(200,118,42,.1); color:var(--amber); font-weight:700; }
+    .match-item.matched{ border-color:var(--moss); background:rgba(74,124,89,.1); color:var(--moss); cursor:default; }
+    .match-item.wrong-m{ border-color:var(--red-soft); background:rgba(192,69,58,.08); animation:shake .35s ease; }
 
-    /* ══════════════════════════════
-       MODE 4 排序
-    ══════════════════════════════ */
-    .sort-intro{font-size:.83rem;color:var(--muted);margin-bottom:.9rem;line-height:1.5}
-    .sort-list{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1rem}
+    /* ═══════════════════════════════
+       排序
+    ═══════════════════════════════ */
+    .sort-intro{ font-size:.88rem; color:var(--ink-light); margin-bottom:1rem; line-height:1.6; }
+    .sort-list{ display:flex; flex-direction:column; gap:.55rem; margin-bottom:1.1rem; }
     .sort-item{
-      background:#0a0a18;border:1.5px solid var(--border);border-radius:10px;
-      padding:.7rem .9rem;font-size:.88rem;color:var(--text);
-      cursor:grab;display:flex;align-items:center;gap:.65rem;
-      transition:all .2s;user-select:none;line-height:1.5;
+      background:var(--parchment2);
+      border:2px solid var(--border);
+      border-radius:12px;
+      padding:.8rem 1rem;
+      font-size:.92rem; color:var(--ink);
+      cursor:grab; display:flex; align-items:center; gap:.7rem;
+      transition:all .2s; user-select:none; line-height:1.55;
+      font-family:'Noto Serif TC', serif;
     }
-    .sort-item:active{cursor:grabbing;transform:scale(1.02);box-shadow:0 8px 24px rgba(0,0,0,.4)}
-    .sort-item.drag-over{border-color:var(--blue);background:rgba(74,158,255,.06)}
-    .sort-item.correct-pos{border-color:var(--green);background:rgba(46,204,113,.08);color:#6ee7b7}
-    .sort-item.wrong-pos{border-color:var(--red);background:rgba(232,69,69,.08);color:#fca5a5}
-    .sort-handle{color:#333;font-size:.9rem;flex-shrink:0}
+    .sort-item:active{ cursor:grabbing; transform:scale(1.02); box-shadow:0 8px 24px var(--shadow); }
+    .sort-item.drag-over{ border-color:var(--sky); background:rgba(107,154,184,.1); }
+    .sort-item.correct-pos{ border-color:var(--moss); background:rgba(74,124,89,.1); color:var(--moss); }
+    .sort-item.wrong-pos  { border-color:var(--red-soft); background:rgba(192,69,58,.08); color:var(--red-soft); }
+    .sort-handle{ color:var(--border); font-size:1rem; flex-shrink:0; }
     .sort-num{
-      flex-shrink:0;min-width:24px;height:24px;
-      background:#1a1a30;border-radius:6px;
-      display:flex;align-items:center;justify-content:center;
-      font-size:.7rem;color:var(--muted);font-weight:700;
+      flex-shrink:0; min-width:26px; height:26px;
+      background:var(--paper); border:1.5px solid var(--border);
+      border-radius:7px; display:flex; align-items:center; justify-content:center;
+      font-size:.72rem; font-weight:700; color:var(--ink-light);
     }
-    .sort-btns{display:flex;gap:.5rem;flex-wrap:wrap}
-    .sort-check{
-      padding:.7rem 1.4rem;background:linear-gradient(135deg,#1a6bb5,var(--blue));
-      color:#fff;border:none;border-radius:10px;font-size:.9rem;font-weight:700;cursor:pointer;
-      transition:filter .2s;
+    .btn-sort-check{
+      padding:.75rem 1.5rem; background:var(--amber); color:#fff;
+      border:none; border-radius:12px; font-size:.95rem; font-weight:700;
+      cursor:pointer; transition:filter .18s; font-family:inherit;
+      box-shadow:0 3px 10px rgba(200,118,42,.3);
     }
-    .sort-check:hover{filter:brightness(1.1)}
-    .sort-reset{
-      padding:.7rem 1.1rem;background:transparent;border:1px solid var(--border);
-      color:var(--muted);border-radius:10px;font-size:.9rem;cursor:pointer;transition:all .15s;
+    .btn-sort-check:hover{ filter:brightness(1.08); }
+    .btn-sort-reset{
+      padding:.75rem 1.1rem; background:var(--parchment2);
+      border:1.5px solid var(--border); color:var(--ink-light);
+      border-radius:12px; font-size:.95rem; cursor:pointer;
+      font-family:inherit; transition:all .15s;
     }
-    .sort-reset:hover{border-color:#aaa;color:var(--text)}
-    .sort-msg{margin-top:.75rem;border-radius:10px;padding:.8rem 1rem;
-              font-size:.83rem;line-height:1.6;display:none;animation:fadeUp .2s ease}
+    .btn-sort-reset:hover{ border-color:var(--ink-light); color:var(--ink); }
 
-    /* ══════════════════════════════
+    /* ═══════════════════════════════
        RESULT
-    ══════════════════════════════ */
+    ═══════════════════════════════ */
     #result{
-      display:none;position:relative;z-index:1;
-      max-width:480px;margin:0 auto;
-      padding:2.5rem 1rem;text-align:center;
+      display:none; position:relative; z-index:1;
+      max-width:520px; margin:0 auto;
+      padding:3rem 1.25rem;
+      text-align:center;
     }
-    .result-trophy{font-size:5rem;margin-bottom:.75rem;animation:bounceIn .5s ease}
-    @keyframes bounceIn{
-      0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}
+    .r-trophy{ font-size:5.5rem; margin-bottom:.75rem; animation:bounce-in .55s ease; }
+    @keyframes bounce-in{
+      0%{transform:scale(0) rotate(-15deg)}
+      60%{transform:scale(1.2) rotate(5deg)}
+      100%{transform:scale(1) rotate(0)}
     }
-    .result-label{font-size:.75rem;letter-spacing:.15em;color:var(--muted);margin-bottom:.4rem}
-    .result-h{
-      font-family:'Noto Serif TC',serif;
-      font-size:1.6rem;font-weight:900;color:var(--gold);margin-bottom:.25rem;
+    .r-eyebrow{ font-size:.75rem; letter-spacing:.2em; color:var(--ink-light); margin-bottom:.4rem; }
+    .r-title{
+      font-family:'Noto Serif TC', serif;
+      font-size:1.7rem; font-weight:900; color:var(--moss); margin-bottom:.3rem;
     }
-    .result-score{
-      font-size:3.2rem;font-weight:900;
-      background:linear-gradient(135deg,var(--gold2),var(--gold));
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-      background-clip:text;
-      margin:.3rem 0 .6rem;line-height:1;
+    .r-score{
+      font-family:'Noto Serif TC', serif;
+      font-size:3.5rem; font-weight:900; color:var(--amber);
+      line-height:1; margin:.4rem 0 .6rem;
     }
-    .result-detail{font-size:.85rem;color:var(--muted);margin-bottom:2rem}
-    .result-bars{
-      background:var(--card);border:1px solid var(--border);border-radius:16px;
-      padding:1.25rem 1.5rem;margin-bottom:1.75rem;text-align:left;
+    .r-detail{ font-size:.88rem; color:var(--ink-light); margin-bottom:2rem; }
+    .r-bars{
+      background:var(--paper);
+      border:2px solid var(--border);
+      border-radius:18px;
+      padding:1.4rem 1.5rem;
+      margin-bottom:2rem;
+      text-align:left;
+      box-shadow:0 3px 12px var(--shadow);
     }
-    .result-bars h4{font-size:.78rem;color:var(--muted);letter-spacing:.1em;margin-bottom:1rem}
-    .rb-row{display:flex;align-items:center;gap:.65rem;margin-bottom:.7rem;font-size:.82rem}
-    .rb-row:last-child{margin:0}
-    .rb-label{width:72px;color:var(--muted);flex-shrink:0;font-size:.78rem}
-    .rb-wrap{flex:1;height:8px;background:#1a1a30;border-radius:4px;overflow:hidden}
-    .rb-bar{height:8px;border-radius:4px;background:linear-gradient(90deg,var(--gold2),var(--gold));transition:width .8s ease}
-    .rb-val{width:34px;text-align:right;color:var(--text);font-weight:700}
-    .play-again{
-      padding:.85rem 2.5rem;
-      background:linear-gradient(135deg,var(--gold2),var(--gold));
-      color:#1a0e00;border:none;border-radius:12px;
-      font-size:1rem;font-weight:700;cursor:pointer;
-      transition:filter .2s,transform .1s;
+    .r-bars h4{ font-size:.78rem; color:var(--ink-light); letter-spacing:.1em; margin-bottom:1rem; }
+    .rb-row{ display:flex; align-items:center; gap:.7rem; margin-bottom:.75rem; font-size:.85rem; }
+    .rb-row:last-child{ margin:0; }
+    .rb-label{ width:74px; color:var(--ink-light); flex-shrink:0; font-size:.8rem; }
+    .rb-wrap{ flex:1; height:10px; background:var(--parchment2); border-radius:5px; overflow:hidden; border:1px solid var(--border); }
+    .rb-bar{ height:10px; border-radius:5px; background:linear-gradient(90deg, var(--moss), var(--moss-light)); transition:width .9s ease; }
+    .rb-val{ width:34px; text-align:right; color:var(--ink); font-weight:700; }
+    .btn-again{
+      padding:.9rem 2.5rem;
+      background:var(--moss); color:#fff;
+      border:none; border-radius:14px;
+      font-size:1rem; font-weight:700; cursor:pointer;
+      transition:filter .2s, transform .1s;
+      font-family:inherit;
+      box-shadow:0 4px 16px rgba(74,124,89,.35);
     }
-    .play-again:hover{filter:brightness(1.08)}
-    .play-again:active{transform:scale(.97)}
+    .btn-again:hover{ filter:brightness(1.08); }
+    .btn-again:active{ transform:scale(.97); }
 
-    /* ══════════════════════════════
-       UTILITIES
-    ══════════════════════════════ */
+    /* ═══════════════════════════════
+       Utilities
+    ═══════════════════════════════ */
     @keyframes shake{
       0%,100%{transform:translateX(0)}
-      20%{transform:translateX(-5px)}
-      60%{transform:translateX(5px)}
+      25%{transform:translateX(-5px)} 75%{transform:translateX(5px)}
     }
-    .pop{animation:pop .25s ease}
-    @keyframes pop{0%{transform:scale(.92);opacity:0}100%{transform:scale(1);opacity:1}}
+    .pop{ animation:pop-in .28s ease; }
+    @keyframes pop-in{
+      from{opacity:0; transform:scale(.94) translateY(8px)}
+      to  {opacity:1; transform:scale(1)   translateY(0)}
+    }
+    .msg-ok {background:rgba(74,124,89,.12); border:1.5px solid rgba(74,124,89,.3); color:var(--moss);}
+    .msg-bad{background:rgba(192,69,58,.08); border:1.5px solid rgba(192,69,58,.25); color:var(--red-soft);}
+    .msg-info{background:rgba(200,118,42,.1); border:1.5px solid rgba(200,118,42,.28); color:var(--amber);}
   </style>
 </head>
 <body>
 
-<!-- ════════════ HUB ════════════ -->
+<!-- ═══════ HUB ═══════ -->
 <div id="hub">
-  <div class="hub-hero">
-    <div class="hub-badge">RED CHAMBER · COURSE GAME</div>
-    <h1>劉姥姥逛大觀園</h1>
-    <p>四種關卡全過，征服課文！</p>
+  <div class="hero">
+    <div class="hero-eyebrow">🌿 RED CHAMBER · COURSE GAME</div>
+    <h1>劉姥姥<span>逛大觀園</span></h1>
+    <p>四關全過，才是真正讀懂大觀園的人！</p>
   </div>
 
-  <div class="login-card">
+  <div class="login-box">
     <div class="row">
       <div>
         <label>班級</label>
         <select id="hub-cls">
-          <option value="">── 選擇班級 ──</option>
+          <option value="">── 請選擇 ──</option>
           <optgroup label="高一"><option>高一甲</option><option>高一乙</option><option>高一丙</option><option>高一丁</option><option>高一戊</option></optgroup>
           <optgroup label="高二"><option>高二甲</option><option>高二乙</option><option>高二丙</option><option>高二丁</option><option>高二戊</option></optgroup>
           <optgroup label="高三"><option>高三甲</option><option>高三乙</option><option>高三丙</option><option>高三丁</option><option>高三戊</option></optgroup>
@@ -466,26 +557,26 @@
   </div>
 
   <div class="mode-grid">
-    <div class="mode-card mc-gold" onclick="startMode(1)">
-      <span class="mode-num">10 題</span>
+    <div class="mode-card mc-moss" onclick="startMode(1)">
+      <span class="mode-badge">10 題</span>
       <span class="mode-icon">🎯</span>
       <h3>選擇題闖關</h3>
       <p>計時搶答<br>越快答分越高</p>
     </div>
-    <div class="mode-card mc-purple" onclick="startMode(2)">
-      <span class="mode-num">5 句</span>
+    <div class="mode-card mc-sky" onclick="startMode(2)">
+      <span class="mode-badge">5 句</span>
       <span class="mode-icon">✏️</span>
       <h3>名句填空</h3>
       <p>課文名句挖空<br>點選字詞填入</p>
     </div>
-    <div class="mode-card mc-green" onclick="startMode(3)">
-      <span class="mode-num">5 組</span>
+    <div class="mode-card mc-amber" onclick="startMode(3)">
+      <span class="mode-badge">5 組</span>
       <span class="mode-icon">🧩</span>
       <h3>人物配對</h3>
       <p>笑場反應<br>配對正確人物</p>
     </div>
-    <div class="mode-card mc-blue" onclick="startMode(4)">
-      <span class="mode-num">8 事件</span>
+    <div class="mode-card mc-red" onclick="startMode(4)">
+      <span class="mode-badge">8 件</span>
       <span class="mode-icon">📜</span>
       <h3>情節排序</h3>
       <p>拖曳排列<br>課文發展順序</p>
@@ -493,48 +584,53 @@
   </div>
 </div>
 
-<!-- ════════════ GAME ════════════ -->
+<!-- ═══════ GAME ═══════ -->
 <div id="game">
-  <div class="g-topbar">
+  <div class="g-bar">
     <button class="g-back" onclick="goHub()">← 返回</button>
     <div class="g-info">
       <div class="g-title" id="g-title"></div>
-      <div class="g-sub" id="g-sub"></div>
+      <div class="g-sub"   id="g-sub"></div>
     </div>
   </div>
   <div id="g-body"></div>
 </div>
 
-<!-- ════════════ RESULT ════════════ -->
+<!-- ═══════ RESULT ═══════ -->
 <div id="result">
-  <div class="result-trophy" id="r-trophy">🏆</div>
-  <div class="result-label">STAGE CLEAR</div>
-  <div class="result-h" id="r-title"></div>
-  <div class="result-score" id="r-score"></div>
-  <div class="result-detail" id="r-detail"></div>
-  <div class="result-bars" id="r-bars" style="display:none"></div>
-  <button class="play-again" onclick="location.reload()">再玩一次</button>
+  <div class="r-trophy" id="r-trophy">🏆</div>
+  <div class="r-eyebrow">STAGE CLEAR</div>
+  <div class="r-title"  id="r-title"></div>
+  <div class="r-score"  id="r-score"></div>
+  <div class="r-detail" id="r-detail"></div>
+  <div class="r-bars"   id="r-bars" style="display:none"></div>
+  <button class="btn-again" onclick="location.reload()">再玩一次</button>
 </div>
 
 <script>
-// Firebase 動態載入（失敗不影響遊戲）
+/* ══════════════════════════════════════════
+   Firebase 動態載入（失敗不影響遊戲）
+══════════════════════════════════════════ */
 async function submitScore(data){
   try{
-    const {initializeApp}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
-    const {getFirestore,collection,addDoc,serverTimestamp}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-    const db=getFirestore(initializeApp({
+    const {initializeApp}  = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
+    const {getFirestore,collection,addDoc,serverTimestamp} = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    const app = initializeApp({
       apiKey:"AIzaSyBMTe5eLI3GKmLz6beXvfnaBgQaXJsr-xM",
       authDomain:"my-teaching-tools-b8e86.firebaseapp.com",
       projectId:"my-teaching-tools-b8e86",
       storageBucket:"my-teaching-tools-b8e86.firebasestorage.app",
       messagingSenderId:"47224328529",
-      appId:"1:47224328529:web:6e6f761ff6b455f9db0370"
-    },{name:'liulao-'+Date.now()}));
-    await addDoc(collection(db,'game_scores'),{...data,created_at:serverTimestamp()});
-  }catch(e){console.warn('分數上傳失敗（不影響遊戲）',e)}
+      appId:"1:47224328729:web:6e6f761ff6b455f9db0370"
+    },{name:'llg-'+Date.now()});
+    await addDoc(collection(getFirestore(app),'game_scores'),
+      {...data, created_at:serverTimestamp()});
+  }catch(e){ console.warn('分數上傳略過',e); }
 }
 
-// ─── 題庫 ───────────────────────────────────────
+/* ══════════════════════════════════════════
+   題庫
+══════════════════════════════════════════ */
 const MCQ=[
   {q:'鳳姐故意拿哪種筷子給劉姥姥，讓她拿不順手？',
    opts:['烏木三鑲銀筷','象牙鑲金筷子','竹製筷子','銀筷子'],ans:1,
@@ -567,7 +663,6 @@ const MCQ=[
    opts:['吳承恩','曹雪芹','羅貫中','施耐庵'],ans:1,
    exp:'《紅樓夢》作者曹雪芹，未完成部分由高鶚續寫。'},
 ];
-
 const BLANKS=[
   {text:'我雖老了，年輕時也風流，愛個花兒粉兒的，今兒乾脆，索性做個{老風流}。',
    blanks:['老風流'],pool:['老風流','老婦人','鄉下人','老太太','粗野人']},
@@ -580,7 +675,6 @@ const BLANKS=[
   {text:'這哪裡像個小姐的繡房，竟比那上等的{書房}還好！',
    blanks:['書房'],pool:['書房','客廳','廂房','花廳','正房']},
 ];
-
 const MATCH={
   title:'把宴席笑場的反應，配對到正確人物',
   pairs:[
@@ -591,7 +685,6 @@ const MATCH={
     {person:'王夫人',reaction:'用手指著鳳姐說不出話'},
   ]
 };
-
 const SORT=[
   '李紈清晨監督備辦綴錦閣器具',
   '劉姥姥帶板兒入園，在綴錦閣念佛讚嘆',
@@ -603,11 +696,12 @@ const SORT=[
   '宴席上劉姥姥高喊「食量大如牛」引眾人大笑',
 ];
 
-// ─── 狀態 ─────────────────────────────────────
-let pCls='',pSeat=0;
+/* ══════════════════════════════════════════
+   狀態 & 工具
+══════════════════════════════════════════ */
+let pCls='', pSeat=0;
 let mScores={1:0,2:0,3:0,4:0}, mDone={1:false,2:false,3:false,4:false};
-
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
 function validateLogin(){
   const cls=document.getElementById('hub-cls').value;
@@ -618,214 +712,192 @@ function validateLogin(){
   err.style.display='none'; pCls=cls; pSeat=+seat; return true;
 }
 
-window.startMode=m=>{
+function startMode(m){
   if(!validateLogin()) return;
   document.getElementById('hub').style.display='none';
   document.getElementById('result').style.display='none';
   document.getElementById('game').style.display='block';
   ({1:initMCQ,2:initBlanks,3:initMatch,4:initSort}[m])();
-};
+}
 
-window.goHub=()=>{
+function goHub(){
   clearInterval(window._tick);
   document.getElementById('game').style.display='none';
   document.getElementById('hub').style.display='block';
-};
+}
 
 function showResult(mode,score,detail){
   mDone[mode]=true; mScores[mode]=score;
   clearInterval(window._tick);
   document.getElementById('game').style.display='none';
-
   const done=Object.values(mDone).filter(Boolean).length;
   const total=Object.values(mScores).reduce((a,b)=>a+b,0);
-
   document.getElementById('r-trophy').textContent=total>=350?'🏆':total>=200?'🥈':'📝';
-  document.getElementById('r-title').textContent={1:'選擇題關卡完成',2:'名句填空完成',3:'人物配對完成',4:'情節排序完成'}[mode];
-  document.getElementById('r-score').textContent=`${score} 分`;
-  document.getElementById('r-detail').textContent=`${detail ? detail+' · ' : ''}已完成 ${done}/4 關卡`;
-
+  document.getElementById('r-title').textContent={1:'選擇題完成',2:'名句填空完成',3:'人物配對完成',4:'情節排序完成'}[mode];
+  document.getElementById('r-score').textContent=score+' 分';
+  document.getElementById('r-detail').textContent=(detail?detail+' · ':'')+`已完成 ${done}/4 關卡`;
+  const barsEl=document.getElementById('r-bars');
   const mnames={1:'選擇題',2:'名句填空',3:'人物配對',4:'情節排序'};
   const mmax={1:300,2:100,3:100,4:100};
-  const barsEl=document.getElementById('r-bars');
   const rows=[1,2,3,4].filter(i=>mDone[i]).map(i=>`
     <div class="rb-row">
       <div class="rb-label">${mnames[i]}</div>
       <div class="rb-wrap"><div class="rb-bar" style="width:${Math.round(mScores[i]/mmax[i]*100)}%"></div></div>
       <div class="rb-val">${mScores[i]}</div>
     </div>`).join('');
-  if(rows){
-    barsEl.innerHTML=`<h4>各關卡得分</h4>${rows}`;
-    barsEl.style.display='block';
-  }
-
+  if(rows){barsEl.innerHTML=`<h4>各關卡得分</h4>${rows}`;barsEl.style.display='block';}
   document.getElementById('result').style.display='block';
-
   submitScore({class_name:pCls,student_id:pSeat,mode,score,total_so_far:total});
 }
 
-// ════════════════════════════════════════════
-//  MODE 1 選擇題
-// ════════════════════════════════════════════
+/* ══════════════════════════════════════════
+   MODE 1 選擇題
+══════════════════════════════════════════ */
 function initMCQ(){
   document.getElementById('g-title').textContent='🎯 選擇題闖關';
   const qs=[...MCQ].sort(()=>Math.random()-.5);
   let qi=0,score=0,correct=0;
   renderQ();
-
   function renderQ(){
     document.getElementById('g-sub').textContent=`第 ${qi+1} / ${qs.length} 題`;
     const q=qs[qi]; let t=25;
-    const pct=qi/qs.length*100;
     document.getElementById('g-body').innerHTML=`
       <div class="panel pop">
-        <div class="prog-wrap"><div class="prog-bar" id="prog" style="width:${pct}%"></div></div>
+        <div class="prog-wrap"><div class="prog-bar" style="width:${qi/qs.length*100}%"></div></div>
         <div class="hud">
-          <div class="hud-box"><div class="hud-label">得分</div><div class="hud-val hv-gold" id="m1s">${score}</div></div>
-          <div class="timer-ring-wrap">
-            <svg width="52" height="52" viewBox="0 0 52 52">
-              <circle class="timer-track" cx="26" cy="26" r="22"/>
-              <circle class="timer-fill" id="tring" cx="26" cy="26" r="22"/>
+          <div class="hud-box"><div class="hud-label">得分</div><div class="hud-val hv-moss" id="s">${score}</div></div>
+          <div class="timer-wrap">
+            <svg width="62" height="62" viewBox="0 0 62 62">
+              <circle class="t-track" cx="31" cy="31" r="26"/>
+              <circle class="t-fill" id="tr" cx="31" cy="31" r="26"/>
             </svg>
-            <div class="timer-num" id="tnum">${t}</div>
+            <div class="timer-num" id="tn">${t}</div>
           </div>
-          <div class="hud-box"><div class="hud-label">答對</div><div class="hud-val hv-green" id="m1c">${correct}</div></div>
+          <div class="hud-box"><div class="hud-label">答對</div><div class="hud-val hv-amber" id="c">${correct}</div></div>
         </div>
         <div class="q-text">${esc(q.q)}</div>
         <div class="opts">
-          ${q.opts.map((o,i)=>`
-            <div class="opt" onclick="m1pick(this,${i})">
-              <span class="opt-letter">${'ＡＢＣＤ'[i]}</span>
-              <span>${esc(o)}</span>
-            </div>`).join('')}
+          ${q.opts.map((o,i)=>`<div class="opt" onclick="pick(this,${i})"><span class="opt-ltr">${'ＡＢＣＤ'[i]}</span><span>${esc(o)}</span></div>`).join('')}
         </div>
-        <div class="explain-box" id="m1exp"></div>
-        <button class="next-btn" id="m1nx" onclick="m1next()">
-          ${qi+1<qs.length?'下一題 →':'查看結果 →'}
-        </button>
+        <div class="explain-box" id="exp"></div>
+        <button class="next-btn" id="nx" onclick="nxt()">${qi+1<qs.length?'下一題 →':'查看結果 →'}</button>
       </div>`;
-    startTimer();
-
-    function startTimer(){
-      clearInterval(window._tick); t=25;
-      const ring=document.getElementById('tring');
-      const num=document.getElementById('tnum');
-      window._tick=setInterval(()=>{
-        t--;
-        if(!num||!ring){clearInterval(window._tick);return}
-        num.textContent=t;
-        ring.style.strokeDashoffset=(1-t/25)*138;
-        if(t<=5){ring.classList.add('danger');num.classList.add('danger')}
-        if(t<=0){clearInterval(window._tick);autoFail();}
-      },1000);
-    }
+    clearInterval(window._tick); t=25;
+    window._tick=setInterval(()=>{
+      t--;
+      const tn=document.getElementById('tn'),tr=document.getElementById('tr');
+      if(!tn){clearInterval(window._tick);return}
+      tn.textContent=t;
+      tr.style.strokeDashoffset=(1-t/25)*163;
+      if(t<=5){tr.classList.add('danger');tn.classList.add('danger')}
+      if(t<=0){clearInterval(window._tick);autoFail();}
+    },1000);
     function autoFail(){
       document.querySelectorAll('.opt').forEach(o=>o.classList.add('locked'));
       document.querySelectorAll('.opt')[q.ans].classList.add('correct');
-      const exp=document.getElementById('m1exp');
-      exp.className='explain-box explain-bad';exp.style.display='block';
+      const exp=document.getElementById('exp');
+      exp.className='explain-box exp-bad'; exp.style.display='block';
       exp.textContent=`⏰ 時間到！正確答案：${q.opts[q.ans]}`;
-      document.getElementById('m1nx').style.display='block';
+      document.getElementById('nx').style.display='block';
     }
-    window.m1pick=(el,idx)=>{
+    window.pick=(el,idx)=>{
       clearInterval(window._tick);
       document.querySelectorAll('.opt').forEach(o=>o.classList.add('locked'));
-      const exp=document.getElementById('m1exp');
+      const exp=document.getElementById('exp');
       if(idx===q.ans){
         el.classList.add('correct');
         const pts=Math.max(10,t*10); score+=pts; correct++;
-        document.getElementById('m1s').textContent=score;
-        document.getElementById('m1c').textContent=correct;
-        exp.className='explain-box explain-ok';exp.style.display='block';
-        exp.innerHTML=`✅ 答對！+${pts} 分 &nbsp;｜&nbsp; ${esc(q.exp)}`;
+        document.getElementById('s').textContent=score;
+        document.getElementById('c').textContent=correct;
+        exp.className='explain-box exp-ok'; exp.style.display='block';
+        exp.innerHTML=`✅ 答對！+${pts} 分 ｜ ${esc(q.exp)}`;
       } else {
         el.classList.add('wrong');
         document.querySelectorAll('.opt')[q.ans].classList.add('correct');
-        exp.className='explain-box explain-bad';exp.style.display='block';
+        exp.className='explain-box exp-bad'; exp.style.display='block';
         exp.innerHTML=`❌ 答錯，正確是「${esc(q.opts[q.ans])}」 ｜ ${esc(q.exp)}`;
       }
-      document.getElementById('m1nx').style.display='block';
+      document.getElementById('nx').style.display='block';
     };
-    window.m1next=()=>{ qi++; qi>=qs.length ? showResult(1,score,`答對 ${correct}/${qs.length} 題`) : renderQ(); };
+    window.nxt=()=>{qi++; qi>=qs.length?showResult(1,score,`答對 ${correct}/${qs.length} 題`):renderQ();};
   }
 }
 
-// ════════════════════════════════════════════
-//  MODE 2 填空
-// ════════════════════════════════════════════
+/* ══════════════════════════════════════════
+   MODE 2 填空
+══════════════════════════════════════════ */
 function initBlanks(){
   document.getElementById('g-title').textContent='✏️ 名句填空';
   let bi=0,score=0;
-  renderBlank();
-
-  function renderBlank(){
+  renderB();
+  function renderB(){
     document.getElementById('g-sub').textContent=`第 ${bi+1} / ${BLANKS.length} 句`;
     const b=BLANKS[bi];
-    let sentHtml=b.text.replace(/\{([^}]+)\}/g,(_,w)=>
+    const sh=b.text.replace(/\{([^}]+)\}/g,(_,w)=>
       `<span class="blank" id="bl-${w}" data-word="${w}" onclick="blClick(this)">　　　</span>`);
     const pool=[...b.pool].sort(()=>Math.random()-.5);
     document.getElementById('g-body').innerHTML=`
       <div class="panel pop">
         <div class="prog-wrap"><div class="prog-bar" style="width:${bi/BLANKS.length*100}%"></div></div>
-        <div class="blank-q-num">第 ${bi+1} / ${BLANKS.length} 句｜點選字詞後，再點空格填入</div>
-        <div class="blank-sentence">${sentHtml}</div>
+        <p style="font-size:.82rem;color:var(--ink-light);margin-bottom:.9rem">點選下方字詞，再點空格填入</p>
+        <div class="blank-sentence">${sh}</div>
         <div class="word-pool">${pool.map(w=>`<span class="word-chip" id="wc-${w}" data-word="${w}" onclick="wcClick(this)">${w}</span>`).join('')}</div>
-        <div>
-          <button class="check-btn" onclick="checkBlanks()">確認答案</button>
-          <button class="reset-btn" onclick="renderBlank()">重設</button>
+        <div class="act-row">
+          <button class="btn-check" onclick="checkB()">確認答案</button>
+          <button class="btn-reset" onclick="renderB()">重設</button>
         </div>
-        <div class="blank-msg" id="bl-msg"></div>
+        <div class="inline-msg" id="bm"></div>
       </div>`;
-    window._bd=b; window._selWord=null;
+    window._bd=b; window._sw=null;
   }
-
   window.wcClick=el=>{
     if(el.classList.contains('used')) return;
-    document.querySelectorAll('.word-chip').forEach(c=>{c.classList.remove('selected')});
-    window._selWord=el.dataset.word; el.classList.add('selected');
+    document.querySelectorAll('.word-chip').forEach(c=>c.classList.remove('selected'));
+    window._sw=el.dataset.word; el.classList.add('selected');
   };
   window.blClick=el=>{
-    if(!window._selWord) return;
+    if(!window._sw) return;
     const prev=el.dataset.filled;
-    if(prev){const pc=document.getElementById('wc-'+prev);if(pc)pc.classList.remove('used')}
-    el.textContent=window._selWord; el.dataset.filled=window._selWord; el.classList.add('filled');
-    document.getElementById('wc-'+window._selWord)?.classList.add('used');
+    if(prev){document.getElementById('wc-'+prev)?.classList.remove('used');}
+    el.textContent=window._sw; el.dataset.filled=window._sw; el.classList.add('filled');
+    document.getElementById('wc-'+window._sw)?.classList.add('used');
     document.querySelectorAll('.word-chip').forEach(c=>c.classList.remove('selected'));
-    window._selWord=null;
+    window._sw=null;
   };
-  window.checkBlanks=()=>{
-    const b=window._bd; let allFilled=true,allOk=true;
+  window.checkB=()=>{
+    const b=window._bd; let filled=true,ok=true;
     b.blanks.forEach(w=>{
       const el=document.getElementById('bl-'+w);
-      if(!el?.dataset.filled){allFilled=false;}
-      else if(el.dataset.filled!==w){allOk=false; el.classList.add('wrong-fill');}
+      if(!el?.dataset.filled){filled=false;}
+      else if(el.dataset.filled!==w){ok=false;el.classList.add('wrong-fill');}
     });
-    const msg=document.getElementById('bl-msg');
-    if(!allFilled){
-      msg.style.cssText='display:block;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.25);color:var(--gold);border-radius:10px;padding:.7rem 1rem;font-size:.83rem';
+    const msg=document.getElementById('bm');
+    if(!filled){
+      msg.className='inline-msg msg-info'; msg.style.display='block';
       msg.textContent='還有空格未填，全部填完再確認！'; return;
     }
-    if(allOk){
-      score+=20; msg.style.cssText='display:block;background:rgba(46,204,113,.1);border:1px solid rgba(46,204,113,.25);color:#6ee7b7;border-radius:10px;padding:.7rem 1rem;font-size:.83rem';
+    if(ok){
+      score+=20; msg.className='inline-msg msg-ok'; msg.style.display='block';
       msg.textContent='✅ 完全正確！+20 分';
-      setTimeout(()=>{ bi++; bi>=BLANKS.length ? showResult(2,score,'') : renderBlank(); },900);
+      setTimeout(()=>{bi++; bi>=BLANKS.length?showResult(2,score,''):renderB();},900);
     } else {
-      msg.style.cssText='display:block;background:rgba(232,69,69,.1);border:1px solid rgba(232,69,69,.25);color:#fca5a5;border-radius:10px;padding:.7rem 1rem;font-size:.83rem';
+      msg.className='inline-msg msg-bad'; msg.style.display='block';
       msg.textContent='❌ 有填錯的字詞，紅色格子已清空，請重新填入。';
       b.blanks.forEach(w=>{
         const el=document.getElementById('bl-'+w);
         if(el?.dataset.filled&&el.dataset.filled!==w){
           document.getElementById('wc-'+el.dataset.filled)?.classList.remove('used');
-          el.textContent='　　　'; el.dataset.filled=''; el.classList.remove('filled','wrong-fill');
+          el.textContent='　　　'; el.dataset.filled='';
+          el.classList.remove('filled','wrong-fill');
         }
       });
     }
   };
 }
 
-// ════════════════════════════════════════════
-//  MODE 3 配對
-// ════════════════════════════════════════════
+/* ══════════════════════════════════════════
+   MODE 3 配對
+══════════════════════════════════════════ */
 function initMatch(){
   document.getElementById('g-title').textContent='🧩 人物配對';
   document.getElementById('g-sub').textContent='';
@@ -833,40 +905,38 @@ function initMatch(){
   const reacs=[...MATCH.pairs].sort(()=>Math.random()-.5);
   const correct={}; MATCH.pairs.forEach(p=>correct[p.person]=p.reaction);
   let sel=null, matched=0;
-
   document.getElementById('g-body').innerHTML=`
     <div class="panel pop">
       <p class="match-intro">${MATCH.title}</p>
       <div class="match-cols">
         <div class="match-col">
           <h4>人 物</h4>
-          ${pairs.map(p=>`<div class="match-item" id="mp-${p.person}" data-type="person" data-val="${p.person}" onclick="mClick(this)">${p.person}</div>`).join('')}
+          ${pairs.map(p=>`<div class="match-item" id="mp-${esc(p.person)}" data-type="person" data-val="${esc(p.person)}" onclick="mClick(this)">${esc(p.person)}</div>`).join('')}
         </div>
         <div class="match-col">
           <h4>笑場反應</h4>
-          ${reacs.map(p=>`<div class="match-item" id="mr-${p.reaction}" data-type="reaction" data-val="${p.reaction}" onclick="mClick(this)">${p.reaction}</div>`).join('')}
+          ${reacs.map(p=>`<div class="match-item" id="mr-${esc(p.reaction)}" data-type="reaction" data-val="${esc(p.reaction)}" onclick="mClick(this)">${esc(p.reaction)}</div>`).join('')}
         </div>
       </div>
-      <div class="match-msg" id="m-msg"></div>
+      <div class="inline-msg" id="mm"></div>
     </div>`;
-
   window.mClick=el=>{
     if(el.classList.contains('matched')) return;
-    if(!sel){sel=el;el.classList.add('selected');return}
-    if(sel===el){sel=null;el.classList.remove('selected');return}
-    if(sel.dataset.type===el.dataset.type){sel.classList.remove('selected');sel=el;el.classList.add('selected');return}
-    const person=sel.dataset.type==='person'?sel.dataset.val:el.dataset.val;
+    if(!sel){sel=el;el.classList.add('selected');return;}
+    if(sel===el){sel=null;el.classList.remove('selected');return;}
+    if(sel.dataset.type===el.dataset.type){sel.classList.remove('selected');sel=el;el.classList.add('selected');return;}
+    const person  =sel.dataset.type==='person'  ?sel.dataset.val:el.dataset.val;
     const reaction=sel.dataset.type==='reaction'?sel.dataset.val:el.dataset.val;
-    const msg=document.getElementById('m-msg');
+    const msg=document.getElementById('mm');
     if(correct[person]===reaction){
-      [sel,el].forEach(x=>{x.classList.remove('selected');x.classList.add('matched')});
+      [sel,el].forEach(x=>{x.classList.remove('selected');x.classList.add('matched');});
       matched++;
-      msg.style.cssText='display:block;background:rgba(46,204,113,.1);border:1px solid rgba(46,204,113,.25);color:#6ee7b7;border-radius:10px;padding:.65rem 1rem;font-size:.83rem';
+      msg.className='inline-msg msg-ok'; msg.style.display='block';
       msg.textContent=`✅ 正確！${person} → ${reaction}`;
       if(matched===MATCH.pairs.length) setTimeout(()=>showResult(3,100,'全部配對正確'),600);
     } else {
-      [sel,el].forEach(x=>{x.classList.remove('selected');x.classList.add('wrong-m')});
-      msg.style.cssText='display:block;background:rgba(232,69,69,.1);border:1px solid rgba(232,69,69,.25);color:#fca5a5;border-radius:10px;padding:.65rem 1rem;font-size:.83rem';
+      [sel,el].forEach(x=>{x.classList.remove('selected');x.classList.add('wrong-m');});
+      msg.className='inline-msg msg-bad'; msg.style.display='block';
       msg.textContent='❌ 配對錯誤，再想想看！';
       setTimeout(()=>[sel,el].forEach(x=>x.classList.remove('wrong-m')),500);
     }
@@ -874,51 +944,46 @@ function initMatch(){
   };
 }
 
-// ════════════════════════════════════════════
-//  MODE 4 排序
-// ════════════════════════════════════════════
+/* ══════════════════════════════════════════
+   MODE 4 排序
+══════════════════════════════════════════ */
 function initSort(){
   document.getElementById('g-title').textContent='📜 情節排序';
   document.getElementById('g-sub').textContent='';
-  let items=[...SORT].sort(()=>Math.random()-.5);
-  let dragIdx=null;
-  render();
-
-  function render(){
+  let items=[...SORT].sort(()=>Math.random()-.5), dragIdx=null;
+  renderS();
+  function renderS(){
     document.getElementById('g-body').innerHTML=`
       <div class="panel pop">
         <p class="sort-intro">拖曳調整順序，讓事件符合課文發展</p>
         <div class="sort-list" id="sl">
           ${items.map((e,i)=>`
             <div class="sort-item" draggable="true" data-i="${i}"
-              ondragstart="sdStart(${i})"
-              ondragover="sdOver(event,${i})"
-              ondrop="sdDrop(${i})"
-              ondragend="sdEnd()">
+              ondragstart="sds(${i})" ondragover="sdo(event,${i})"
+              ondrop="sdd(${i})" ondragend="sde()">
               <span class="sort-handle">⠿</span>
               <span class="sort-num">${i+1}</span>
               <span>${esc(e)}</span>
             </div>`).join('')}
         </div>
-        <div class="sort-btns">
-          <button class="sort-check" onclick="sortCheck()">確認順序</button>
-          <button class="sort-reset" onclick="initSort()">重新打亂</button>
+        <div style="display:flex;gap:.65rem;flex-wrap:wrap">
+          <button class="btn-sort-check" onclick="sortCheck()">確認順序</button>
+          <button class="btn-sort-reset" onclick="initSort()">重新打亂</button>
         </div>
-        <div class="sort-msg" id="sm"></div>
+        <div class="inline-msg" id="sm"></div>
       </div>`;
   }
-
-  window.sdStart=i=>{dragIdx=i};
-  window.sdOver=(e,i)=>{
+  window.sds=i=>{dragIdx=i;};
+  window.sdo=(e,i)=>{
     e.preventDefault();
     document.querySelectorAll('.sort-item').forEach(x=>x.classList.remove('drag-over'));
     document.querySelector(`.sort-item[data-i="${i}"]`)?.classList.add('drag-over');
   };
-  window.sdDrop=i=>{
+  window.sdd=i=>{
     if(dragIdx===null||dragIdx===i) return;
-    [items[dragIdx],items[i]]=[items[i],items[dragIdx]]; render();
+    [items[dragIdx],items[i]]=[items[i],items[dragIdx]]; renderS();
   };
-  window.sdEnd=()=>{
+  window.sde=()=>{
     document.querySelectorAll('.sort-item').forEach(x=>x.classList.remove('drag-over'));
     dragIdx=null;
   };
@@ -926,20 +991,20 @@ function initSort(){
     let ok=0;
     items.forEach((e,i)=>{
       const el=document.querySelector(`.sort-item[data-i="${i}"]`);
-      if(e===SORT[i]){ok++;el?.classList.add('correct-pos')}
+      if(e===SORT[i]){ok++;el?.classList.add('correct-pos');}
       else el?.classList.add('wrong-pos');
     });
     const sm=document.getElementById('sm');
     const score=Math.round(ok/SORT.length*100);
     if(ok===SORT.length){
-      sm.style.cssText='display:block;background:rgba(46,204,113,.1);border:1px solid rgba(46,204,113,.25);color:#6ee7b7;border-radius:10px;padding:.8rem 1rem;font-size:.83rem';
+      sm.className='inline-msg msg-ok'; sm.style.display='block';
       sm.textContent='🎉 完全正確！順序無誤！';
       setTimeout(()=>showResult(4,100,'情節排序完全正確'),700);
     } else {
-      sm.style.cssText='display:block;background:rgba(74,158,255,.08);border:1px solid rgba(74,158,255,.25);color:#93c5fd;border-radius:10px;padding:.8rem 1rem;font-size:.83rem;line-height:1.6';
+      sm.className='inline-msg msg-info'; sm.style.display='block';
       sm.innerHTML=`答對 ${ok}/${SORT.length} 個位置。綠色正確，紅色需調整。<br>
-        <button onclick="initSort()" style="margin-top:.5rem;padding:.4rem .9rem;background:transparent;border:1px solid #60a5fa;color:#60a5fa;border-radius:7px;font-size:.8rem;cursor:pointer">再試一次</button>
-        <button onclick="showResult(4,${score},'')" style="margin-top:.5rem;margin-left:.4rem;padding:.4rem .9rem;background:#4a9eff;border:none;color:#fff;border-radius:7px;font-size:.8rem;cursor:pointer">送出此成績</button>`;
+        <button onclick="initSort()" style="margin-top:.55rem;padding:.4rem .9rem;background:var(--parchment2);border:1.5px solid var(--border);color:var(--ink-light);border-radius:8px;font-size:.82rem;cursor:pointer;font-family:inherit">再試一次</button>
+        <button onclick="showResult(4,${score},'')" style="margin-top:.55rem;margin-left:.4rem;padding:.4rem .9rem;background:var(--amber);border:none;color:#fff;border-radius:8px;font-size:.82rem;cursor:pointer;font-family:inherit">送出此成績</button>`;
     }
   };
 }
