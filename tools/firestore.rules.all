@@ -20,6 +20,9 @@ service cloud.firestore {
     // 5. 教材題庫 (question-bank)
     match /questions/{doc}          { allow read, write: if true; }
 
+    // 6. 劉姥姥課文遊戲 (liulao-game)
+    match /game_scores/{doc}        { allow read, write: if true; }
+
     // 其他所有集合全禁
     match /{document=**}            { allow read, write: if false; }
   }

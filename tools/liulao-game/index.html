@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>劉姥姥逛大觀園 · 課文闖關遊戲</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0d0d18;--card:#161625;--border:#2a2a45;
+      --accent:#f59e0b;--purple:#a78bfa;--green:#34d399;--red:#f87171;--blue:#60a5fa;
+    }
+    body{background:var(--bg);color:#fff;font-family:'Noto Sans TC',system-ui,sans-serif;
+         min-height:100vh;padding:1rem}
+
+    /* ── HUB ── */
+    #hub{max-width:600px;margin:0 auto}
+    .hub-title{text-align:center;margin-bottom:1.75rem}
+    .hub-title h1{font-size:1.6rem;color:var(--accent);margin-bottom:.3rem}
+    .hub-title p{font-size:.85rem;color:#666}
+    .hub-login{background:var(--card);border:1px solid var(--border);border-radius:12px;
+               padding:1.5rem;margin-bottom:1.25rem}
+    .hub-login label{font-size:.83rem;color:#aaa;display:block;margin:.6rem 0 .25rem}
+    .hub-login select,.hub-login input{width:100%;background:#0d1117;border:1px solid #30363d;
+      border-radius:7px;color:#e6edf3;font-size:.95rem;padding:.55rem .75rem;outline:none;transition:border-color .2s}
+    .hub-login select:focus,.hub-login input:focus{border-color:var(--accent)}
+    .hub-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+    .mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+    .mode-card{background:var(--card);border:2px solid var(--border);border-radius:12px;
+               padding:1.25rem;text-align:center;cursor:pointer;transition:all .2s}
+    .mode-card:hover{transform:translateY(-3px);box-shadow:0 6px 24px rgba(0,0,0,.4)}
+    .mode-card .icon{font-size:2.2rem;margin-bottom:.5rem}
+    .mode-card h3{font-size:.95rem;font-weight:700;margin-bottom:.3rem}
+    .mode-card p{font-size:.75rem;color:#888;line-height:1.4}
+    .mode-card.m1{border-color:#f59e0b30}.mode-card.m1:hover{border-color:var(--accent)}
+    .mode-card.m2{border-color:#a78bfa30}.mode-card.m2:hover{border-color:var(--purple)}
+    .mode-card.m3{border-color:#34d39930}.mode-card.m3:hover{border-color:var(--green)}
+    .mode-card.m4{border-color:#60a5fa30}.mode-card.m4:hover{border-color:var(--blue)}
+    .m1 h3{color:var(--accent)} .m2 h3{color:var(--purple)}
+    .m3 h3{color:var(--green)}  .m4 h3{color:var(--blue)}
+    .err{color:var(--red);font-size:.82rem;margin-top:.6rem;display:none}
+
+    /* ── GAME SHELL ── */
+    #game{display:none;max-width:640px;margin:0 auto}
+    .game-bar{display:flex;justify-content:space-between;align-items:center;
+              padding:.6rem 0;margin-bottom:1rem;border-bottom:1px solid var(--border)}
+    .game-bar .back{background:transparent;border:1px solid var(--border);color:#888;
+                    border-radius:7px;padding:.35rem .8rem;font-size:.82rem;cursor:pointer}
+    .game-bar .back:hover{border-color:#aaa;color:#fff}
+    .game-title{font-size:.95rem;color:#ccc;font-weight:700}
+    .game-stat{font-size:.82rem;color:#666}
+
+    /* ── MODE 1: 選擇題闖關 ── */
+    .q-panel{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
+    .q-hud{display:flex;gap:1rem;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap}
+    .hud-box{text-align:center;background:#0d0d18;border-radius:8px;padding:.45rem .85rem;min-width:70px}
+    .hud-label{font-size:.68rem;color:#555;margin-bottom:.15rem}
+    .hud-val{font-size:1.1rem;font-weight:700}
+    .timer-danger{color:var(--red)!important;animation:shake .3s ease}
+    @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+    .q-progress{height:4px;background:#1e1e3a;border-radius:2px;margin-bottom:1rem;overflow:hidden}
+    .q-progress-bar{height:4px;background:var(--accent);border-radius:2px;transition:width .4s}
+    .q-text{font-size:1rem;line-height:1.7;color:#e5e5e5;margin-bottom:1rem;
+             background:#0d0d18;border-radius:8px;padding:.9rem 1rem}
+    .q-opts{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+    .q-opt{padding:.75rem .8rem;background:#0d1117;border:1px solid var(--border);border-radius:8px;
+           font-size:.88rem;color:#ccc;cursor:pointer;transition:all .15s;text-align:left;line-height:1.4}
+    .q-opt:hover:not(.locked){border-color:var(--accent);color:var(--accent)}
+    .q-opt.correct{background:#0d3d2a;border-color:var(--green);color:#4ade80}
+    .q-opt.wrong  {background:#3d0d0d;border-color:var(--red)  ;color:#f87171}
+    .q-opt.locked {cursor:default}
+    .q-explain{margin-top:.75rem;padding:.7rem .9rem;border-radius:8px;font-size:.83rem;line-height:1.55;display:none}
+    .q-explain.ok {background:#0d3d2a;color:#86efac}
+    .q-explain.bad{background:#3d0d0d;color:#fca5a5}
+    .next-btn{margin-top:.9rem;width:100%;padding:.7rem;background:var(--accent);color:#000;
+      border:none;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;display:none}
+    .next-btn:hover{filter:brightness(1.1)}
+
+    /* ── MODE 2: 填空配對 ── */
+    .blank-panel{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
+    .blank-sentence{font-size:1rem;line-height:2.1;color:#e5e5e5;margin-bottom:1.1rem;
+                    background:#0d0d18;border-radius:8px;padding:.9rem 1rem}
+    .blank{display:inline-block;border-bottom:2px solid var(--purple);min-width:60px;
+           text-align:center;color:var(--purple);cursor:pointer;font-weight:700;
+           padding:0 .3rem;border-radius:4px 4px 0 0;transition:all .15s}
+    .blank:hover{background:#2d2040}
+    .blank.filled{border-color:var(--green);color:var(--green)}
+    .blank.wrong-blank{border-color:var(--red);color:var(--red);animation:shake .3s ease}
+    .word-pool{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.75rem}
+    .word-chip{padding:.35rem .8rem;background:#1a1a35;border:1px solid var(--purple);border-radius:6px;
+               font-size:.88rem;color:var(--purple);cursor:pointer;transition:all .15s;user-select:none}
+    .word-chip:hover{background:#2d2040}
+    .word-chip.used{opacity:.3;pointer-events:none}
+    .blank-check{margin-top:1rem;padding:.65rem 1.2rem;background:var(--purple);color:#fff;
+                 border:none;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer}
+    .blank-check:hover{background:#8b5cf6}
+    .blank-result{margin-top:.75rem;font-size:.85rem;padding:.65rem .9rem;border-radius:8px;display:none}
+
+    /* ── MODE 3: 人物配對 ── */
+    .match-panel{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
+    .match-grid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;margin-top:.5rem}
+    .match-col h4{font-size:.78rem;color:#666;margin-bottom:.5rem;text-align:center}
+    .match-col{display:flex;flex-direction:column;gap:.45rem}
+    .match-item{background:#0d1117;border:1px solid var(--border);border-radius:8px;
+                padding:.6rem .75rem;font-size:.85rem;color:#ccc;cursor:pointer;
+                transition:all .15s;line-height:1.45}
+    .match-item:hover{border-color:var(--green)}
+    .match-item.selected{border-color:var(--accent);background:#2d1f0d;color:var(--accent)}
+    .match-item.matched{border-color:var(--green);background:#0d3d2a;color:#4ade80;cursor:default}
+    .match-item.wrong-match{border-color:var(--red);background:#3d0d0d;animation:shake .3s ease}
+    .match-check{margin-top:1rem;padding:.65rem 1.2rem;background:var(--green);color:#000;
+                 border:none;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer}
+
+    /* ── MODE 4: 情節排序 ── */
+    .sort-panel{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
+    .sort-list{display:flex;flex-direction:column;gap:.5rem;margin:.65rem 0}
+    .sort-item{background:#0d1117;border:1px solid var(--border);border-radius:8px;
+               padding:.65rem .9rem;font-size:.88rem;color:#ccc;cursor:grab;
+               display:flex;align-items:center;gap:.6rem;line-height:1.5;
+               transition:all .15s;user-select:none}
+    .sort-item:active{cursor:grabbing}
+    .sort-item.drag-over{border-color:var(--blue);background:#0d1a2a}
+    .sort-item.correct-pos{border-color:var(--green);color:#4ade80}
+    .sort-item.wrong-pos  {border-color:var(--red)  ;color:#f87171}
+    .sort-handle{color:#444;font-size:.85rem;flex-shrink:0}
+    .sort-num{font-size:.72rem;background:#1e1e3a;border-radius:4px;padding:.1rem .4rem;
+              color:#666;flex-shrink:0;min-width:22px;text-align:center}
+    .sort-check{padding:.65rem 1.2rem;background:var(--blue);color:#fff;border:none;
+                border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:.5rem}
+    .sort-check:hover{background:#3b82f6}
+    .sort-reset{padding:.65rem 1.2rem;background:transparent;border:1px solid var(--border);
+                color:#888;border-radius:8px;font-size:.9rem;cursor:pointer;margin-top:.5rem;margin-left:.5rem}
+    .sort-result{margin-top:.75rem;font-size:.85rem;padding:.65rem .9rem;border-radius:8px;display:none}
+
+    /* ── RESULT ── */
+    #result{display:none;max-width:540px;margin:0 auto;text-align:center;padding:2rem 1rem}
+    .result-trophy{font-size:4rem;margin-bottom:.75rem}
+    .result-title{font-size:1.4rem;color:var(--accent);margin-bottom:.5rem}
+    .result-score{font-size:2.8rem;font-weight:900;color:var(--accent);margin:.5rem 0}
+    .result-sub{font-size:.9rem;color:#888;margin-bottom:1.5rem}
+    .result-bars{text-align:left;max-width:320px;margin:0 auto 1.5rem}
+    .rb-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.45rem;font-size:.82rem}
+    .rb-label{width:90px;color:#aaa;flex-shrink:0}
+    .rb-wrap{flex:1;height:10px;background:#1e1e3a;border-radius:5px;overflow:hidden}
+    .rb-bar{height:10px;border-radius:5px;transition:width .6s}
+    .rb-val{width:32px;text-align:right;color:#ccc}
+    .play-again{padding:.7rem 1.75rem;background:var(--accent);color:#000;border:none;
+                border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer}
+  </style>
+</head>
+<body>
+
+<!-- ── HUB ── -->
+<div id="hub">
+  <div class="hub-title">
+    <h1>🏯 劉姥姥逛大觀園</h1>
+    <p>四種闖關模式 · 征服所有關卡！</p>
+  </div>
+  <div class="hub-login">
+    <div class="hub-row">
+      <div>
+        <label>班級</label>
+        <select id="hub-cls"><option value="">── 選擇 ──</option>
+          <optgroup label="高一"><option>高一甲</option><option>高一乙</option><option>高一丙</option><option>高一丁</option><option>高一戊</option></optgroup>
+          <optgroup label="高二"><option>高二甲</option><option>高二乙</option><option>高二丙</option><option>高二丁</option><option>高二戊</option></optgroup>
+          <optgroup label="高三"><option>高三甲</option><option>高三乙</option><option>高三丙</option><option>高三丁</option><option>高三戊</option></optgroup>
+        </select>
+      </div>
+      <div>
+        <label>座號</label>
+        <input type="number" id="hub-seat" placeholder="數字" min="1" max="50">
+      </div>
+    </div>
+    <div class="err" id="hub-err"></div>
+  </div>
+  <div class="mode-cards">
+    <div class="mode-card m1" onclick="startMode(1)">
+      <div class="icon">🎯</div>
+      <h3>選擇題闖關</h3>
+      <p>10 題計時作答<br>越快答越高分</p>
+    </div>
+    <div class="mode-card m2" onclick="startMode(2)">
+      <div class="icon">✏️</div>
+      <h3>名句填空</h3>
+      <p>課文重要句子<br>點選字詞填入空格</p>
+    </div>
+    <div class="mode-card m3" onclick="startMode(3)">
+      <div class="icon">🧩</div>
+      <h3>人物配對</h3>
+      <p>把笑場反應<br>配對到正確人物</p>
+    </div>
+    <div class="mode-card m4" onclick="startMode(4)">
+      <div class="icon">📜</div>
+      <h3>情節排序</h3>
+      <p>拖曳排列課文<br>情節發生順序</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── GAME SHELL ── -->
+<div id="game">
+  <div class="game-bar">
+    <button class="back" onclick="goHub()">← 返回</button>
+    <div class="game-title" id="game-title"></div>
+    <div class="game-stat" id="game-stat"></div>
+  </div>
+  <div id="game-body"></div>
+</div>
+
+<!-- ── RESULT ── -->
+<div id="result">
+  <div class="result-trophy" id="r-trophy">🏆</div>
+  <div class="result-title" id="r-title"></div>
+  <div class="result-score" id="r-score"></div>
+  <div class="result-sub" id="r-sub"></div>
+  <div class="result-bars" id="r-bars"></div>
+  <button class="play-again" onclick="location.reload()">再玩一次</button>
+</div>
+
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import {getFirestore,collection,addDoc,serverTimestamp}
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const db = getFirestore(initializeApp({
+  apiKey:"AIzaSyBMTe5eLI3GKmLz6beXvfnaBgQaXJsr-xM",
+  authDomain:"my-teaching-tools-b8e86.firebaseapp.com",
+  projectId:"my-teaching-tools-b8e86",
+  storageBucket:"my-teaching-tools-b8e86.firebasestorage.app",
+  messagingSenderId:"47224328529",
+  appId:"1:47224328529:web:6e6f761ff6b455f9db0370"
+}));
+
+// ═══════════════════════════════════════════
+//  題庫資料
+// ═══════════════════════════════════════════
+const MCQ = [
+  {q:'鳳姐故意拿哪種筷子給劉姥姥，讓她拿不順手？',
+   opts:['烏木三鑲銀筷','象牙鑲金筷子','竹製筷子','銀筷子'],ans:1,
+   explain:'鳳姐備了「象牙鑲金筷子」，劉姥姥感嘆「去了金的，又是銀的，到底不及俺們那個伏手」。'},
+  {q:'劉姥姥在宴席上高喊謠諺，最後一句是？',
+   opts:['喝個老牛不回頭','吃個老母豬不抬頭','食量大如象不停','老牛吃草不抬頭'],ans:1,
+   explain:'「老劉！老劉！食量大如牛，吃個老母豬不抬頭！」引發全場笑倒。'},
+  {q:'劉姥姥在哪個地點滑跤跌倒？',
+   opts:['沁芳亭','秋爽齋','瀟湘館','綴錦閣'],ans:2,
+   explain:'瀟湘館地面有青苔，劉姥姥讓路時果然滑跤，自嘲「才說嘴，就打了嘴了」。'},
+  {q:'劉姥姥誇大觀園「竟比那畫兒還強十倍」是在哪個地點？',
+   opts:['沁芳亭','瀟湘館','秋爽齋','大觀樓'],ans:0,
+   explain:'眾人在沁芳亭小憩，賈母問「這園子好不好」，劉姥姥以鄉下人買畫貼為引讚嘆。'},
+  {q:'宴席笑場時，史湘雲的反應是？',
+   opts:['笑岔了氣伏桌','滾到賈母懷裡','一口茶都噴了出來','拉著奶母叫揉腸子'],ans:2,
+   explain:'「湘雲撐不住，一口茶都噴了出來」——率直豪爽的性格表露無遺。'},
+  {q:'宴席笑場時，林黛玉的反應是？',
+   opts:['一口茶噴出來','笑岔了氣伏桌叫噯喲','滾到賈母懷裡','用手指著鳳姐說不出話'],ans:1,
+   explain:'「黛玉笑岔了氣，伏著桌子叫噯喲」——體弱多病的她笑得最誇張。'},
+  {q:'劉姥姥讚黛玉閨房「比那上等的書房還好」，她起初以為那是誰的房間？',
+   opts:['賈寶玉的書房','先生的書房','哥兒（男孩子）的書房','賈政的書房'],ans:2,
+   explain:'劉姥姥見滿室書架筆硯，直覺認為是哥兒的書房，出乎意料後讚嘆更顯黛玉才學。'},
+  {q:'鴛鴦悄悄囑咐劉姥姥照本宣科的真正目的是？',
+   opts:['教劉姥姥大戶人家用餐禮儀','配合鳳姐設計劉姥姥取悅賈母','讓劉姥姥在賈府學規矩','替賈母安排座位'],ans:1,
+   explain:'鴛鴦與鳳姐聯手設計，讓劉姥姥當「笑話人」，以此讓賈母開懷。'},
+  {q:'鴿子蛋滾落地下，最後如何？',
+   opts:['板兒幫她撿起來','鴛鴦幫她撿起來','早有地下的人撿了出去','她自己撿起來'],ans:2,
+   explain:'「早有地下的人撿了出去」——賈府丫鬟反應之快，也側寫府中規矩嚴格。'},
+  {q:'本課選自《紅樓夢》，這部小說的作者是？',
+   opts:['吳承恩','曹雪芹','羅貫中','施耐庵'],ans:1,
+   explain:'《紅樓夢》作者曹雪芹，未完成部分由高鶚續寫。'},
+];
+
+const BLANKS = [
+  {text:'我雖老了，年輕時也風流，愛個花兒粉兒的，今兒乾脆，索性做個{老風流}。',
+   blanks:['老風流'],pool:['老風流','老婦人','鄉下人','老太太','粗野人']},
+  {text:'老劉！老劉！食量大如{牛}，吃個老母豬不{抬頭}！',
+   blanks:['牛','抬頭'],pool:['牛','馬','抬頭','回頭','低頭','象']},
+  {text:'才說嘴，就{打}了嘴了。',
+   blanks:['打'],pool:['打','壞','錯','碰','砸']},
+  {text:'一兩銀子，也沒聽見個{響聲兒}就沒了！',
+   blanks:['響聲兒'],pool:['響聲兒','動靜','聲響','消息','回響']},
+  {text:'這哪裡像個小姐的繡房，竟比那上等的{書房}還好！',
+   blanks:['書房'],pool:['書房','客廳','廂房','花廳','正房']},
+];
+
+const MATCH_DATA = {
+  title:'把「宴席笑場」各人反應配對到正確人物',
+  pairs:[
+    {person:'史湘雲', reaction:'一口茶都噴了出來'},
+    {person:'林黛玉', reaction:'笑岔了氣，伏桌叫噯喲'},
+    {person:'賈寶玉', reaction:'滾到賈母懷裡叫心肝'},
+    {person:'惜春',   reaction:'拉著奶母叫揉揉腸子'},
+    {person:'王夫人', reaction:'用手指著鳳姐說不出話'},
+  ]
+};
+
+const SORT_EVENTS = [
+  '李紈清晨監督備辦綴錦閣器具',
+  '劉姥姥帶板兒入園，在綴錦閣念佛讚嘆',
+  '鳳姐把滿盤花橫三豎四插劉姥姥滿頭',
+  '眾人至沁芳亭，劉姥姥誇大觀園比畫還強',
+  '劉姥姥拉著惜春讚「神仙託生的罷」',
+  '遊瀟湘館，劉姥姥在青苔地滑跤自嘲',
+  '鴛鴦悄悄囑咐劉姥姥照本宣科的謠諺',
+  '宴席上劉姥姥高喊「食量大如牛」引眾人大笑',
+];
+
+// ═══════════════════════════════════════════
+//  全域狀態
+// ═══════════════════════════════════════════
+let playerCls='', playerSeat=0;
+let modeScores={1:0,2:0,3:0,4:0}, modeDone={1:false,2:false,3:false,4:false};
+
+// ─── HUB ───
+function validateLogin(){
+  const cls=document.getElementById('hub-cls').value;
+  const seat=document.getElementById('hub-seat').value;
+  const err=document.getElementById('hub-err');
+  if(!cls){err.textContent='請選擇班級';err.style.display='block';return false;}
+  if(!seat||+seat<1||+seat>50){err.textContent='請輸入正確座號';err.style.display='block';return false;}
+  err.style.display='none';
+  playerCls=cls; playerSeat=+seat;
+  return true;
+}
+
+window.startMode=function(m){
+  if(!validateLogin()) return;
+  document.getElementById('hub').style.display='none';
+  document.getElementById('result').style.display='none';
+  document.getElementById('game').style.display='block';
+  if(m===1) initMCQ();
+  else if(m===2) initBlanks();
+  else if(m===3) initMatch();
+  else if(m===4) initSort();
+};
+
+window.goHub=function(){
+  clearInterval(window._tick);
+  document.getElementById('game').style.display='none';
+  document.getElementById('hub').style.display='block';
+};
+
+function showResult(mode, score, detail){
+  modeDone[mode]=true; modeScores[mode]=score;
+  clearInterval(window._tick);
+  document.getElementById('game').style.display='none';
+  const total=Object.values(modeScores).reduce((a,b)=>a+b,0);
+  const done=Object.values(modeDone).filter(Boolean).length;
+  document.getElementById('r-trophy').textContent=total>=300?'🏆':total>=150?'🥈':'📝';
+  document.getElementById('r-title').textContent={1:'選擇題關卡完成！',2:'名句填空完成！',3:'人物配對完成！',4:'情節排序完成！'}[mode];
+  document.getElementById('r-score').textContent=`${score} 分`;
+  document.getElementById('r-sub').textContent=`本場得分 · 已完成 ${done}/4 關卡`;
+  const bars=document.getElementById('r-bars');
+  const mnames={1:'選擇題',2:'名句填空',3:'人物配對',4:'情節排序'};
+  const mmax ={1:300,2:100,3:100,4:100};
+  bars.innerHTML='<p style="font-size:.82rem;color:#666;margin-bottom:.75rem">各關卡得分</p>'+
+    [1,2,3,4].map(i=>!modeDone[i]?'':
+      `<div class="rb-row">
+        <div class="rb-label">${mnames[i]}</div>
+        <div class="rb-wrap"><div class="rb-bar" style="width:${(modeScores[i]/mmax[i]*100).toFixed(0)}%;background:var(--accent)"></div></div>
+        <div class="rb-val">${modeScores[i]}</div>
+      </div>`).join('');
+  document.getElementById('result').style.display='block';
+
+  // Firebase
+  addDoc(collection(db,'game_scores'),{
+    class_name:playerCls,student_id:playerSeat,
+    mode,score,total_so_far:total,created_at:serverTimestamp()
+  }).catch(()=>{});
+}
+
+// ═══════════════════════════════════════════
+//  MODE 1: 選擇題闖關
+// ═══════════════════════════════════════════
+function initMCQ(){
+  document.getElementById('game-title').textContent='🎯 選擇題闖關';
+  let qs=[...MCQ].sort(()=>Math.random()-.5);
+  let qi=0, score=0, correct=0, timer=25, tick=null;
+  render();
+
+  function render(){
+    document.getElementById('game-stat').textContent=`${qi+1}/10`;
+    const q=qs[qi];
+    document.getElementById('game-body').innerHTML=`
+      <div class="q-panel">
+        <div class="q-hud">
+          <div class="hud-box"><div class="hud-label">得分</div><div class="hud-val" style="color:var(--accent)" id="m1-score">${score}</div></div>
+          <div class="hud-box"><div class="hud-label">倒數</div><div class="hud-val" id="m1-timer">${timer}</div></div>
+          <div class="hud-box"><div class="hud-label">答對</div><div class="hud-val" style="color:var(--green)" id="m1-cor">${correct}</div></div>
+        </div>
+        <div class="q-progress"><div class="q-progress-bar" style="width:${qi/qs.length*100}%"></div></div>
+        <div class="q-text">${esc(q.q)}</div>
+        <div class="q-opts">
+          ${q.opts.map((o,i)=>`<div class="q-opt" onclick="m1pick(this,${i})">${'ＡＢＣＤ'[i]} ${esc(o)}</div>`).join('')}
+        </div>
+        <div class="q-explain" id="m1-exp"></div>
+        <button class="next-btn" id="m1-next" onclick="m1next()">
+          ${qi+1<qs.length?'下一題 →':'查看結果'}
+        </button>
+      </div>`;
+    startTimer();
+  }
+
+  function startTimer(){
+    clearInterval(window._tick); timer=25;
+    window._tick=setInterval(()=>{
+      timer--;
+      const el=document.getElementById('m1-timer');
+      if(!el){clearInterval(window._tick);return;}
+      el.textContent=timer;
+      if(timer<=5) el.classList.add('timer-danger');
+      if(timer<=0){clearInterval(window._tick);autoFail();}
+    },1000);
+  }
+
+  window.m1pick=function(el,idx){
+    clearInterval(window._tick);
+    document.querySelectorAll('.q-opt').forEach(o=>o.classList.add('locked'));
+    const q=qs[qi];
+    const exp=document.getElementById('m1-exp');
+    if(idx===q.ans){
+      el.classList.add('correct');
+      const pts=Math.max(10,timer*10); score+=pts; correct++;
+      exp.className='q-explain ok'; exp.style.display='block';
+      exp.innerHTML=`✅ 答對！+${pts} 分 &nbsp;|&nbsp; ${esc(q.explain)}`;
+    } else {
+      el.classList.add('wrong');
+      document.querySelectorAll('.q-opt')[q.ans].classList.add('correct');
+      exp.className='q-explain bad'; exp.style.display='block';
+      exp.innerHTML=`❌ 答錯，正確是「${esc(q.opts[q.ans])}」 &nbsp;|&nbsp; ${esc(q.explain)}`;
+    }
+    document.getElementById('m1-score').textContent=score;
+    document.getElementById('m1-cor').textContent=correct;
+    document.getElementById('m1-next').style.display='block';
+  };
+
+  function autoFail(){
+    document.querySelectorAll('.q-opt').forEach(o=>o.classList.add('locked'));
+    const q=qs[qi];
+    document.querySelectorAll('.q-opt')[q.ans].classList.add('correct');
+    const exp=document.getElementById('m1-exp');
+    exp.className='q-explain bad'; exp.style.display='block';
+    exp.innerHTML=`⏰ 時間到！正確是「${esc(q.opts[q.ans])}」`;
+    document.getElementById('m1-next').style.display='block';
+  }
+
+  window.m1next=function(){
+    qi++;
+    if(qi>=qs.length){showResult(1,score,`答對 ${correct}/10`);return;}
+    render();
+  };
+}
+
+// ═══════════════════════════════════════════
+//  MODE 2: 名句填空
+// ═══════════════════════════════════════════
+function initBlanks(){
+  document.getElementById('game-title').textContent='✏️ 名句填空';
+  document.getElementById('game-stat').textContent='';
+  let bi=0, score=0;
+  renderBlank();
+
+  function renderBlank(){
+    const b=BLANKS[bi];
+    // build sentence html
+    let sentHtml=esc(b.text).replace(/\{([^}]+)\}/g,(_,w)=>
+      `<span class="blank" id="blank-${w}" data-word="${w}" onclick="blankClick(this)">　　　</span>`);
+    // shuffle pool
+    const pool=[...b.pool].sort(()=>Math.random()-.5);
+    document.getElementById('game-body').innerHTML=`
+      <div class="blank-panel">
+        <p style="font-size:.8rem;color:#666;margin-bottom:.75rem">第 ${bi+1} / ${BLANKS.length} 句｜點選字詞填入空格</p>
+        <div class="blank-sentence">${sentHtml}</div>
+        <div class="word-pool">${pool.map(w=>`<div class="word-chip" id="chip-${w}" data-word="${w}" onclick="chipClick(this)">${w}</div>`).join('')}</div>
+        <div style="display:flex;gap:.5rem;margin-top:.85rem;flex-wrap:wrap">
+          <button class="blank-check" onclick="checkBlanks()">確認答案</button>
+          <button style="padding:.65rem 1.2rem;background:transparent;border:1px solid var(--border);color:#888;border-radius:8px;font-size:.9rem;cursor:pointer" onclick="resetBlanks()">重設</button>
+        </div>
+        <div class="blank-result" id="blank-res"></div>
+      </div>`;
+    window._blanksData=b; window._selected=null;
+  }
+
+  window.chipClick=function(el){
+    if(el.classList.contains('used')) return;
+    document.querySelectorAll('.word-chip').forEach(c=>c.style.outline='none');
+    window._selected=el.dataset.word;
+    el.style.outline='2px solid var(--purple)';
+  };
+
+  window.blankClick=function(el){
+    if(!window._selected) return;
+    const w=el.dataset.word;
+    el.textContent=window._selected;
+    el.dataset.filled=window._selected;
+    el.classList.add('filled');
+    // mark chip used
+    const chip=document.getElementById('chip-'+window._selected);
+    if(chip){chip.classList.add('used');chip.style.outline='none';}
+    window._selected=null;
+    document.querySelectorAll('.word-chip').forEach(c=>c.style.outline='none');
+  };
+
+  window.resetBlanks=function(){
+    renderBlank();
+  };
+
+  window.checkBlanks=function(){
+    const b=window._blanksData;
+    let allFilled=true, allCorrect=true;
+    b.blanks.forEach(w=>{
+      const el=document.getElementById('blank-'+w);
+      if(!el||!el.dataset.filled){allFilled=false;}
+      else if(el.dataset.filled!==w){allCorrect=false; el.classList.add('wrong-blank');}
+    });
+    if(!allFilled){
+      const res=document.getElementById('blank-res');
+      res.style.cssText='display:block;background:#2d1f0d;color:#f59e0b;border-radius:8px;padding:.65rem .9rem';
+      res.textContent='還有空格沒填喔，全部填完再確認！';
+      return;
+    }
+    const res=document.getElementById('blank-res');
+    if(allCorrect){
+      score+=20;
+      res.style.cssText='display:block;background:#0d3d2a;color:#4ade80;border-radius:8px;padding:.65rem .9rem';
+      res.textContent='✅ 完全正確！+20 分';
+      setTimeout(()=>{
+        bi++;
+        if(bi>=BLANKS.length){showResult(2,score,'');}
+        else{renderBlank();}
+      },900);
+    } else {
+      res.style.cssText='display:block;background:#3d0d0d;color:#fca5a5;border-radius:8px;padding:.65rem .9rem';
+      res.textContent='❌ 有錯誤，紅色的格子請重新點選。';
+      b.blanks.forEach(w=>{
+        const el=document.getElementById('blank-'+w);
+        if(el&&el.dataset.filled&&el.dataset.filled!==w){
+          const chip=document.getElementById('chip-'+el.dataset.filled);
+          if(chip) chip.classList.remove('used');
+          el.textContent='　　　'; el.dataset.filled='';
+          el.classList.remove('filled');
+        }
+      });
+    }
+  };
+}
+
+// ═══════════════════════════════════════════
+//  MODE 3: 人物配對
+// ═══════════════════════════════════════════
+function initMatch(){
+  document.getElementById('game-title').textContent='🧩 人物配對';
+  document.getElementById('game-stat').textContent='';
+  const pairs=[...MATCH_DATA.pairs].sort(()=>Math.random()-.5);
+  const reactions=[...pairs].sort(()=>Math.random()-.5);
+  let sel=null, matched=0;
+
+  document.getElementById('game-body').innerHTML=`
+    <div class="match-panel">
+      <p style="font-size:.85rem;color:#aaa;margin-bottom:1rem">${MATCH_DATA.title}</p>
+      <div class="match-grid">
+        <div class="match-col">
+          <h4>人物</h4>
+          ${pairs.map(p=>`<div class="match-item" id="p-${p.person}" data-type="person" data-val="${p.person}" onclick="matchClick(this)">${p.person}</div>`).join('')}
+        </div>
+        <div class="match-col">
+          <h4>笑場反應</h4>
+          ${reactions.map(p=>`<div class="match-item" id="r-${p.reaction}" data-type="reaction" data-val="${p.reaction}" onclick="matchClick(this)">${p.reaction}</div>`).join('')}
+        </div>
+      </div>
+      <div id="match-msg" style="margin-top:.75rem;font-size:.85rem;display:none;padding:.6rem .8rem;border-radius:8px"></div>
+    </div>`;
+
+  const correct={}; pairs.forEach(p=>correct[p.person]=p.reaction);
+
+  window.matchClick=function(el){
+    if(el.classList.contains('matched')) return;
+    if(!sel){
+      sel=el; el.classList.add('selected'); return;
+    }
+    if(sel===el){sel=null;el.classList.remove('selected');return;}
+    if(sel.dataset.type===el.dataset.type){
+      sel.classList.remove('selected'); sel=el; el.classList.add('selected'); return;
+    }
+    const person = sel.dataset.type==='person'?sel.dataset.val:el.dataset.val;
+    const reaction= sel.dataset.type==='reaction'?sel.dataset.val:el.dataset.val;
+    const msg=document.getElementById('match-msg');
+    if(correct[person]===reaction){
+      [sel,el].forEach(x=>{x.classList.remove('selected');x.classList.add('matched');});
+      matched++;
+      msg.style.cssText='display:block;background:#0d3d2a;color:#4ade80';
+      msg.textContent=`✅ 正確！${person} → ${reaction}`;
+      if(matched===pairs.length){
+        setTimeout(()=>showResult(3,100,'全部配對正確！'),600);
+      }
+    } else {
+      [sel,el].forEach(x=>{x.classList.remove('selected');x.classList.add('wrong-match');});
+      msg.style.cssText='display:block;background:#3d0d0d;color:#fca5a5';
+      msg.textContent=`❌ 配對錯誤，再想想看！`;
+      setTimeout(()=>[sel,el].forEach(x=>x.classList.remove('wrong-match')),600);
+    }
+    sel=null;
+  };
+}
+
+// ═══════════════════════════════════════════
+//  MODE 4: 情節排序
+// ═══════════════════════════════════════════
+function initSort(){
+  document.getElementById('game-title').textContent='📜 情節排序';
+  document.getElementById('game-stat').textContent='';
+  let items=[...SORT_EVENTS].sort(()=>Math.random()-.5);
+  let dragIdx=null;
+
+  render();
+  function render(){
+    document.getElementById('game-body').innerHTML=`
+      <div class="sort-panel">
+        <p style="font-size:.85rem;color:#aaa;margin-bottom:.9rem">拖曳調整順序，讓情節符合課文發展</p>
+        <div class="sort-list" id="sort-list">
+          ${items.map((e,i)=>`
+            <div class="sort-item" draggable="true" data-idx="${i}"
+              ondragstart="sortDragStart(${i})"
+              ondragover="sortDragOver(event,${i})"
+              ondrop="sortDrop(${i})"
+              ondragend="sortDragEnd()">
+              <span class="sort-handle">⠿</span>
+              <span class="sort-num">${i+1}</span>
+              <span>${esc(e)}</span>
+            </div>`).join('')}
+        </div>
+        <div>
+          <button class="sort-check" onclick="sortCheck()">確認順序</button>
+          <button class="sort-reset" onclick="initSort()">重新打亂</button>
+        </div>
+        <div class="sort-result" id="sort-res"></div>
+      </div>`;
+  }
+
+  window.sortDragStart=function(i){dragIdx=i;};
+  window.sortDragOver=function(e,i){e.preventDefault();
+    document.querySelectorAll('.sort-item').forEach(x=>x.classList.remove('drag-over'));
+    document.querySelector(`.sort-item[data-idx="${i}"]`)?.classList.add('drag-over');
+  };
+  window.sortDrop=function(i){
+    if(dragIdx===null||dragIdx===i) return;
+    const tmp=items[dragIdx]; items[dragIdx]=items[i]; items[i]=tmp;
+    render();
+  };
+  window.sortDragEnd=function(){
+    document.querySelectorAll('.sort-item').forEach(x=>x.classList.remove('drag-over'));
+    dragIdx=null;
+  };
+  window.sortCheck=function(){
+    let correct=0;
+    items.forEach((e,i)=>{
+      const el=document.querySelector(`.sort-item[data-idx="${i}"]`);
+      if(e===SORT_EVENTS[i]){correct++;el?.classList.add('correct-pos');}
+      else el?.classList.add('wrong-pos');
+    });
+    const res=document.getElementById('sort-res');
+    const score=Math.round(correct/SORT_EVENTS.length*100);
+    if(correct===SORT_EVENTS.length){
+      res.style.cssText='display:block;background:#0d3d2a;color:#4ade80;border-radius:8px;padding:.7rem';
+      res.innerHTML='🎉 完全正確！順序無誤！';
+      setTimeout(()=>showResult(4,100,'情節順序完全正確'),700);
+    } else {
+      res.style.cssText='display:block;background:#2d1f0d;color:#fbbf24;border-radius:8px;padding:.7rem';
+      res.innerHTML=`答對 ${correct}/${SORT_EVENTS.length} 個位置。綠色正確，紅色需調整。<br>
+        <button style="margin-top:.5rem;padding:.4rem .9rem;background:transparent;border:1px solid #f59e0b;color:#f59e0b;border-radius:6px;cursor:pointer;font-size:.82rem" onclick="initSort()">再試一次</button>
+        <button style="margin-top:.5rem;margin-left:.4rem;padding:.4rem .9rem;background:var(--accent);border:none;color:#000;border-radius:6px;cursor:pointer;font-size:.82rem" onclick="showResult(4,${score},'')">送出此成績</button>`;
+    }
+  };
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+</script>
+</body>
+</html>
