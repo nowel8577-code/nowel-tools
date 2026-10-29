@@ -206,8 +206,7 @@ function render(){
 }
 
 onSnapshot(query(collection(db,'game_scores'),orderBy('created_at','desc')),snap=>{
-  // 〈師說〉密室逃脫也寫入 game_scores，這裡排除，避免混進詩詞遊戲排行
-  all=snap.docs.map(d=>d.data()).filter(d=>d.game!=='shishuo-escape');
+  all=snap.docs.map(d=>d.data());
   render();
 });
 </script>
