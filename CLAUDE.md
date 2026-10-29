@@ -16,7 +16,8 @@
 
 ## 工具清單
 （之後加新工具時會自動更新）
-- （尚無）
+- `tools/shishuo-escape/`：〈師說〉3D 密室逃脫（成績送 Google 表單）https://nowel8577-code.github.io/nowel-tools/tools/shishuo-escape/
+- `tools/liulao-game/`、`tools/live-board/`、`tools/poem-game/`、`tools/qa-wall/`、`tools/question-bank/`、`tools/writing-archive/`：先前做好的工具
 
 ## 工作注意事項
 - 學生資料一律去識別化（只用座號 + 班級代號）
