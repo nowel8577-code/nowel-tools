@@ -4,6 +4,7 @@
 
 - 線上網址：https://nowel8577-code.github.io/nowel-tools/tools/shishuo-escape/
 - 表單備案：開始畫面下方有「改用表單版」連結
+- 老師看成績：https://nowel8577-code.github.io/nowel-tools/tools/shishuo-escape/results.html （即時更新，可依班級與日期篩選）
 - 時間：分組 15～25 分鐘；手機、平板、電腦都能玩，不需登入
 
 ## 八個機關
@@ -30,4 +31,5 @@
   （需先 `npm i three@0.160.0`）
 
 場景全部用程式產生，沒有外部模型、圖片或音檔；音效用 WebAudio 合成。
+學生逃出書房時，成績自動寫入 Firebase `game_scores`（欄位 `game: shishuo-escape`、班級代號、組別、用時、答錯、提示；詩詞遊戲排行榜已排除這些資料）。
 進度存在瀏覽器 localStorage（鍵 `shishuo-escape-v1`），只記組別、關卡、時間、答錯與提示次數，不收個資。

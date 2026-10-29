@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { buildRoom } from './scene.js';
 import { PUZZLES, PASSWORD, FORM_URL } from './puzzles.js';
+import { reportResult } from './report.js';
 
 const SAVE_KEY = 'shishuo-escape-v1';
 const GROUPS = 8;
@@ -11,8 +12,8 @@ const REACH = 2.3;
 const $ = (s) => document.querySelector(s);
 
 // ---------- 存檔 ----------
-function freshState(group) {
-  return { group, solved: 0, errors: 0, hints: 0, start: Date.now(), end: 0, pos: [0, 2.6], yaw: 0 };
+function freshState(group, cls) {
+  return { group, cls, uploaded: false, solved: 0, errors: 0, hints: 0, start: Date.now(), end: 0, pos: [0, 2.6], yaw: 0 };
 }
 let S = null;
 function save() {
@@ -471,12 +472,30 @@ function showEnding() {
   padEnd();
   sfx.win();
   const t = fmt((S.end || Date.now()) - S.start);
-  $('#end-group').textContent = `第 ${S.group} 組`;
+  $('#end-group').textContent = `${S.cls ? S.cls + ' 班　' : ''}第 ${S.group} 組`;
   $('#end-time').textContent = t;
   $('#end-err').textContent = S.errors;
   $('#end-hint').textContent = S.hints;
   $('#end-pass').textContent = PASSWORD;
   $('#ending').classList.add('show');
+  sendResult();
+}
+async function sendResult() {
+  const el = $('#end-upload');
+  if (S.uploaded) {
+    el.textContent = '✓ 成績已送給老師';
+    return;
+  }
+  el.textContent = '正在把成績送給老師……';
+  try {
+    await reportResult(S);
+    S.uploaded = true;
+    save();
+    el.textContent = '✓ 成績已送給老師';
+  } catch (e) {
+    el.innerHTML = '成績沒有送出（可能沒網路）。<button id="end-retry">再送一次</button>';
+    $('#end-retry').onclick = sendResult;
+  }
 }
 function cardPng() {
   const c = document.createElement('canvas');
@@ -546,6 +565,9 @@ function startGame(state) {
 (function initTitle() {
   const sel = $('#group');
   for (let i = 1; i <= GROUPS; i++) sel.insertAdjacentHTML('beforeend', `<option value="${i}">第 ${i} 組</option>`);
+  try {
+    $('#cls').value = localStorage.getItem(SAVE_KEY + '-cls') || '';
+  } catch (e) {}
   const old = load();
   if (old && old.solved > 0 && old.solved <= PUZZLES.length) {
     $('#resume').hidden = false;
@@ -558,7 +580,11 @@ function startGame(state) {
       toast('請先選組別。');
       return;
     }
-    startGame(freshState(+sel.value));
+    const cls = $('#cls').value.trim().slice(0, 12);
+    try {
+      localStorage.setItem(SAVE_KEY + '-cls', cls);
+    } catch (e) {}
+    startGame(freshState(+sel.value, cls));
     save();
   };
   $('#form-link').href = FORM_URL;
