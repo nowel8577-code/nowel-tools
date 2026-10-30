@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>〈師說〉一～三段闖關</title>
+<meta name="theme-color" content="#2a1d14">
+<style>
+  :root{
+    --ink:#3b2f24; --paper:#f6ecd3; --paper2:#e8d9b5; --red:#8a2a1e; --gold:#c9a24a; --green:#2f6b3a;
+    --serif:"Noto Serif TC","Songti TC","PMingLiU","MingLiU",serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  [hidden]{display:none!important}
+  html,body{margin:0;min-height:100%;background:#2a1d14;color:var(--ink);font-family:var(--serif)}
+  body{display:flex;justify-content:center;padding:16px;min-height:100vh}
+  button{font-family:inherit;cursor:pointer}
+  .card{background:var(--paper);border:3px solid var(--gold);outline:2px solid var(--red);outline-offset:-9px;border-radius:14px;
+    box-shadow:0 12px 40px rgba(0,0,0,.5);width:min(620px,100%);padding:24px 22px 20px;align-self:flex-start}
+  h1,h2{margin:0 0 10px;color:var(--red);letter-spacing:2px}
+  h1{font-size:clamp(24px,6vw,32px);text-align:center}
+  h2{font-size:20px}
+  p{line-height:1.7;margin:8px 0}
+  .seal{width:60px;height:60px;margin:0 auto 8px;background:var(--red);color:#fff;border-radius:8px;display:grid;place-items:center;font-size:28px;font-weight:900}
+  .sub{font-size:14px;opacity:.75;text-align:center}
+  .row{display:flex;gap:10px;margin:14px 0}
+  .row>*{flex:1}
+  label{font-size:14px;display:block;margin-bottom:4px}
+  select,input{width:100%;font:inherit;font-size:18px;padding:10px 12px;border:2px solid var(--paper2);border-radius:8px;background:#fffaf0;color:var(--ink)}
+  .big{display:block;width:100%;padding:13px;border:0;border-radius:10px;background:var(--red);color:#fff;font-size:18px;font-weight:700;margin-top:12px}
+  .big:disabled{opacity:.4}
+  .levels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+  .lv{background:#fffaf0;border:2px solid var(--paper2);border-radius:10px;padding:10px 6px;text-align:center;font-size:14px}
+  .lv b{display:block;color:var(--red);font-size:16px}
+  .hud{display:flex;justify-content:space-between;align-items:center;font-size:14px;margin-bottom:8px;gap:8px;flex-wrap:wrap}
+  .tag{background:var(--red);color:#fff;border-radius:6px;padding:3px 10px;font-weight:700}
+  .bar{height:8px;background:var(--paper2);border-radius:4px;overflow:hidden;margin-bottom:14px}
+  .bar i{display:block;height:100%;background:var(--gold);width:0;transition:width .3s}
+  .q{font-size:20px;line-height:1.7;margin:6px 0 14px}
+  .q em{font-style:normal;color:var(--red);font-weight:700;border-bottom:2px solid var(--gold)}
+  .opts{display:grid;gap:10px}
+  .opt{text-align:left;padding:12px 14px;border:2px solid var(--paper2);border-radius:10px;background:#fffaf0;font-size:17px;color:var(--ink)}
+  .opt.ok{border-color:var(--green);background:#e4f1e2}
+  .opt.no{border-color:var(--red);background:#f6dcd6}
+  .exp{margin-top:14px;padding:12px 14px;border-left:4px solid var(--gold);background:#fffaf0;border-radius:6px;font-size:16px;line-height:1.7}
+  .exp b{color:var(--red)}
+  .score{font-size:56px;font-weight:900;color:var(--red);text-align:center;margin:6px 0}
+  .stars{text-align:center;font-size:28px;letter-spacing:6px;color:var(--gold)}
+  .stat{display:flex;justify-content:space-around;text-align:center;margin:12px 0;font-size:14px}
+  .stat b{display:block;font-size:22px;color:var(--ink)}
+  .review{margin-top:14px;font-size:15px}
+  .review li{margin:6px 0;line-height:1.6}
+  .review .x{color:var(--red)}
+  .stamp{text-align:center;font-size:13px;opacity:.7;margin-top:10px}
+</style>
+</head>
+<body>
+<main class="card">
+
+  <section id="start">
+    <div class="seal">師</div>
+    <h1>〈師說〉一～三段闖關</h1>
+    <p class="sub">三關共 20 題，每題只有一次機會，答完會看到詳解。</p>
+    <div class="levels">
+      <div class="lv"><b>第一關</b>字詞</div>
+      <div class="lv"><b>第二關</b>句意與修辭</div>
+      <div class="lv"><b>第三關</b>生活判斷</div>
+    </div>
+    <div class="row">
+      <div><label for="cls">班級代號</label><input id="cls" type="text" inputmode="numeric" placeholder="例：101" maxlength="6"></div>
+      <div><label for="seat">座號</label><input id="seat" type="text" inputmode="numeric" placeholder="例：12" maxlength="3"></div>
+    </div>
+    <button class="big" id="go" disabled>開始闖關</button>
+    <p class="sub">只填班級與座號，不用填姓名。</p>
+  </section>
+
+  <section id="play" hidden>
+    <div class="hud"><span class="tag" id="lvname"></span><span id="prog"></span><span id="pts"></span></div>
+    <div class="bar"><i id="barfill"></i></div>
+    <div class="q" id="qtext"></div>
+    <div class="opts" id="opts"></div>
+    <div class="exp" id="exp" hidden></div>
+    <button class="big" id="next" hidden>下一題</button>
+  </section>
+
+  <section id="end" hidden>
+    <h1>闖關完成</h1>
+    <p class="sub" id="who"></p>
+    <div class="score" id="final"></div>
+    <div class="stars" id="stars"></div>
+    <div class="stat">
+      <div><b id="s1"></b>字詞</div><div><b id="s2"></b>句意修辭</div><div><b id="s3"></b>生活判斷</div><div><b id="tm"></b>用時</div>
+    </div>
+    <p>把這個畫面給老師看。答錯的題目在下面，回課本找出處再想一次。</p>
+    <ol class="review" id="review"></ol>
+    <button class="big" id="again">再玩一次</button>
+    <p class="stamp" id="stamp"></p>
+  </section>
+
+</main>
+<script>
+const LEVELS=[
+ {name:'第一關・字詞',qs:[
+  ['「師者，<em>所以</em>傳道、受業、解惑也」的「所以」是？',['用來','因此','……的原因','所有的'],0,'「所以」在這裡表示用途，解作<b>用來</b>。師者，是用來傳道、受業、解惑的人。'],
+  ['「人非生而知之者，<em>孰</em>能無惑」的「孰」是？',['熟悉','誰','什麼','怎麼'],1,'「孰」解作<b>誰</b>。誰能沒有疑惑？答案藏在反面：人人都有疑惑。'],
+  ['「其聞道也，<em>固</em>先乎吾」的「固」是？',['堅固','固執','本來','鞏固'],2,'「固」解作<b>本來</b>。比我先出生的人，本來就比我先聽聞道理。'],
+  ['「夫<em>庸</em>知其年之先後生於吾乎」的「庸」是？',['平庸','雇用','豈、難道','用來'],2,'「庸」解作<b>豈、難道</b>，反問語氣。難道要在意他比我早生還是晚生嗎？'],
+  ['「吾從而<em>師</em>之」的「師」是？',['名詞，老師','動詞，學習、以他為師','形容詞，專業的','名詞，軍隊'],1,'名詞轉作動詞（轉品），解作<b>學習、拜他為師</b>。'],
+  ['「今之眾人……而<em>恥</em>學於師」的「恥」是？',['羞辱別人','以……為恥','恥辱的事','不知羞恥'],1,'意動用法，<b>以向老師學習為恥</b>。'],
+  ['「古之聖人，其<em>出</em>人也遠矣」的「出」是？',['離開','出現','超出','出生'],2,'「出」解作<b>超出</b>。古代聖人超出一般人很遠，卻還是從師問學。'],
+  ['「是故聖<em>益</em>聖，愚益愚」的「益」是？',['利益','更加','幫助','增加財富'],1,'「益」解作<b>更加</b>。聖人更加聖明，愚人更加愚昧。']
+ ]},
+ {name:'第二關・句意與修辭',qs:[
+  ['「人非生而知之者，孰能無惑？」用了哪一種修辭？',['激問','提問','譬喻','誇飾'],0,'<b>激問</b>：答案在問題的反面。看似問「誰能沒有疑惑」，其實是肯定「人人都有疑惑」，所以要從師。'],
+  ['「無貴、無賤、無長、無少」用了哪些修辭？',['頂真','類疊、排比','回文','映襯、倒裝'],1,'「無」字重複是<b>類疊</b>，四個結構相同的短句並列是<b>排比</b>，強調擇師不看地位與年齡。'],
+  ['老師的三種作用中，韓愈最重視哪一個？',['傳道','受業','解惑','都一樣'],2,'第一段談完三種作用後，只接著論「孰能無惑」「惑而不從師，其為惑也終不解矣」，可見<b>解惑</b>最受重視。'],
+  ['韓愈選擇老師的標準是？',['年紀比我大','地位比我高','道之所存，師之所存','名聲響亮'],2,'<b>道之所存，師之所存</b>：誰先懂得道理，誰就是老師，與貴賤、長少無關。'],
+  ['「古之聖人……猶且從師而問焉；今之眾人……而恥學於師」用了什麼寫法？',['古今對比（映襯）','由小到大（層遞）','以物喻人（譬喻）','前後呼應（頂真）'],0,'以古聖人「從師問學」對比今眾人「恥學於師」，是<b>古今縱向對比</b>，修辭為<b>映襯</b>。'],
+  ['「聖人之所以為聖，愚人之所以為愚，其皆出於此乎」的「此」指什麼？',['聖人天生聰明','是否從師問學','讀書多寡','年紀大小'],1,'「此」指<b>是否從師問學</b>。聖愚的差別，來自願不願意向老師學習。']
+ ]},
+ {name:'第三關・生活判斷',qs:[
+  ['小宇數學題不會，怕被同學笑，所以一直不敢問老師，自己硬撐到考試。他最像課文中的誰？',['古之聖人','今之眾人「恥學於師」','「生乎吾後」的老師','傳道的老師'],1,'怕丟臉而不問，正是第三段的<b>今之眾人，恥學於師</b>。結果就是「愚益愚」。'],
+  ['阿嬤請讀國小的孫子教她用手機視訊。這最符合哪一句？',['道之所存，師之所存','師道之不傳也久矣','其為惑也終不解矣','古之學者必有師'],0,'孫子年紀小，但在這件事上先懂。<b>無長無少，道之所存，師之所存也</b>。'],
+  ['高三學長說：「學弟剪影片比我厲害，我去請教他。」學長的想法最接近？',['生乎吾前，其聞道也，固先乎吾','生乎吾後，其聞道也，亦先乎吾，吾從而師之','今之眾人，其下聖人也亦遠矣','愚人之所以為愚'],1,'學弟比較晚出生，卻先學會。<b>生乎吾後，其聞道也，亦先乎吾，吾從而師之</b>。'],
+  ['小真看教學影片學會解題步驟，但不懂「為什麼要這樣做」，於是去問老師。她最需要老師的哪一種作用？',['傳道','受業','解惑','都不需要'],2,'影片已經教了步驟（受業），她缺的是把疑問弄懂，也就是<b>解惑</b>。'],
+  ['已經拿到全國冠軍的選手，還是每天請教練指出缺點。這最符合哪一句？',['今之眾人，恥學於師','古之聖人，其出人也遠矣，猶且從師而問焉','欲人之無惑也難矣','其為惑也終不解矣'],1,'已經很強還持續求教，像<b>古之聖人猶且從師而問</b>，所以能「聖益聖」。'],
+  ['小安說：「老師比我年輕，憑什麼教我？」用課文反駁他，哪一句最有力？',['吾師道也，夫庸知其年之先後生於吾乎','古之學者必有師','是故聖益聖，愚益愚','欲人之無惑也難矣'],0,'我學的是道理，<b>哪裡需要在意他比我早生還是晚生</b>。擇師看「道」，不看年齡。']
+ ]}
+];
+const $=id=>document.getElementById(id);
+const TOTAL=LEVELS.reduce((n,l)=>n+l.qs.length,0);
+let li=0,qi=0,done=0,right=[0,0,0],wrong=[],t0=0;
+
+function check(){ $('go').disabled=!($('cls').value.trim()&&$('seat').value.trim()); }
+$('cls').oninput=check; $('seat').oninput=check;
+
+$('go').onclick=()=>{
+  li=0;qi=0;done=0;right=[0,0,0];wrong=[];t0=Date.now();
+  $('start').hidden=true;$('end').hidden=true;$('play').hidden=false;show();
+};
+$('again').onclick=()=>{ $('end').hidden=true;$('start').hidden=false; };
+
+function show(){
+  const L=LEVELS[li],Q=L.qs[qi];
+  $('lvname').textContent=L.name;
+  $('prog').textContent=`第 ${done+1} / ${TOTAL} 題`;
+  $('pts').textContent=`答對 ${right[0]+right[1]+right[2]} 題`;
+  $('barfill').style.width=(done/TOTAL*100)+'%';
+  $('qtext').innerHTML=Q[0];
+  $('exp').hidden=true;$('next').hidden=true;
+  const box=$('opts');box.innerHTML='';
+  Q[1].forEach((o,i)=>{
+    const b=document.createElement('button');b.className='opt';b.textContent='ABCD'[i]+'. '+o;
+    b.onclick=()=>pick(i);box.appendChild(b);
+  });
+  window.scrollTo(0,0);
+}
+function pick(i){
+  const Q=LEVELS[li].qs[qi],bs=[...$('opts').children];
+  bs.forEach(b=>b.disabled=true);
+  bs[Q[2]].classList.add('ok');
+  if(i===Q[2]){right[li]++;$('exp').innerHTML='✔ 答對了！'+Q[3];}
+  else{bs[i].classList.add('no');wrong.push(Q);$('exp').innerHTML='✘ 正確答案是 '+'ABCD'[Q[2]]+'。'+Q[3];}
+  $('exp').hidden=false;
+  done++;
+  const last=done===TOTAL;
+  $('next').textContent=last?'看成績':(qi===LEVELS[li].qs.length-1?'進入下一關':'下一題');
+  $('next').hidden=false;
+}
+$('next').onclick=()=>{
+  if(done===TOTAL) return finish();
+  qi++; if(qi>=LEVELS[li].qs.length){li++;qi=0;}
+  show();
+};
+function finish(){
+  const sec=Math.round((Date.now()-t0)/1000),r=right[0]+right[1]+right[2];
+  const score=Math.round(r/TOTAL*100);
+  $('play').hidden=true;$('end').hidden=false;
+  $('who').textContent=`${$('cls').value.trim()} 班　${$('seat').value.trim()} 號`;
+  $('final').textContent=score+' 分';
+  $('stars').textContent='★'.repeat(score>=90?3:score>=70?2:1)+'☆'.repeat(score>=90?0:score>=70?1:2);
+  LEVELS.forEach((L,k)=>$('s'+(k+1)).textContent=`${right[k]}/${L.qs.length}`);
+  $('tm').textContent=`${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`;
+  $('review').innerHTML=wrong.length?wrong.map(Q=>`<li>${Q[0]}<br><span class="x">答案：${Q[1][Q[2]]}</span></li>`).join(''):'<li>全對！太厲害了。</li>';
+  $('stamp').textContent='完成時間：'+new Date().toLocaleString('zh-TW');
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
