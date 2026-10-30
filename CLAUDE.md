@@ -17,6 +17,7 @@
 ## 工具清單
 （之後加新工具時會自動更新）
 - `tools/shishuo-escape/`：〈師說〉3D 密室逃脫（成績送 Google 表單）https://nowel8577-code.github.io/nowel-tools/tools/shishuo-escape/
+- `tools/chibi-escape/`：〈赤壁賦〉3D 密室逃脫「赤壁夜舟」（水與月段，成績送 Google 表單）https://nowel8577-code.github.io/nowel-tools/tools/chibi-escape/
 - `tools/liulao-game/`、`tools/live-board/`、`tools/poem-game/`、`tools/qa-wall/`、`tools/question-bank/`、`tools/writing-archive/`：先前做好的工具
 
 ## 工作注意事項
