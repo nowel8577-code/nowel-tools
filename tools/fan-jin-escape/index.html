@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta http-equiv="Content-Security-Policy" content="connect-src 'none'; form-action 'none'; frame-src 'none'; object-src 'none'; worker-src 'none'; img-src data: blob:; media-src 'none'; base-uri 'none'">
+<meta name="theme-color" content="#3a2a12">
+<title>〈范進中舉〉密室逃脫：喚醒新科舉人</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <canvas id="view" aria-label="3D 范家茅草棚"></canvas>
+  <div id="lite" class="hidden" aria-label="簡易版院子地圖"></div>
+
+  <!-- 開始畫面 -->
+  <section id="start" class="screen">
+    <div class="panel start-panel">
+      <div class="seal">范</div>
+      <h1>〈范進中舉〉密室逃脫</h1>
+      <p class="sub">喚醒新科舉人</p>
+      <p class="story">廣東鄉試出榜那日，范家茅草棚擠滿了報錄人和鄰居。新科舉人范進看了報帖，喊一聲「噫！好了！我中了！」就跌倒發了瘋。<br>范家院子裡藏著<b>八道機關</b>，照著故事一步步解開，才能讓范進清醒、把「老爺」送回府。</p>
+      <ul class="rules">
+        <li>跟著<b class="gold">金色菱形</b>找到下一個機關，走近後按「調查」。</li>
+        <li>答對才能解開下一關；課本可以翻，組員可以討論。</li>
+        <li>每關可以看<b>一次</b>提示，提示和答錯次數都會記錄在成績裡。</li>
+        <li>八關全破，范家大門會打開，結局畫面會出現通關暗號。</li>
+      </ul>
+      <div class="form">
+        <label>班級代號<input id="cls" inputmode="numeric" maxlength="12" placeholder="例：101" autocomplete="off"></label>
+        <label>組別<select id="grp"><option value="">選擇組別……</option></select></label>
+      </div>
+      <p id="startErr" class="err" role="alert"></p>
+      <div class="btns">
+        <button id="btnStart" class="primary">走進范家院子</button>
+        <button id="btnResume" class="hidden">繼續上次進度</button>
+      </div>
+      <p class="alt"><a href="#" id="toLite">畫面跑不動？改用簡易版（不用 3D）›</a><a href="#" id="to3d" class="hidden">改回 3D 版 ›</a></p>
+      <details class="teacher">
+        <summary>教師：本機成績（只存在這台裝置）</summary>
+        <p id="tCount">尚無紀錄</p>
+        <div class="btns small">
+          <button id="btnCsv">匯出 CSV</button>
+          <button id="btnJson">匯出 JSON</button>
+          <button id="btnClear" class="danger">清除本機成績</button>
+        </div>
+        <p class="note">成績只存在這個瀏覽器的 localStorage（鍵：<code>fanjin-escape-results-v1</code>），不會上傳到任何網站。</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- HUD -->
+  <div id="hud" class="hidden">
+    <div class="top">
+      <span id="hGroup"></span>
+      <span>⏱ <b id="hTime">00:00</b></span>
+      <span><b id="hProg">0</b> / 8</span>
+      <button id="btnHelp" class="icon" aria-label="說明">?</button>
+      <button id="btnMenu" class="icon" aria-label="選單">☰</button>
+    </div>
+    <div id="diamonds"></div>
+    <div id="objective"></div>
+    <div id="toast" role="status"></div>
+  </div>
+  <div id="pad" class="hidden"><div id="knob"></div></div>
+  <button id="btnAct" class="hidden">調查</button>
+
+  <!-- 機關視窗 -->
+  <section id="puz" class="screen hidden" role="dialog" aria-modal="true">
+    <div class="panel puz-panel">
+      <div class="puz-head"><span id="pNo"></span><h2 id="pTitle"></h2><button id="pClose" class="icon" aria-label="關閉">×</button></div>
+      <p id="pStory" class="pstory"></p>
+      <p id="pPrompt" class="prompt"></p>
+      <div id="pBody"></div>
+      <p id="pFeedback" class="feedback" role="alert"></p>
+      <div id="pHint" class="hint hidden"></div>
+      <div class="btns">
+        <button id="pHintBtn">🔒 看提示（每關一次）</button>
+        <button id="pSubmit" class="primary">解開機關</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 解開 -->
+  <section id="solved" class="screen hidden">
+    <div class="panel small-panel">
+      <h2>機關解開了！</h2>
+      <p id="sExplain"></p>
+      <button id="sNext" class="primary">繼續探索</button>
+    </div>
+  </section>
+
+  <!-- 說明／選單 -->
+  <section id="help" class="screen hidden">
+    <div class="panel small-panel">
+      <h2>操作說明</h2>
+      <ul class="rules">
+        <li><b>手機／平板：</b>左下搖桿移動，拖曳畫面轉頭，靠近機關按右下「調查」或直接點物件。</li>
+        <li><b>電腦：</b>WASD 或方向鍵移動，按住滑鼠拖曳轉頭，按 E 或點物件調查。</li>
+        <li><b>簡易版：</b>直接點地圖上已亮起的機關卡。</li>
+        <li>上方菱形是進度；計時從走進院子開始。重新整理網頁會保留進度。</li>
+      </ul>
+      <button class="primary" data-close="help">知道了</button>
+    </div>
+  </section>
+  <section id="menu" class="screen hidden">
+    <div class="panel small-panel">
+      <h2>選單</h2>
+      <div class="btns col">
+        <button data-close="menu" class="primary">回到遊戲</button>
+        <button id="mSwitch">切換 3D／簡易版</button>
+        <button id="mRestart" class="danger">放棄進度，重新開始</button>
+      </div>
+    </div>
+  </section>
+  <section id="confirm" class="screen hidden">
+    <div class="panel small-panel">
+      <h2 id="cTitle">確定嗎？</h2>
+      <p id="cMsg"></p>
+      <div class="btns"><button id="cNo">取消</button><button id="cYes" class="danger">確定</button></div>
+    </div>
+  </section>
+
+  <!-- 結局 -->
+  <section id="end" class="screen hidden">
+    <div class="panel start-panel">
+      <div class="seal">中</div>
+      <h1>老爺回府了！</h1>
+      <p class="quote">范進看了眾人，說道：「我怎麼坐在這裡？」……到了家門，屠戶高聲叫道：「老爺回府了！」</p>
+      <div class="stats">
+        <div><span>班級</span><b id="eCls"></b></div>
+        <div><span>組別</span><b id="eGrp"></b></div>
+        <div><span>用時</span><b id="eTime"></b></div>
+        <div><span>答錯</span><b id="eWrong"></b></div>
+        <div><span>提示</span><b id="eHint"></b></div>
+      </div>
+      <p class="pass">全組舉手，對老師說出通關暗號：<b id="ePass"></b></p>
+      <div class="btns">
+        <button id="eCard" class="primary">下載成績卡</button>
+        <button id="eRestart">重新開始</button>
+      </div>
+      <p class="note">本組成績已存在這台裝置。老師可在開始畫面的「教師：本機成績」匯出。</p>
+    </div>
+  </section>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
