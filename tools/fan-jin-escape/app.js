@@ -1,2 +1,827 @@
-(()=>{var L="\u8001\u723A\u56DE\u5E9C\u4E86\uFF01";var g=[{id:1,obj:"\u9152\u74F6",para:"\u7B2C\u4E00\u6BB5",src:"p.49\u201350",title:"\u9152\u74F6\uFF1A\u80E1\u5C60\u6236\u7684\u300C\u8CC0\u79AE\u300D",story:"\u8305\u8349\u68DA\u4E0B\u64FA\u8457\u4E00\u500B\u7A7A\u9152\u74F6\u3002\u8303\u9032\u525B\u300C\u9032\u5B78\u56DE\u5BB6\u300D\u90A3\u5929\uFF0C\u4E08\u4EBA\u80E1\u5C60\u6236\u63D0\u8457\u8CC0\u79AE\u8D70\u9032\u4F86\uFF0C\u4E00\u908A\u5403\u559D\u4E00\u908A\u6578\u843D\u5973\u5A7F\u3002",type:"fill",prompt:"\u80E1\u5C60\u6236\u4F86\u8CC0\u8303\u9032\u4E2D\u79C0\u624D\uFF0C\u300C\u624B\u88E1\u62FF\u8457\u4E00\u526F\uFF3F\uFF3F\u548C\u4E00\u74F6\uFF3F\uFF3F\u300D\u3002",blanks:[{label:"\u4E00\u526F\uFF3F\uFF3F",accept:["\u5927\u8178","\u4E00\u526F\u5927\u8178","\u8178","\u8178\u5B50"]},{label:"\u4E00\u74F6\uFF3F\uFF3F",accept:["\u9152","\u4E00\u74F6\u9152"]}],hint:"\u7FFB\u5230\u7B2C\u4E00\u6BB5\u7B2C\u4E00\u53E5\u7684\u5F8C\u534A\uFF1A\u80E1\u5C60\u6236\u300C\u624B\u88E1\u62FF\u8457\u2026\u2026\u8D70\u4E86\u9032\u4F86\u300D\u3002",explain:"\u4E00\u526F\u5927\u8178\u548C\u4E00\u74F6\u9152\u3002\u4E2D\u8209\u5F8C\u4ED6\u6539\u9001\u300C\u4E03\u3001\u516B\u65A4\u8089\uFF0C\u56DB\u3001\u4E94\u5343\u9322\u300D\uFF0C\u5C0D\u6BD4\u51FA\u524D\u5028\u5F8C\u606D\u3002"},{id:2,obj:"\u8003\u7C43",para:"\u7B2C\u4E8C\u6BB5",src:"p.17\u3001p.144\uFF08\u53E6\u898B p.62\uFF09",title:"\u8003\u7C43\uFF1A\u79D1\u8209\u95D6\u95DC\u7684\u8EAB\u5206",story:"\u7246\u89D2\u653E\u8457\u8303\u9032\u779E\u8457\u4E08\u4EBA\u53BB\u57CE\u88E1\u9109\u8A66\u6642\u63D0\u7684\u8003\u7C43\u3002\u7C43\u5E95\u523B\u8457\u79D1\u8209\u4E00\u8DEF\u5F80\u4E0A\u7684\u8EAB\u5206\uFF0C\u9806\u5E8F\u537B\u88AB\u6253\u4E82\u4E86\u3002",type:"order",prompt:"\u5F9E\u4F4E\u5230\u9AD8\u6392\u51FA\u79D1\u8209\u8003\u4E0A\u5F8C\u7684\u8EAB\u5206\uFF08\u9662\u8A66 \u2192 \u9109\u8A66 \u2192 \u6703\u8A66 \u2192 \u6BBF\u8A66\uFF09\u3002\u9EDE\u9078\u6728\u724C\u4F9D\u5E8F\u653E\u5165\u3002",tiles:["\u8209\u4EBA","\u9032\u58EB","\u79C0\u624D","\u8CA2\u58EB"],answer:["\u79C0\u624D","\u8209\u4EBA","\u8CA2\u58EB","\u9032\u58EB"],hint:"\u8303\u9032\u7B2C\u4E00\u6BB5\u525B\u300C\u9032\u5B78\u300D\u7576\u4E0A\u79C0\u624D\uFF0C\u9019\u6B21\u53BB\u8003\u7684\u662F\u300C\u9109\u8A66\u300D\uFF0C\u8003\u4E0A\u5C31\u662F\u8209\u4EBA\u3002",explain:"\u79C0\u624D\uFF08\u751F\u54E1\uFF09\u2192 \u8209\u4EBA \u2192 \u8CA2\u58EB \u2192 \u9032\u58EB\u3002\u8303\u9032\u958B\u982D\u662F\u79C0\u624D\uFF0C\u7D50\u5C3E\u4E2D\u4E86\u300C\u5EE3\u6771\u9109\u8A66\u7B2C\u4E03\u540D\u4E9E\u5143\u300D\uFF0C\u6210\u70BA\u8209\u4EBA\u3002"},{id:3,obj:"\u6BCD\u96DE",para:"\u7B2C\u4E09\u3001\u56DB\u6BB5",src:"p.75\u3001p.77",title:"\u6BCD\u96DE\uFF1A\u63D2\u8457\u8349\u6A19\u7684\u8001\u6BCD\u96DE",story:"\u9662\u5B50\u88E1\u4E00\u96BB\u63D2\u8457\u8349\u6A19\u7684\u8001\u6BCD\u96DE\u54AF\u54AF\u53EB\u3002\u51FA\u699C\u90A3\u5929\uFF0C\u8303\u9032\u62B1\u8457\u7260\u5230\u96C6\u4E0A\uFF0C\u6771\u5F35\u897F\u671B\u627E\u4EBA\u8CB7\u3002",type:"choice",prompt:"\u51FA\u699C\u90A3\u5929\uFF0C\u8303\u9032\u70BA\u4EC0\u9EBC\u62B1\u8457\u6BCD\u96DE\u5230\u96C6\u4E0A\uFF1F",options:["\u8981\u628A\u96DE\u9001\u7D66\u5B97\u5E2B\uFF0C\u7B54\u8B1D\u4ED6\u63D0\u62D4","\u8981\u62FF\u96DE\u7576\u559C\u9322\uFF0C\u6253\u767C\u5831\u9304\u4EBA","\u5BB6\u88E1\u5DF2\u7D93\u6C92\u6709\u65E9\u98EF\u7C73\uFF0C\u8981\u8CE3\u9019\u96BB\u96DE\u53BB\u300C\u6551\u547D\u300D","\u80E1\u5C60\u6236\u53EB\u4ED6\u53BB\u8CE3\u96DE\uFF0C\u597D\u9084\u501F\u7684\u76E4\u8CBB"],answer:2,hint:"\u8303\u9032\u5C0D\u9130\u5C45\u8AAA\uFF1A\u300C\u4F60\u66C9\u5F97\u6211\u4ECA\u65E5\u6C92\u6709\u7C73\uFF0C\u8981\u8CE3\u9019\u96BB\u96DE\u53BB\uFF3F\uFF3F\u300D\u3002",explain:"\u5BB6\u88E1\u300C\u5DF2\u662F\u9913\u4E86\u5169\u3001\u4E09\u5929\u300D\uFF0C\u653E\u699C\u7576\u65E5\u6C92\u6709\u65E9\u98EF\u7C73\uFF0C\u8303\u9032\u53EA\u597D\u8CE3\u96DE\u300C\u6551\u547D\u300D\u3002"},{id:4,obj:"\u5831\u5E16",para:"\u7B2C\u56DB\u6BB5",src:"p.78\u201379",title:"\u5831\u5E16\uFF1A\u5347\u639B\u5728\u4E2D\u9593\u7684\u6377\u5831",story:"\u5C4B\u5B50\u4E2D\u9593\uFF0C\u5831\u5E16\u5DF2\u7D93\u5347\u639B\u8D77\u4F86\u3002\u8303\u9032\u770B\u4E86\u4E00\u904D\uFF0C\u53C8\u5FF5\u4E00\u904D\uFF0C\u62CD\u624B\u4E00\u7B11\uFF0C\u5F80\u5F8C\u4E00\u8DE4\u8DCC\u5012\u3002",type:"fill",prompt:"\u2460 \u5831\u5E16\u4E0A\u5BEB\uFF1A\u300C\u9AD8\u4E2D\u5EE3\u6771\u9109\u8A66\u7B2C\uFF3F\u540D\u4E9E\u5143\u300D\u3002\u2461 \u8303\u9032\u770B\u5B8C\u5831\u5E16\u558A\u51FA\u7684\u516D\u500B\u5B57\u662F\u4EC0\u9EBC\uFF1F",blanks:[{label:"\u2460 \u7B2C\uFF3F\u540D",accept:["\u4E03","7","\u7B2C\u4E03","\u7B2C\u4E03\u540D"]},{label:"\u2461 \u516D\u500B\u5B57",accept:["\u566B\u597D\u4E86\u6211\u4E2D\u4E86"]}],hint:"\u2461 \u9019\u516D\u500B\u5B57\u4EE5\u300C\u566B\u300D\u958B\u982D\uFF0C\u4EE5\u300C\u6211\u4E2D\u4E86\u300D\u7D50\u5C3E\u3002",explain:"\u7B2C\u4E03\u540D\u4E9E\u5143\uFF1B\u300C\u566B\uFF01\u597D\u4E86\uFF01\u6211\u4E2D\u4E86\uFF01\u300D\u8AAA\u5B8C\u5C31\u300C\u5F80\u5F8C\u4E00\u8DE4\u8DCC\u5012\uFF0C\u7259\u95DC\u54AC\u7DCA\uFF0C\u4E0D\u7701\u4EBA\u4E8B\u300D\u3002"},{id:5,obj:"\u79AE\u7C43",para:"\u7B2C\u4E94\u6BB5",src:"p.86\uFF08\u53E6\u898B p.82\u201384\uFF09",title:"\u79AE\u7C43\uFF1A\u9130\u5C45\u5FFD\u7136\u71B1\u5FC3\u8D77\u4F86",story:"\u8303\u9032\u760B\u4E86\uFF0C\u773E\u9130\u5C45\u537B\u5FD9\u8457\u642C\u684C\u51F3\u3001\u8ACB\u5831\u9304\u4EBA\u5403\u9152\u3002\u9580\u908A\u5806\u6EFF\u4ED6\u5011\u62FF\u4F86\u7684\u6771\u897F\u3002",type:"multi",prompt:"\u7B2C\u4E94\u6BB5\u4E2D\uFF0C\u773E\u9130\u5C45\u62FF\u4F86\u4E86\u54EA\u4E9B\u6771\u897F\uFF1F\uFF08\u5168\u90E8\u9078\u5C0D\u624D\u7B97\u904E\u95DC\uFF09",options:["\u96DE\u86CB","\u4E00\u526F\u5927\u8178","\u767D\u9152","\u4E03\u3001\u516B\u65A4\u8089","\u6597\u7C73","\u56DB\u3001\u4E94\u5343\u9322","\u5169\u96BB\u96DE"],answer:[0,2,4,6],hint:"\u300C\u6709\u62FF\u96DE\u86CB\u4F86\u7684\uFF0C\u6709\u62FF\u767D\u9152\u4F86\u7684\uFF0C\u4E5F\u6709\u80CC\u4E86\u6597\u7C73\u4F86\u7684\uFF0C\u4E5F\u6709\u6349\u5169\u96BB\u96DE\u4F86\u7684\u3002\u300D\u8089\u548C\u9322\u662F\u8AB0\u5E36\u4F86\u7684\uFF1F",explain:"\u96DE\u86CB\u3001\u767D\u9152\u3001\u6597\u7C73\u3001\u5169\u96BB\u96DE\u3002\u548C\u524D\u6587\u300C\u5BB6\u88E1\u5DF2\u662F\u9913\u4E86\u5169\u3001\u4E09\u5929\u300D\u5C0D\u6BD4\uFF1A\u96EA\u4E2D\u9001\u70AD\u8005\u5C11\uFF0C\u9326\u4E0A\u6DFB\u82B1\u8005\u591A\u3002"},{id:6,obj:"\u8089\u6848",para:"\u7B2C\u516D\u6BB5",src:"p.92\u3001p.94\u3001p.99",title:"\u8089\u6848\uFF1A\u80E1\u5C60\u6236\u4E0D\u6562\u4E0B\u624B",story:"\u9130\u5C45\u60F3\u51FA\u8FA6\u6CD5\uFF1A\u627E\u8303\u9032\u6700\u6015\u7684\u4EBA\u6253\u4ED6\u4E00\u500B\u5634\u5DF4\u3002\u773E\u4EBA\u8DD1\u5230\u8089\u6848\u5B50\u908A\u627E\u80E1\u5C60\u6236\uFF0C\u4ED6\u537B\u4F5C\u96E3\u8D77\u4F86\u3002",type:"choice",prompt:"\u773E\u4EBA\u63A8\u80E1\u5C60\u6236\u53BB\u6253\u8303\u9032\uFF0C\u4ED6\u70BA\u4EC0\u9EBC\u7336\u8C6B\u70BA\u96E3\uFF1F",options:["\u4ED6\u8A8D\u70BA\u5973\u5A7F\u4E2D\u4E86\u8209\u5C31\u662F\u5929\u4E0A\u7684\u661F\u5BBF\uFF0C\u6253\u4E86\u8981\u88AB\u95BB\u738B\u6253\u4E00\u767E\u9435\u68CD\u3001\u4E0B\u5341\u516B\u5C64\u5730\u7344","\u4ED6\u6015\u5973\u5152\u80E1\u6C0F\u6368\u4E0D\u5F97\uFF0C\u56DE\u5BB6\u8DDF\u4ED6\u5435","\u4ED6\u6015\u5831\u9304\u4EBA\u53BB\u5B98\u5E9C\u544A\u4ED6\u6253\u50B7\u8209\u4EBA\u8001\u723A","\u4ED6\u81EA\u77E5\u529B\u6C23\u592A\u5927\uFF0C\u6015\u4E00\u5DF4\u638C\u628A\u8303\u9032\u6253\u6B7B"],answer:0,hint:"\u80E1\u5C60\u6236\u8AAA\uFF1A\u300C\u5929\u4E0A\u7684\u661F\u5BBF\u662F\u6253\u4E0D\u5F97\u7684\u3002\u300D\u4ED6\u807D\u9F4B\u516C\u5011\u8AAA\u4E86\u4EC0\u9EBC\uFF1F",explain:"\u80E1\u5C60\u6236\u8A8D\u70BA\u8209\u4EBA\u662F\u5929\u4E0A\u661F\u5BBF\u4E0B\u51E1\uFF0C\u6253\u4E86\u6703\u4E0B\u5341\u516B\u5C64\u5730\u7344\u3002\u7531\u6B64\u53EF\u898B\u4ED6\u8FF7\u4FE1\u53C8\u754F\u61FC\u6B0A\u52E2\u3002"},{id:7,obj:"\u818F\u85E5",para:"\u7B2C\u4E03\u6BB5",src:"p.104\u3001p.106",title:"\u818F\u85E5\uFF1A\u5F4E\u4E0D\u904E\u4F86\u7684\u5DF4\u638C",story:"\u80E1\u5C60\u6236\u559D\u4E86\u5169\u7897\u9152\u58EF\u81BD\uFF0C\u4E00\u5DF4\u638C\u6253\u9192\u4E86\u8303\u9032\u3002\u4E8B\u5F8C\u4ED6\u7684\u624B\u96B1\u96B1\u75BC\u8D77\u4F86\uFF0C\u9023\u5FD9\u5411\u90CE\u4E2D\u8A0E\u4E86\u818F\u85E5\u8CBC\u8457\u3002",type:"fill",prompt:"\u80E1\u5C60\u6236\u770B\u8457\u5F4E\u4E0D\u904E\u4F86\u7684\u5DF4\u638C\uFF0C\u5FC3\u88E1\u61CA\u60F1\u9053\uFF1A\u300C\u679C\u7136\u5929\u4E0A\uFF3F\uFF3F\uFF3F\u662F\u6253\u4E0D\u5F97\u7684\uFF0C\u800C\u4ECA\u83E9\u85A9\u8A08\u8F03\u8D77\u4F86\u4E86\u3002\u300D",blanks:[{label:"\u5929\u4E0A\uFF3F\uFF3F\uFF3F",accept:["\u6587\u66F2\u661F"]}],hint:"\u7B2C\u4E8C\u6BB5\u80E1\u5C60\u6236\u7F75\u8303\u9032\u6642\u8AAA\u904E\uFF1A\u300C\u9019\u4E9B\u4E2D\u8001\u723A\u7684\uFF0C\u90FD\u662F\u5929\u4E0A\u7684\uFF3F\uFF3F\uFF3F\u3002\u300D",explain:"\u6587\u66F2\u661F\u3002\u6BB5\u6790\uFF1A\u51F6\u715E\u7684\u6A23\u5B50\u548C\u5167\u5FC3\u7684\u5BB3\u6015\u5F62\u6210\u5C0D\u6BD4\uFF0C\u6B63\u662F\u300C\u8272\u53B2\u5167\u834F\u300D\uFF1B\u624B\u75BC\u662F\u300C\u4E00\u4F86\u5FC3\u865B\uFF0C\u4E8C\u4F86\u8FF7\u4FE1\u300D\u3002"},{id:8,obj:"\u8863\u895F",para:"\u7B2C\u516B\u6BB5",src:"p.120\u2013125\u3001p.108\u2013110",title:"\u8863\u895F\uFF1A\u524D\u5028\u5F8C\u606D",story:"\u8303\u9032\u9192\u4E86\u3002\u56DE\u5BB6\u8DEF\u4E0A\uFF0C\u80E1\u5C60\u6236\u4E00\u8DEF\u4F4E\u8457\u982D\u66FF\u5973\u5A7F\u626F\u8863\u895F\u3002\u628A\u80E1\u5C60\u6236\u4E2D\u8209\u524D\u3001\u5F8C\u7684\u8868\u73FE\u914D\u6210\u5C0D\uFF0C\u5927\u9580\u5C31\u6703\u6253\u958B\u3002",type:"match",prompt:"\u5DE6\u908A\u662F\u8303\u9032\u300C\u4E2D\u8209\u524D\u300D\u80E1\u5C60\u6236\u7684\u8868\u73FE\uFF0C\u66FF\u6BCF\u4E00\u9805\u9078\u51FA\u300C\u4E2D\u8209\u5F8C\u300D\u7684\u5C0D\u61C9\u8868\u73FE\u3002",rows:[{left:"\u7A31\u547C\uFF1A\u300C\u73FE\u4E16\u5BF6\u3001\u7AAE\u9B3C\u300D",answer:"\u7A31\u4ED6\u300C\u8CE2\u5A7F\u8001\u723A\u300D"},{left:"\u8CC0\u79AE\uFF1A\u4E00\u526F\u5927\u8178\u3001\u4E00\u74F6\u9152",answer:"\u63D0\u8457\u4E03\u3001\u516B\u65A4\u8089\uFF0C\u56DB\u3001\u4E94\u5343\u9322"},{left:"\u76F8\u8C8C\uFF1A\u300C\u5C16\u5634\u7334\u816E\u300D",answer:"\u300C\u624D\u5B78\u53C8\u9AD8\uFF0C\u54C1\u8C8C\u53C8\u597D\u300D"},{left:"\u614B\u5EA6\uFF1A\u300C\u4E00\u53E3\u5550\u5728\u81C9\u4E0A\u300D",answer:"\u4F4E\u8457\u982D\u66FF\u4ED6\u626F\u4E86\u5E7E\u5341\u56DE\u8863\u895F"}],choices:["\u4F4E\u8457\u982D\u66FF\u4ED6\u626F\u4E86\u5E7E\u5341\u56DE\u8863\u895F","\u7A31\u4ED6\u300C\u8CE2\u5A7F\u8001\u723A\u300D","\u300C\u624D\u5B78\u53C8\u9AD8\uFF0C\u54C1\u8C8C\u53C8\u597D\u300D","\u63D0\u8457\u4E03\u3001\u516B\u65A4\u8089\uFF0C\u56DB\u3001\u4E94\u5343\u9322"],hint:"\u7FFB\u539F\u6295\u5F71\u7247 p.120\uFF5E125 \u7684\u300C\u4E2D\u8209\u524D\uFF0F\u4E2D\u8209\u5F8C\u300D\u5C0D\u7167\u8868\u3002",explain:"\u7A31\u547C\u3001\u8CC0\u79AE\u3001\u76F8\u8C8C\u3001\u614B\u5EA6\u56DB\u9805\u5168\u90E8\u7FFB\u8F49\uFF0C\u6B63\u662F\u80E1\u5C60\u6236\u300C\u524D\u5028\u5F8C\u606D\u300D\u7684\u5178\u578B\u3002"}];function _(e){return String(e||"").normalize("NFKC").replace(/[\s　]/g,"").replace(/[，。、！？；：「」『』（）()《》〈〉“”‘’"',.!?;:\-—…·・~～]/g,"").toLowerCase()}function U(e,t){switch(e.type){case"fill":return e.blanks.every((l,c)=>l.accept.map(_).includes(_(t[c])));case"order":return Array.isArray(t)&&t.length===e.answer.length&&t.every((l,c)=>l===e.answer[c]);case"choice":return t===e.answer;case"multi":{let l=[...e.answer].sort().join(","),c=[...t||[]].sort().join(",");return l===c}case"match":return e.rows.every((l,c)=>t[c]===l.answer)}return!1}var N="fanjin-escape-v1",A="fanjin-escape-results-v1",Y="fanjin-escape-mode-v1",Q=8,o=e=>document.getElementById(e),w={get(e,t){try{let l=localStorage.getItem(e);return l?JSON.parse(l):t}catch{return t}},set(e,t){try{return localStorage.setItem(e,JSON.stringify(t)),!0}catch{return!1}},del(e){try{localStorage.removeItem(e)}catch{}}};function X(e,t,l){return{v:1,cls:e,group:t,mode:l,start:Date.now(),level:0,wrong:Array(8).fill(0),hints:Array(8).fill(!1),finished:!1,end:null,recorded:!1}}var n=w.get(N,null),r=null,y=null,d=null,f=!1,F=new URLSearchParams(location.search);function ee(){return F.get("lite")==="1"?!0:F.get("lite")==="0"?!1:w.get(Y,"3d")==="lite"}function H(){let e=window.visualViewport&&window.visualViewport.height||window.innerHeight;document.documentElement.style.setProperty("--appH",e+"px")}window.addEventListener("resize",H);window.visualViewport&&window.visualViewport.addEventListener("resize",H);H();var x=e=>String(e).padStart(2,"0");function E(e){let t=Math.max(0,Math.floor(e/1e3));return x(Math.floor(t/60))+":"+x(t%60)}function te(){return n?(n.finished?n.end:Date.now())-n.start:0}function b(){n&&w.set(N,n)}function m(e){o(e).classList.remove("hidden")}function u(e){o(e).classList.add("hidden")}var I=0;function h(e,t=2200){let l=o("toast");l.textContent=e,l.classList.add("show"),clearTimeout(I),I=setTimeout(()=>l.classList.remove("show"),t)}function R(){return["puz","solved","help","menu","confirm","start","end"].some(e=>!o(e).classList.contains("hidden"))}function S(e,t,l){o("cTitle").textContent=e,o("cMsg").textContent=t,m("confirm"),o("cYes").onclick=()=>{u("confirm"),l()},o("cNo").onclick=()=>u("confirm")}function ne(){let e=o("grp");for(let t=1;t<=Q;t++){let l=document.createElement("option");l.value=String(t),l.textContent="\u7B2C "+t+" \u7D44",e.appendChild(l)}n&&!n.finished&&(o("btnResume").classList.remove("hidden"),o("btnResume").textContent="\u7E7C\u7E8C\u4E0A\u6B21\u9032\u5EA6\uFF08"+n.cls+" \u73ED\u7B2C "+n.group+" \u7D44\uFF0C"+n.level+" / 8\uFF09",o("cls").value=n.cls,e.value=String(n.group)),o("btnStart").onclick=()=>{let t=o("cls").value.trim(),l=o("grp").value;if(!t){o("startErr").textContent="\u8ACB\u5148\u586B\u73ED\u7D1A\u4EE3\u865F\uFF08\u4F8B\uFF1A101\uFF09\u3002",o("cls").focus();return}if(!/^[0-9A-Za-z\-一-龥]{1,12}$/.test(t)){o("startErr").textContent="\u73ED\u7D1A\u4EE3\u865F\u53EA\u80FD\u7528\u6578\u5B57\u3001\u82F1\u6587\u6216\u4E2D\u6587\uFF0C12 \u5B57\u4EE5\u5167\u3002";return}if(!l){o("startErr").textContent="\u8ACB\u9078\u64C7\u7D44\u5225\u3002",o("grp").focus();return}let c=()=>{n=X(t,Number(l),f?"lite":"3d"),b(),G()};n&&!n.finished?S("\u8981\u91CD\u65B0\u958B\u59CB\u55CE\uFF1F","\u9019\u53F0\u88DD\u7F6E\u6709\u4E00\u4EFD\u672A\u5B8C\u6210\u7684\u9032\u5EA6\uFF08"+n.cls+" \u73ED\u7B2C "+n.group+" \u7D44\uFF0C"+n.level+" / 8\uFF09\u3002\u91CD\u65B0\u958B\u59CB\u6703\u628A\u5B83\u6E05\u6389\u3002",c):c()},o("btnResume").onclick=()=>G(),o("toLite").onclick=t=>{t.preventDefault(),T(!0)},o("to3d").onclick=t=>{t.preventDefault(),T(!1)},o("btnCsv").onclick=()=>V("csv"),o("btnJson").onclick=()=>V("json"),o("btnClear").onclick=()=>S("\u6E05\u9664\u672C\u6A5F\u6210\u7E3E\uFF1F","\u6703\u522A\u6389\u9019\u53F0\u88DD\u7F6E\u4E0A\u5168\u90E8 "+k().length+" \u7B46\u6210\u7E3E\uFF0C\u7121\u6CD5\u5FA9\u539F\u3002\u8ACB\u5148\u532F\u51FA\u3002",()=>{w.del(A),Z(),h("\u5DF2\u6E05\u9664\u672C\u6A5F\u6210\u7E3E")}),Z(),B()}function B(){o("toLite").classList.toggle("hidden",f),o("to3d").classList.toggle("hidden",!f)}function T(e){w.set(Y,e?"lite":"3d");let t=new URL(location.href);t.searchParams.set("lite",e?"1":"0"),location.href=t.toString()}function G(){if(u("start"),m("hud"),n.finished){P();return}f?(u("view"),m("lite"),O()):(u("lite"),m("view"),m("pad"),m("btnAct"),r&&r.start()),M()}function M(){if(!n)return;o("hGroup").textContent=n.cls+" \u73ED \u7B2C "+n.group+" \u7D44",o("hProg").textContent=n.level;let e=o("diamonds");e.innerHTML="";for(let t=0;t<8;t++){let l=document.createElement("i");t<n.level?l.className="done":t===n.level&&(l.className="cur"),e.appendChild(l)}o("objective").textContent=n.level<8?"\u76EE\u6A19\uFF1A\u8ABF\u67E5\u300C"+g[n.level].obj+"\u300D"+(f?"":"\uFF08\u8DDF\u8457\u91D1\u8272\u83F1\u5F62\uFF09"):"\u76EE\u6A19\uFF1A\u8D70\u5230\u8303\u5BB6\u5927\u9580",r&&r.setLevel(n.level),f&&O()}setInterval(()=>{n&&!o("hud").classList.contains("hidden")&&(o("hTime").textContent=E(te()))},500);function K(e){if(!(!n||n.finished||R())){if(e<n.level){h("\u300C"+g[e].obj+"\u300D\u5DF2\u7D93\u89E3\u958B\u4E86");return}if(e>n.level){h("\u9019\u500B\u6A5F\u95DC\u9084\u9396\u8457\uFF0C\u5148\u53BB\u8ABF\u67E5\u300C"+g[n.level].obj+"\u300D");return}oe(g[e])}}function oe(e){y=e;let t=e.id-1;o("pNo").textContent="\u7B2C "+e.id+" \u95DC\uFF5C"+e.para,o("pTitle").textContent=e.title,o("pStory").textContent=e.story,o("pPrompt").textContent=e.prompt,o("pFeedback").textContent="",o("pFeedback").className="feedback";let l=n.hints[t];o("pHint").textContent="\u63D0\u793A\uFF1A"+e.hint,o("pHint").classList.toggle("hidden",!l),o("pHintBtn").disabled=l,o("pHintBtn").textContent=l?"\u5DF2\u7528\u904E\u63D0\u793A":"\u{1F512} \u770B\u63D0\u793A\uFF08\u6BCF\u95DC\u4E00\u6B21\uFF09",le(e),m("puz"),r&&r.pause(!0)}function z(){try{document.activeElement&&document.activeElement!==document.body&&document.activeElement.blur()}catch{}}function J(){z(),u("puz"),y=null,r&&r.pause(!1)}function le(e){let t=o("pBody");if(t.innerHTML="",e.type==="fill")d=e.blanks.map(()=>""),e.blanks.forEach((l,c)=>{let i=document.createElement("label");i.className="fillrow";let a=document.createElement("span");a.textContent=l.label;let s=document.createElement("input");s.autocomplete="off",s.dataset.i=c,s.oninput=()=>{d[c]=s.value},s.onkeydown=p=>{p.key==="Enter"&&$()},i.append(a,s),t.appendChild(i)});else if(e.type==="choice"||e.type==="multi")d=e.type==="choice"?null:[],e.options.forEach((l,c)=>{let i=document.createElement("button");i.className="opt",i.dataset.i=c,i.innerHTML="<b>("+"ABCDEFG"[c]+")</b><span></span>",i.querySelector("span").textContent=l,i.onclick=()=>{if(e.type==="choice")d=c,t.querySelectorAll(".opt").forEach(a=>a.classList.toggle("sel",a===i));else{let a=d.indexOf(c);a>=0?d.splice(a,1):d.push(c),i.classList.toggle("sel")}},t.appendChild(i)});else if(e.type==="order"){d=[];let l=document.createElement("div");l.className="slots";let c=document.createElement("div");c.className="tiles";let i=()=>{l.innerHTML='<span class="slot">\u7AE5\u751F</span>',e.answer.forEach((s,p)=>{let v=document.createElement("span");v.className="arrow",v.textContent="\u2192",l.appendChild(v);let C=document.createElement("button");C.className="slot",C.textContent=d[p]||"\uFF1F",C.onclick=()=>{d[p]&&(d.splice(p,1),i())},l.appendChild(C)}),c.querySelectorAll(".tile").forEach(s=>s.classList.toggle("used",d.includes(s.dataset.t)))};e.tiles.forEach(s=>{let p=document.createElement("button");p.className="tile",p.textContent=s,p.dataset.t=s,p.onclick=()=>{!d.includes(s)&&d.length<e.answer.length&&(d.push(s),i())},c.appendChild(p)});let a=document.createElement("p");a.className="note",a.textContent="\u9EDE\u5DF2\u653E\u5165\u7684\u683C\u5B50\u53EF\u4EE5\u62FF\u56DE\u4F86\u3002",t.append(l,c,a),i()}else e.type==="match"&&(d=e.rows.map(()=>""),e.rows.forEach((l,c)=>{let i=document.createElement("div");i.className="mrow";let a=document.createElement("div");a.textContent=l.left;let s=document.createElement("select");s.dataset.i=c,s.innerHTML='<option value="">\u4E2D\u8209\u5F8C\u2026\u2026</option>',e.choices.forEach(p=>{let v=document.createElement("option");v.value=p,v.textContent=p,s.appendChild(v)}),s.onchange=()=>{d[c]=s.value},i.append(a,s),t.appendChild(i)}))}function $(){let e=y;if(!e)return;let t=e.id-1,l=e.type==="fill"&&d.some(i=>!String(i).trim())||e.type==="choice"&&d===null||e.type==="multi"&&d.length===0||e.type==="order"&&d.length<e.answer.length||e.type==="match"&&d.some(i=>!i),c=o("pFeedback");if(l){c.textContent="\u9084\u6709\u7A7A\u683C\u6C92\u4F5C\u7B54\u5594\u3002",c.className="feedback bad";return}U(e,d)?(n.level=t+1,b(),z(),u("puz"),y=null,o("sExplain").textContent=e.explain,m("solved"),r&&r.solved(t),M()):(n.wrong[t]++,b(),c.textContent="\u6A5F\u95DC\u6C92\u6709\u52D5\u975C\u2026\u2026\u7B54\u6848\u4E0D\u5C0D\uFF0C\u518D\u7FFB\u7FFB\u8AB2\u6587\uFF08\u672C\u95DC\u7B54\u932F "+n.wrong[t]+" \u6B21\uFF09"+(n.hints[t]?"":"\u3002\u9700\u8981\u6642\u53EF\u4EE5\u770B\u4E00\u6B21\u63D0\u793A\u3002"),c.className="feedback bad",r&&r.wrong())}function se(){let e=y;if(!e)return;let t=e.id-1;n.hints[t]||(n.hints[t]=!0,b(),o("pHint").classList.remove("hidden"),o("pHintBtn").disabled=!0,o("pHintBtn").textContent="\u5DF2\u7528\u904E\u63D0\u793A")}function ce(){z(),u("solved"),r&&r.pause(!1),n.level>=8?f?D():(h("\u6700\u5F8C\u4E00\u9053\u6A5F\u95DC\u89E3\u958B\u4E86\uFF01\u8D70\u5230\u8303\u5BB6\u5927\u9580\uFF0C\u6309\u300C\u8D70\u51FA\u5927\u9580\u300D",3500),r&&r.openGate()):h("\u4E0B\u4E00\u500B\u6A5F\u95DC\uFF1A\u300C"+g[n.level].obj+"\u300D")}function D(){!n||n.finished||n.level<8||(n.finished=!0,n.end=Date.now(),b(),ie(),P())}function ie(){if(n.recorded)return;let e=k();e.push({class:n.cls,group:n.group,mode:n.mode,startedAt:new Date(n.start).toISOString(),finishedAt:new Date(n.end).toISOString(),seconds:Math.round((n.end-n.start)/1e3),wrongTotal:n.wrong.reduce((t,l)=>t+l,0),hintTotal:n.hints.filter(Boolean).length,wrongByLevel:n.wrong.slice(),hintByLevel:n.hints.map(t=>t?1:0)}),w.set(A,e),n.recorded=!0,b()}function P(){u("hud"),u("pad"),u("btnAct"),u("puz"),u("solved"),o("eCls").textContent=n.cls,o("eGrp").textContent="\u7B2C "+n.group+" \u7D44",o("eTime").textContent=E(n.end-n.start),o("eWrong").textContent=n.wrong.reduce((e,t)=>e+t,0)+" \u6B21",o("eHint").textContent=n.hints.filter(Boolean).length+" \u6B21",o("ePass").textContent=L,m("end"),r&&r.pause(!0)}function W(){w.del(N),n=null;let e=new URL(location.href);location.href=e.toString()}function k(){return w.get(A,[])}function Z(){let e=k().length;o("tCount").textContent=e?"\u9019\u53F0\u88DD\u7F6E\u5171\u6709 "+e+" \u7B46\u901A\u95DC\u7D00\u9304\u3002":"\u9019\u53F0\u88DD\u7F6E\u76EE\u524D\u6C92\u6709\u901A\u95DC\u7D00\u9304\u3002"}function q(e,t,l){let c=new Blob([t],{type:l}),i=document.createElement("a");i.href=URL.createObjectURL(c),i.download=e,document.body.appendChild(i),i.click(),setTimeout(()=>{URL.revokeObjectURL(i.href),i.remove()},1e3)}function ae(e){return String(e).replace(/[^0-9A-Za-z_-]/g,"")||"x"}function j(){let e=new Date;return e.getFullYear()+x(e.getMonth()+1)+x(e.getDate())+"-"+x(e.getHours())+x(e.getMinutes())}function V(e){let t=k();if(!t.length){h("\u76EE\u524D\u6C92\u6709\u6210\u7E3E\u53EF\u4EE5\u532F\u51FA");return}if(e==="json"){q("fanjin-escape_results_"+j()+".json",JSON.stringify({game:"\u3008\u8303\u9032\u4E2D\u8209\u3009\u5BC6\u5BA4\u9003\u812B",exportedAt:new Date().toISOString(),results:t},null,2),"application/json");return}let l=["\u73ED\u7D1A","\u7D44\u5225","\u7248\u672C","\u958B\u59CB\u6642\u9593","\u5B8C\u6210\u6642\u9593","\u7528\u6642(\u79D2)","\u7528\u6642","\u7B54\u932F\u7E3D\u6578","\u63D0\u793A\u7E3D\u6578"].concat([1,2,3,4,5,6,7,8].map(s=>"\u7B2C"+s+"\u95DC\u7B54\u932F")).concat([1,2,3,4,5,6,7,8].map(s=>"\u7B2C"+s+"\u95DC\u63D0\u793A")),c=s=>{let p=String(s);return/[",\n]/.test(p)?'"'+p.replace(/"/g,'""')+'"':p},i=t.map(s=>[s.class,s.group,s.mode==="lite"?"\u7C21\u6613\u7248":"3D",new Date(s.startedAt).toLocaleString("zh-TW"),new Date(s.finishedAt).toLocaleString("zh-TW"),s.seconds,E(s.seconds*1e3),s.wrongTotal,s.hintTotal].concat(s.wrongByLevel).concat(s.hintByLevel)),a="\uFEFF"+[l].concat(i).map(s=>s.map(c).join(",")).join(`\r
-`);q("fanjin-escape_results_"+j()+".csv",a,"text/csv;charset=utf-8")}function re(){let e=document.createElement("canvas");e.width=1200,e.height=760;let t=e.getContext("2d"),l=t.createLinearGradient(0,0,0,760);l.addColorStop(0,"#f9ecd0"),l.addColorStop(1,"#ead3a0"),t.fillStyle=l,t.fillRect(0,0,1200,760),t.strokeStyle="#c99a3a",t.lineWidth=14,t.strokeRect(24,24,1152,712),t.strokeStyle="#8a5e10",t.lineWidth=3,t.strokeRect(46,46,1108,668),t.fillStyle="#2b1d0e",t.textAlign="center";let c='"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif';t.font="bold 64px "+c,t.fillText("\u3008\u8303\u9032\u4E2D\u8209\u3009\u5BC6\u5BA4\u9003\u812B",600,150),t.font="bold 40px "+c,t.fillStyle="#b5302a",t.fillText("\u8001\u723A\u56DE\u5E9C\u4E86\uFF01",600,215),t.fillStyle="#2b1d0e",t.font="38px "+c,t.fillText(n.cls+" \u73ED\u3000\u7B2C "+n.group+" \u7D44",600,310),t.fillText("\u7528\u6642 "+E(n.end-n.start)+"\u3000\u7B54\u932F "+n.wrong.reduce((i,a)=>i+a,0)+" \u6B21\u3000\u63D0\u793A "+n.hints.filter(Boolean).length+" \u6B21",600,380),t.font="28px "+c,t.fillStyle="#6d5a3d",t.fillText("\u5404\u95DC\u7B54\u932F\uFF1A"+n.wrong.join("\u3001"),600,450),t.fillText("\u5B8C\u6210\u6642\u9593\uFF1A"+new Date(n.end).toLocaleString("zh-TW"),600,500),t.fillText("\u901A\u95DC\u6697\u865F\uFF1A"+L,600,560),t.fillStyle="#b5302a",t.fillRect(990,560,110,110),t.fillStyle="#fff",t.font="bold 64px "+c,t.fillText("\u4E2D",1045,637),e.toBlob(i=>{let a=document.createElement("a");a.href=URL.createObjectURL(i),a.download="fanjin-escape_scorecard_class-"+ae(n.cls)+"_group-"+n.group+"_"+j()+".png",document.body.appendChild(a),a.click(),setTimeout(()=>{URL.revokeObjectURL(a.href),a.remove()},1e3)},"image/png")}var de=["\u{1F376}","\u{1F9FA}","\u{1F414}","\u{1F4DC}","\u{1F95A}","\u{1F52A}","\u{1FA79}","\u{1F458}"];function O(){let e=o("lite");e.innerHTML="";let t=document.createElement("div");t.className="yard",g.forEach((c,i)=>{let a=document.createElement("button");a.className="card",a.dataset.n=i;let s=n?i<n.level?"done":i===n.level?"cur":"locked":"locked";a.classList.add(s),a.innerHTML='<span class="ic"></span><span></span><small></small>',a.querySelector(".ic").textContent=s==="locked"?"\u{1F512}":de[i],a.children[1].textContent="\u7B2C "+c.id+" \u95DC\uFF5C"+c.obj,a.children[2].textContent=s==="done"?"\u5DF2\u89E3\u958B":s==="cur"?"\u9EDE\u6211\u8ABF\u67E5":"\u5C1A\u672A\u958B\u555F",a.onclick=()=>K(i),t.appendChild(a)});let l=document.createElement("button");l.className="card gate"+(n&&n.level>=8?" open":""),l.textContent=n&&n.level>=8?"\u{1F6AA} \u8303\u5BB6\u5927\u9580\u5DF2\u6253\u958B":"\u{1F6AA} \u8303\u5BB6\u5927\u9580\uFF08\u516B\u95DC\u5168\u7834\u624D\u6703\u6253\u958B\uFF09",l.onclick=()=>{n&&n.level>=8?D():h("\u9084\u6709\u6A5F\u95DC\u6C92\u89E3\u958B")},t.appendChild(l),e.appendChild(t)}function ue(){o("pClose").onclick=J,o("pSubmit").onclick=$,o("pHintBtn").onclick=se,o("sNext").onclick=ce,o("btnHelp").onclick=()=>{m("help"),r&&r.pause(!0)},o("btnMenu").onclick=()=>{m("menu"),r&&r.pause(!0)},document.querySelectorAll("[data-close]").forEach(e=>{e.onclick=()=>{u(e.dataset.close),r&&!R()&&r.pause(!1)}}),o("mSwitch").onclick=()=>{n&&(n.mode=f?"3d":"lite",b()),T(!f)},o("mRestart").onclick=()=>{u("menu"),S("\u653E\u68C4\u9032\u5EA6\uFF1F","\u8A08\u6642\u3001\u7B54\u932F\u548C\u63D0\u793A\u7D00\u9304\u90FD\u6703\u6E05\u6389\uFF0C\u5F9E\u7B2C 1 \u95DC\u91CD\u4F86\u3002",W)},o("eCard").onclick=re,o("eRestart").onclick=()=>S("\u91CD\u65B0\u958B\u59CB\uFF1F","\u672C\u7D44\u6210\u7E3E\u5DF2\u5B58\u5728\u9019\u53F0\u88DD\u7F6E\uFF0C\u91CD\u65B0\u958B\u59CB\u4E0D\u6703\u522A\u6389\u5B83\u3002",W),window.addEventListener("keydown",e=>{e.key==="Escape"&&!o("puz").classList.contains("hidden")&&J()})}f=ee();ue();ne();if(f)u("view");else{let e=document.createElement("script");e.src="scene3d.js",e.onerror=()=>{h("3D \u6A94\u6848\u8F09\u5165\u5931\u6557\uFF0C\u5DF2\u6539\u7528\u7C21\u6613\u7248",4e3),f=!0,B(),u("view")},document.body.appendChild(e)}n&&n.finished&&(u("start"),P());window.FJ={PUZZLES:g,get state(){return n},get lite(){return f},isBusy:R,tryOpen:K,finish:D,toast:h,registerScene(e){r=e,n&&!n.finished&&o("start").classList.contains("hidden")&&(r.start(),r.setLevel(n.level),n.level>=8&&r.openGate())},sceneFailed(e){r=null,f=!0,B(),u("view"),u("pad"),u("btnAct"),h(e||"\u9019\u53F0\u88DD\u7F6E\u4E0D\u652F\u63F4 3D\uFF0C\u5DF2\u6539\u7528\u7C21\u6613\u7248",4e3),!(n&&!o("start").classList.contains("hidden"))&&n&&(m("lite"),O(),M())}};})();
+/* 〈范進中舉〉密室逃脫：喚醒新科舉人  v2
+ * 依「密室逃脫設計師」專案包改版：
+ *   - 四幕結構（開頭／發展／高潮／結尾），對應課文八段
+ *   - 每關三層提示（方向 → 作法 → 答案），逐層記錄
+ *   - 每關得到一枚字牌，最後在大門用八枚字牌拼出本課主旨（統整關）
+ *   - 答錯時給部分回饋（哪一格對了、選對幾個），減少亂猜
+ *   - 結局加上收尾回顧四問與出口卡
+ * scene3d.js 只用到 FJ.PUZZLES[0..7].obj、tryOpen、finish、toast、registerScene、sceneFailed，
+ * 介面維持不變。
+ */
+(() => {
+  "use strict";
+
+  var PASS = "老爺回府了！";
+  var SUGGEST_MIN = 40; // 建議時間（分鐘），超過只提醒、不扣分
+
+  var ACTS = [
+    { no: "①", name: "開頭", paras: "第 1–2 段", title: "偷考一場賭人生", from: 0, to: 1,
+      intro: "范進剛「進學」中了秀才，丈人胡屠戶提著賀禮上門，嘴上道賀，句句是罵。" },
+    { no: "②", name: "發展", paras: "第 3–4 段", title: "賣雞的人中舉了", from: 2, to: 3,
+      intro: "出榜那日，家裡沒有早飯米，范進抱著老母雞上集去賣，報錄人卻一報、二報、三報地來了。" },
+    { no: "③", name: "高潮", paras: "第 5–7 段", title: "一巴掌打醒舉人", from: 4, to: 6,
+      intro: "范進喜極而瘋。平日不聞不問的鄰居全來了，還想出一個治瘋的主意：找他最怕的人打一個嘴巴。" },
+    { no: "④", name: "結尾", paras: "第 8 段", title: "女婿變成老爺", from: 7, to: 7,
+      intro: "范進醒了。回家路上，胡屠戶的嘴臉整個翻了過來。" }
+  ];
+
+  var PUZZLES = [
+    {
+      id: 1, obj: "酒瓶", para: "第一段", src: "課本 p.74｜投影片 p.49–50",
+      title: "酒瓶：胡屠戶的「賀禮」",
+      story: "茅草棚下擺著一個空酒瓶。范進剛「進學回家」那天，丈人胡屠戶提著賀禮走進來，一邊吃喝一邊數落女婿。",
+      type: "fill",
+      prompt: "胡屠戶來賀范進中秀才，「手裡拿著一副＿＿和一瓶＿＿」。",
+      blanks: [
+        { label: "一副＿＿", accept: ["大腸", "一副大腸", "腸", "腸子"] },
+        { label: "一瓶＿＿", accept: ["酒", "一瓶酒"] }
+      ],
+      hints: [
+        "答案就在第一段第一句：胡屠戶走進門時，手裡拿的兩樣東西。",
+        "原文：「手裡拿著一副＿＿和一瓶＿＿，走了進來。」後面范進還「叫渾家把腸子煮了，燙起酒來」。",
+        "答案：一副「大腸」、一瓶「酒」。"
+      ],
+      explain: "一副大腸和一瓶酒。等范進中舉，他改送「七、八斤肉，四、五千錢」，前倨後恭從賀禮就看得出來。",
+      frag: "倨"
+    },
+    {
+      id: 2, obj: "考籃", para: "第二段", src: "課本 p.76–77｜投影片 p.17、p.62、p.144",
+      title: "考籃：科舉闖關的身分",
+      story: "牆角放著范進瞞著丈人去城裡鄉試時提的考籃。籃底刻著科舉一路往上的身分，順序卻被打亂了。",
+      type: "order",
+      prompt: "從低到高排出科舉考上後的身分（院試 → 鄉試 → 會試 → 殿試）。點選木牌依序放入。",
+      start: "童生",
+      tiles: ["舉人", "進士", "秀才", "貢士"],
+      answer: ["秀才", "舉人", "貢士", "進士"],
+      hints: [
+        "從「童生」出發，每考過一級（院試 → 鄉試 → 會試 → 殿試）就換一個身分。",
+        "范進第一段「進學」＝考過院試，成了秀才；這次去考鄉試，考上就是舉人。剩下兩個分別屬於會試、殿試。",
+        "順序：秀才 → 舉人 → 貢士 → 進士。"
+      ],
+      explain: "秀才（生員）→ 舉人 → 貢士 → 進士。范進開頭剛是秀才，結尾中了「廣東鄉試第七名亞元」，成為舉人。",
+      frag: "前"
+    },
+    {
+      id: 3, obj: "母雞", para: "第三、四段", src: "課本 p.78–79｜投影片 p.75、p.77",
+      title: "母雞：插著草標的老母雞",
+      story: "院子裡一隻插著草標的老母雞咯咯叫。出榜那天，范進抱著牠到集上，東張西望找人買。",
+      type: "choice",
+      prompt: "出榜那天，范進為什麼抱著母雞到集上？",
+      options: [
+        "要把雞送給宗師，答謝他提拔",
+        "要拿雞當喜錢，打發報錄人",
+        "家裡已經沒有早飯米，要賣這隻雞去「救命」",
+        "胡屠戶叫他去賣雞，好還借的盤費"
+      ],
+      answer: 2,
+      hints: [
+        "看鄰居來奪雞時，范進怎麼回答對方。",
+        "范進說：「你曉得我今日沒有米，要賣這隻雞去＿＿」。家裡「已是餓了兩、三天」。",
+        "答案是 (C)：家裡已經沒有早飯米，要賣這隻雞去「救命」"
+      ],
+      explain: "家裡「已是餓了兩、三天」，放榜當日沒有早飯米，范進只好賣雞「救命」。窮途末路下忽然傳來捷報，對比格外強烈。",
+      frag: "涼"
+    },
+    {
+      id: 4, obj: "報帖", para: "第四段", src: "課本 p.79–80｜投影片 p.78–79",
+      title: "報帖：升掛在中間的捷報",
+      story: "屋子中間，報帖已經升掛起來。范進看了一遍，又念一遍，拍手一笑，往後一跤跌倒。",
+      type: "fill",
+      prompt: "① 報帖上寫：「高中廣東鄉試第＿名亞元」。② 范進看完報帖喊出的六個字是什麼？",
+      blanks: [
+        { label: "① 第＿名", accept: ["七", "7", "第七", "第七名"] },
+        { label: "② 六個字", accept: ["噫好了我中了"] }
+      ],
+      hints: [
+        "兩個答案都在第四段：報帖上寫的名次，以及范進拍手笑出的那一句話。",
+        "報帖：「捷報貴府老爺范諱進，高中廣東鄉試第＿名亞元。」那句話以「噫」開頭、以「我中了」結尾。",
+        "答案：① 七　② 噫！好了！我中了！（標點可以不打）"
+      ],
+      explain: "第七名亞元；「噫！好了！我中了！」說完就「往後一跤跌倒，牙關咬緊，不省人事」。幾十年的辛酸凝成六個字。",
+      frag: "世"
+    },
+    {
+      id: 5, obj: "禮籃", para: "第五段", src: "課本 p.81｜投影片 p.86（另見 p.82–84）",
+      title: "禮籃：鄰居忽然熱心起來",
+      story: "范進瘋了，眾鄰居卻忙著搬桌凳、請報錄人吃酒。門邊堆滿他們拿來的東西。",
+      type: "multi",
+      prompt: "第五段中，眾鄰居拿來了哪些東西？（全部選對才算過關）",
+      options: ["雞蛋", "一副大腸", "白酒", "七、八斤肉", "斗米", "四、五千錢", "兩隻雞"],
+      answer: [0, 2, 4, 6],
+      hints: [
+        "第五段有一句排比：「有拿……來的，有拿……來的，也有……來的」，只看這一句。",
+        "「一副大腸」是第一段胡屠戶的賀禮；「肉」和「錢」是第六段胡屠戶的二漢提來的，都不是鄰居送的。",
+        "答案：雞蛋、白酒、斗米、兩隻雞。"
+      ],
+      explain: "雞蛋、白酒、斗米、兩隻雞。和前文「家裡已是餓了兩、三天」對比：雪中送炭者少，錦上添花者多。",
+      frag: "炎"
+    },
+    {
+      id: 6, obj: "肉案", para: "第六段", src: "課本 p.83｜投影片 p.92、p.94、p.99",
+      title: "肉案：胡屠戶不敢下手",
+      story: "鄰居想出辦法：找范進最怕的人打他一個嘴巴。眾人跑到肉案子邊找胡屠戶，他卻作難起來。",
+      type: "choice",
+      prompt: "眾人推胡屠戶去打范進，他為什麼猶豫為難？",
+      options: [
+        "他認為女婿中了舉就是天上的星宿，打了要被閻王打一百鐵棍、下十八層地獄",
+        "他怕女兒胡氏捨不得，回家跟他吵",
+        "他怕報錄人去官府告他打傷舉人老爺",
+        "他自知力氣太大，怕一巴掌把范進打死"
+      ],
+      answer: 0,
+      hints: [
+        "看胡屠戶「作難道」之後說的那段話：他真正怕的是誰？",
+        "「天上的星宿是打不得的。」他還說聽齋公們講，打了星宿會被閻王怎麼處置。",
+        "答案是 (A)：他認為女婿中了舉就是天上的星宿，打了要被閻王打一百鐵棍、下十八層地獄"
+      ],
+      explain: "胡屠戶認為舉人是天上星宿下凡，打了會下十八層地獄。可見他迷信又畏懼權勢，和中舉前的凶狠判若兩人。",
+      frag: "後"
+    },
+    {
+      id: 7, obj: "膏藥", para: "第七段", src: "課本 p.85｜投影片 p.104、p.106",
+      title: "膏藥：彎不過來的巴掌",
+      story: "胡屠戶喝了兩碗酒壯膽，一巴掌打醒了范進。事後他的手隱隱疼起來，連忙向郎中討了膏藥貼著。",
+      type: "fill",
+      prompt: "胡屠戶看著彎不過來的巴掌，心裡懊惱道：「果然天上＿＿＿是打不得的，而今菩薩計較起來了。」",
+      blanks: [{ label: "天上＿＿＿", accept: ["文曲星"] }],
+      hints: [
+        "胡屠戶在第二段罵范進時就提過：中老爺的人，都是天上的哪一顆星？",
+        "第二段：「這些中老爺的，都是天上的＿＿＿。」三個字，是主管文運的星。",
+        "答案：文曲星。"
+      ],
+      explain: "文曲星。凶煞的樣子和內心的害怕形成對比，正是「色厲內荏」；手疼是「一來心虛，二來迷信」。",
+      frag: "態"
+    },
+    {
+      id: 8, obj: "衣襟", para: "第八段", src: "課本 p.86–87｜投影片 p.108–110、p.120–125",
+      title: "衣襟：前倨後恭",
+      story: "范進醒了。回家路上，胡屠戶一路低著頭替女婿扯衣襟。把胡屠戶中舉前、後的表現配成對，就能收齊最後一枚字牌。",
+      type: "match",
+      prompt: "左邊是范進「中舉前」胡屠戶的表現，替每一項選出「中舉後」的對應表現。",
+      rows: [
+        { left: "稱呼：「現世寶、窮鬼」", answer: "稱他「賢婿老爺」" },
+        { left: "賀禮：一副大腸、一瓶酒", answer: "提著七、八斤肉，四、五千錢" },
+        { left: "相貌：「尖嘴猴腮」", answer: "「才學又高，品貌又好」" },
+        { left: "態度：「一口啐在臉上」", answer: "低著頭替他扯了幾十回衣襟" }
+      ],
+      choices: [
+        "低著頭替他扯了幾十回衣襟",
+        "稱他「賢婿老爺」",
+        "「才學又高，品貌又好」",
+        "提著七、八斤肉，四、五千錢"
+      ],
+      hints: [
+        "每一列都有一個類別：稱呼、賀禮、相貌、態度。替每一類找「同一類」的中舉後表現。",
+        "稱呼看第八段開口叫的「賢婿老爺」；賀禮看第六段二漢提來的東西；相貌看「品貌又好」；剩下的就是態度。",
+        "答案：稱呼→賢婿老爺；賀禮→七八斤肉、四五千錢；相貌→才學又高品貌又好；態度→扯衣襟。"
+      ],
+      explain: "稱呼、賀禮、相貌、態度四項全部翻轉，正是胡屠戶「前倨後恭」的典型。",
+      frag: "恭"
+    }
+  ];
+
+  // 統整關：八枚字牌拼出兩個四字主旨（不在 3D 場景物件裡，於大門觸發）
+  var FINAL = {
+    id: 9, obj: "大門", para: "全文主旨", src: "投影片 p.110、p.112、p.133–135",
+    title: "范家大門：說破眾人的嘴臉",
+    story: "大門打開了，門口卻擠著胡屠戶和一群鄰居。要把「老爺」送回府，得先用八關收來的字牌，說破這些人的嘴臉。",
+    type: "final",
+    prompt: "用八枚字牌拼出本課兩個四字主旨：一個說胡屠戶，一個說鄰居與整個社會。點字牌依序放入格子。",
+    rows: [
+      { label: "胡屠戶中舉前後", answer: ["前", "倨", "後", "恭"] },
+      { label: "鄰居與世人的人情", answer: ["世", "態", "炎", "涼"] }
+    ],
+    hints: [
+      "兩組都是四字詞：一組寫胡屠戶「中舉前」和「中舉後」的轉變，另一組寫整個社會的人情冷暖。",
+      "胡屠戶：之前傲慢（倨），之後恭敬（恭）。鄰居：中舉前冷冰冰，中舉後熱烘烘，人情忽冷忽熱。",
+      "答案：前倨後恭／世態炎涼。"
+    ],
+    explain: "前倨後恭寫鄉里小人的趨炎附勢，世態炎涼寫人情的冷暖。再加上科舉對讀書人的摧殘，就是吳敬梓在本課藏的三層諷刺。"
+  };
+
+  var ALL = PUZZLES.concat([FINAL]);
+  var N = PUZZLES.length; // 8
+  var TOTAL = ALL.length; // 9（含大門）
+  var HINT_NAMES = ["方向", "作法", "答案"];
+
+  // ---------- 工具 ----------
+  function norm(s) {
+    return String(s || "").normalize("NFKC")
+      .replace(/[\s　]/g, "")
+      .replace(/[，。、！？；：「」『』（）()《》〈〉“”‘’"',.!?;:\-—…·・~～]/g, "")
+      .toLowerCase();
+  }
+  function isCorrect(p, a) {
+    switch (p.type) {
+      case "fill": return p.blanks.every((b, i) => b.accept.map(norm).includes(norm(a[i])));
+      case "order": return Array.isArray(a) && a.length === p.answer.length && a.every((x, i) => x === p.answer[i]);
+      case "choice": return a === p.answer;
+      case "multi": return [...p.answer].sort().join(",") === [...(a || [])].sort().join(",");
+      case "match": return p.rows.every((r, i) => a[i] === r.answer);
+      case "final": return p.rows.every((r, i) => r.answer.join("") === (a[i] || []).join(""));
+    }
+    return false;
+  }
+  // 答錯時的部分回饋：只說「幾格對」，不洩漏是哪個答案
+  function diagnose(p, a) {
+    switch (p.type) {
+      case "fill": {
+        if (p.blanks.length < 2) return "";
+        var ok = p.blanks.map((b, i) => b.accept.map(norm).includes(norm(a[i])));
+        var good = ok.map((v, i) => v ? p.blanks[i].label : null).filter(Boolean);
+        return good.length ? "「" + good.join("」「") + "」已經對了，再檢查另一格。" : "兩格都還不對。";
+      }
+      case "order": {
+        var n = a.filter((x, i) => x === p.answer[i]).length;
+        return "有 " + n + " 塊木牌放在正確位置。";
+      }
+      case "multi": {
+        var hit = a.filter(x => p.answer.includes(x)).length;
+        var bad = a.length - hit;
+        return "你選的裡面有 " + hit + " 個正確" + (bad ? "、" + bad + " 個不是鄰居送的" : "") + (hit < p.answer.length ? "，而且還有漏掉的" : "") + "。";
+      }
+      case "match": {
+        var m = p.rows.filter((r, i) => a[i] === r.answer).length;
+        return "四組裡有 " + m + " 組配對正確。";
+      }
+      case "final": {
+        var rowsOk = p.rows.filter((r, i) => r.answer.join("") === (a[i] || []).join("")).length;
+        return rowsOk ? "其中一組已經對了，再看另一組。" : "兩組都還不對。先想想哪四個字在說胡屠戶。";
+      }
+    }
+    return "";
+  }
+
+  var KEY_STATE = "fanjin-escape-v2",
+    KEY_STATE_OLD = "fanjin-escape-v1",
+    KEY_RESULTS = "fanjin-escape-results-v1",
+    KEY_MODE = "fanjin-escape-mode-v1",
+    GROUPS = 8,
+    $ = id => document.getElementById(id),
+    store = {
+      get(k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+      set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } },
+      del(k) { try { localStorage.removeItem(k); } catch (e) {} }
+    };
+
+  function newState(cls, group, mode) {
+    return {
+      v: 2, cls: cls, group: group, mode: mode, start: Date.now(),
+      level: 0, wrong: Array(TOTAL).fill(0), hints: Array(TOTAL).fill(0),
+      finished: false, end: null, recorded: false
+    };
+  }
+  function loadState() {
+    var s = store.get(KEY_STATE, null);
+    if (s && s.v === 2) return s;
+    var o = store.get(KEY_STATE_OLD, null); // 舊版進度轉換
+    if (o && o.v === 1 && !o.finished) {
+      var n = newState(o.cls, o.group, o.mode);
+      n.start = o.start; n.level = Math.min(o.level, N);
+      o.wrong.forEach((w, i) => { if (i < N) n.wrong[i] = w; });
+      o.hints.forEach((h, i) => { if (i < N) n.hints[i] = h ? 1 : 0; });
+      store.set(KEY_STATE, n); store.del(KEY_STATE_OLD);
+      return n;
+    }
+    return null;
+  }
+
+  var st = loadState(),
+    scene = null,
+    cur = null,   // 目前開著的機關
+    ans = null,   // 目前作答
+    lite = false,
+    qs = new URLSearchParams(location.search);
+
+  function wantLite() {
+    if (qs.get("lite") === "1") return true;
+    if (qs.get("lite") === "0") return false;
+    return store.get(KEY_MODE, "3d") === "lite";
+  }
+  function fitH() {
+    var h = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+    document.documentElement.style.setProperty("--appH", h + "px");
+  }
+  window.addEventListener("resize", fitH);
+  if (window.visualViewport) window.visualViewport.addEventListener("resize", fitH);
+  fitH();
+
+  var pad2 = n => String(n).padStart(2, "0");
+  function fmt(ms) { var s = Math.max(0, Math.floor(ms / 1000)); return pad2(Math.floor(s / 60)) + ":" + pad2(s % 60); }
+  function elapsed() { return st ? (st.finished ? st.end : Date.now()) - st.start : 0; }
+  function save() { if (st) store.set(KEY_STATE, st); }
+  function show(id) { $(id).classList.remove("hidden"); }
+  function hide(id) { $(id).classList.add("hidden"); }
+  var toastT = 0;
+  function toast(msg, ms) {
+    var t = $("toast");
+    t.textContent = msg; t.classList.add("show");
+    clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("show"), ms || 2200);
+  }
+  function busy() {
+    return ["puz", "solved", "act", "help", "menu", "confirm", "start", "end"].some(id => !$(id).classList.contains("hidden"));
+  }
+  function confirmBox(title, msg, yes) {
+    $("cTitle").textContent = title; $("cMsg").textContent = msg; show("confirm");
+    $("cYes").onclick = () => { hide("confirm"); yes(); };
+    $("cNo").onclick = () => hide("confirm");
+  }
+  function actOf(i) { return ACTS.find(a => i >= a.from && i <= a.to) || null; }
+  function sum(a) { return a.reduce((x, y) => x + y, 0); }
+  function hintTotal() { return sum(st.hints); }
+  function fragsOwned() { return PUZZLES.slice(0, Math.min(st.level, N)).map(p => p.frag); }
+
+  // ---------- 開始畫面 ----------
+  function initStart() {
+    var sel = $("grp");
+    for (var g = 1; g <= GROUPS; g++) {
+      var o = document.createElement("option");
+      o.value = String(g); o.textContent = "第 " + g + " 組"; sel.appendChild(o);
+    }
+    if (st && !st.finished) {
+      $("btnResume").classList.remove("hidden");
+      $("btnResume").textContent = "繼續上次進度（" + st.cls + " 班第 " + st.group + " 組，" + Math.min(st.level, TOTAL) + " / " + TOTAL + "）";
+      $("cls").value = st.cls; sel.value = String(st.group);
+    }
+    $("btnStart").onclick = () => {
+      var cls = $("cls").value.trim(), grp = $("grp").value;
+      if (!cls) { $("startErr").textContent = "請先填班級代號（例：101）。"; $("cls").focus(); return; }
+      if (!/^[0-9A-Za-z\-一-龥]{1,12}$/.test(cls)) { $("startErr").textContent = "班級代號只能用數字、英文或中文，12 字以內。"; return; }
+      if (!grp) { $("startErr").textContent = "請選擇組別。"; $("grp").focus(); return; }
+      var go = () => { st = newState(cls, Number(grp), lite ? "lite" : "3d"); save(); enter(true); };
+      if (st && !st.finished) {
+        confirmBox("要重新開始嗎？", "這台裝置有一份未完成的進度（" + st.cls + " 班第 " + st.group + " 組，" + Math.min(st.level, TOTAL) + " / " + TOTAL + "）。重新開始會把它清掉。", go);
+      } else go();
+    };
+    $("btnResume").onclick = () => enter(false);
+    $("toLite").onclick = e => { e.preventDefault(); switchMode(true); };
+    $("to3d").onclick = e => { e.preventDefault(); switchMode(false); };
+    $("btnCsv").onclick = () => exportResults("csv");
+    $("btnJson").onclick = () => exportResults("json");
+    $("btnClear").onclick = () => confirmBox("清除本機成績？", "會刪掉這台裝置上全部 " + results().length + " 筆成績，無法復原。請先匯出。", () => {
+      store.del(KEY_RESULTS); refreshCount(); toast("已清除本機成績");
+    });
+    refreshCount(); refreshModeLinks();
+  }
+  function refreshModeLinks() {
+    $("toLite").classList.toggle("hidden", lite);
+    $("to3d").classList.toggle("hidden", !lite);
+  }
+  function switchMode(toLite) {
+    store.set(KEY_MODE, toLite ? "lite" : "3d");
+    var u = new URL(location.href); u.searchParams.set("lite", toLite ? "1" : "0"); location.href = u.toString();
+  }
+  function enter(fresh) {
+    hide("start"); show("hud");
+    if (st.finished) { showEnd(); return; }
+    if (lite) { hide("view"); show("lite"); renderLite(); }
+    else { hide("lite"); show("view"); show("pad"); show("btnAct"); if (scene) scene.start(); }
+    refreshHud();
+    if (fresh) showAct(0);
+  }
+
+  // ---------- 幕卡 ----------
+  function showAct(i, after) {
+    var a = ACTS[i];
+    $("aNo").textContent = "第" + a.no + "幕　" + a.name + "（" + a.paras + "）";
+    $("aTitle").textContent = a.title;
+    $("aIntro").textContent = a.intro;
+    var objs = PUZZLES.slice(a.from, a.to + 1).map(p => "「" + p.obj + "」").join("、");
+    $("aGoal").textContent = "本幕機關：" + objs;
+    show("act"); if (scene) scene.pause(true);
+    $("aGo").onclick = () => { hide("act"); if (scene && !busy()) scene.pause(false); if (after) after(); };
+  }
+
+  // ---------- HUD ----------
+  function refreshHud() {
+    if (!st) return;
+    $("hGroup").textContent = st.cls + " 班 第 " + st.group + " 組";
+    $("hProg").textContent = Math.min(st.level, TOTAL);
+    $("hTotal").textContent = TOTAL;
+    var d = $("diamonds"); d.innerHTML = "";
+    for (var i = 0; i < TOTAL; i++) {
+      var e = document.createElement("i");
+      if (i === N) e.classList.add("gate");
+      if (i < st.level) e.classList.add("done"); else if (i === st.level) e.classList.add("cur");
+      var a = actOf(i);
+      if (a && i === a.from && i > 0) e.classList.add("gap");
+      if (i === N) e.classList.add("gap");
+      d.appendChild(e);
+    }
+    var a2 = actOf(st.level);
+    $("objective").textContent = st.level < N
+      ? "第" + a2.no + "幕｜目標：調查「" + PUZZLES[st.level].obj + "」" + (lite ? "" : "（跟著金色菱形）")
+      : "終幕｜目標：走到范家大門，用八枚字牌解開最後的暗語";
+    // 字牌行囊
+    var bag = $("bag"); bag.innerHTML = "";
+    var lab = document.createElement("span"); lab.textContent = "字牌"; bag.appendChild(lab);
+    PUZZLES.forEach((p, i) => {
+      var b = document.createElement("b");
+      b.textContent = i < st.level ? p.frag : "？";
+      if (i < st.level) b.className = "got";
+      bag.appendChild(b);
+    });
+    if (scene) scene.setLevel(Math.min(st.level, N));
+    if (lite) renderLite();
+  }
+  setInterval(() => {
+    if (!st || $("hud").classList.contains("hidden")) return;
+    var ms = elapsed();
+    $("hTime").textContent = fmt(ms);
+    $("hTimeWrap").classList.toggle("over", ms > SUGGEST_MIN * 60000);
+  }, 500);
+
+  // ---------- 機關 ----------
+  function tryOpen(i) {
+    if (!st || st.finished || busy()) return;
+    if (i < st.level) { toast("「" + ALL[i].obj + "」已經解開了"); return; }
+    if (i > st.level) { toast("這個機關還鎖著，先去調查「" + ALL[st.level].obj + "」"); return; }
+    openPuzzle(ALL[i]);
+  }
+  function openPuzzle(p) {
+    cur = p;
+    var i = p.id - 1, a = actOf(i);
+    $("pNo").textContent = (a ? "第" + a.no + "幕・" : "終幕・") + "第 " + p.id + " 關｜" + p.para;
+    $("pTitle").textContent = p.title;
+    $("pStory").textContent = p.story;
+    $("pPrompt").textContent = p.prompt;
+    $("pSrc").textContent = "翻課本找答案：" + p.src;
+    $("pFeedback").textContent = ""; $("pFeedback").className = "feedback";
+    renderHints();
+    renderBody(p);
+    show("puz");
+    if (scene) scene.pause(true);
+  }
+  function renderHints() {
+    var p = cur, i = p.id - 1, used = st.hints[i], box = $("pHint");
+    box.innerHTML = "";
+    for (var k = 0; k < used; k++) {
+      var d = document.createElement("div");
+      d.className = "hint" + (k === 2 ? " ans" : "");
+      var b = document.createElement("b"); b.textContent = "提示 " + (k + 1) + "｜" + HINT_NAMES[k] + "：";
+      d.appendChild(b); d.appendChild(document.createTextNode(k === 2 ? p.hints[k].replace(/^答案[：是]\s*/, "") : p.hints[k]));
+      box.appendChild(d);
+    }
+    var btn = $("pHintBtn");
+    if (used >= 3) { btn.disabled = true; btn.textContent = "提示已全部打開"; }
+    else {
+      btn.disabled = false;
+      btn.textContent = "💡 看提示 " + (used + 1) + "/3（" + HINT_NAMES[used] + "）";
+    }
+  }
+  function useHint() {
+    var p = cur; if (!p) return;
+    var i = p.id - 1, used = st.hints[i];
+    if (used >= 3) return;
+    var open = () => { st.hints[i] = used + 1; save(); renderHints(); };
+    if (used === 2) confirmBox("要直接看答案嗎？", "第 3 層提示會直接說出答案，也會記在成績裡。先跟組員再討論一下也可以。", open);
+    else open();
+  }
+  function blurActive() {
+    try { if (document.activeElement && document.activeElement !== document.body) document.activeElement.blur(); } catch (e) {}
+  }
+  function closePuzzle() { blurActive(); hide("puz"); cur = null; if (scene) scene.pause(false); }
+
+  function renderBody(p) {
+    var body = $("pBody"); body.innerHTML = "";
+    if (p.type === "fill") {
+      ans = p.blanks.map(() => "");
+      p.blanks.forEach((b, i) => {
+        var row = document.createElement("label"); row.className = "fillrow";
+        var s = document.createElement("span"); s.textContent = b.label;
+        var inp = document.createElement("input"); inp.autocomplete = "off"; inp.dataset.i = i;
+        inp.oninput = () => { ans[i] = inp.value; };
+        inp.onkeydown = e => { if (e.key === "Enter") submit(); };
+        row.append(s, inp); body.appendChild(row);
+      });
+    } else if (p.type === "choice" || p.type === "multi") {
+      ans = p.type === "choice" ? null : [];
+      p.options.forEach((txt, i) => {
+        var b = document.createElement("button"); b.className = "opt"; b.dataset.i = i;
+        b.innerHTML = "<b>(" + "ABCDEFG"[i] + ")</b><span></span>";
+        b.querySelector("span").textContent = txt;
+        b.onclick = () => {
+          if (p.type === "choice") { ans = i; body.querySelectorAll(".opt").forEach(x => x.classList.toggle("sel", x === b)); }
+          else { var k = ans.indexOf(i); if (k >= 0) ans.splice(k, 1); else ans.push(i); b.classList.toggle("sel"); }
+        };
+        body.appendChild(b);
+      });
+    } else if (p.type === "order") {
+      ans = [];
+      var slots = document.createElement("div"); slots.className = "slots";
+      var tiles = document.createElement("div"); tiles.className = "tiles";
+      var draw = () => {
+        slots.innerHTML = '<span class="slot fixed">' + p.start + "</span>";
+        p.answer.forEach((_, i) => {
+          var ar = document.createElement("span"); ar.className = "arrow"; ar.textContent = "→"; slots.appendChild(ar);
+          var s = document.createElement("button"); s.className = "slot"; s.textContent = ans[i] || "？";
+          s.onclick = () => { if (ans[i]) { ans.splice(i, 1); draw(); } };
+          slots.appendChild(s);
+        });
+        tiles.querySelectorAll(".tile").forEach(t => t.classList.toggle("used", ans.includes(t.dataset.t)));
+      };
+      p.tiles.forEach(t => {
+        var b = document.createElement("button"); b.className = "tile"; b.textContent = t; b.dataset.t = t;
+        b.onclick = () => { if (!ans.includes(t) && ans.length < p.answer.length) { ans.push(t); draw(); } };
+        tiles.appendChild(b);
+      });
+      var note = document.createElement("p"); note.className = "note"; note.textContent = "點已放入的格子可以拿回來。";
+      body.append(slots, tiles, note); draw();
+    } else if (p.type === "match") {
+      ans = p.rows.map(() => "");
+      p.rows.forEach((r, i) => {
+        var row = document.createElement("div"); row.className = "mrow";
+        var l = document.createElement("div"); l.textContent = r.left;
+        var s = document.createElement("select"); s.dataset.i = i;
+        s.innerHTML = '<option value="">中舉後……</option>';
+        p.choices.forEach(c => { var o = document.createElement("option"); o.value = c; o.textContent = c; s.appendChild(o); });
+        s.onchange = () => { ans[i] = s.value; };
+        row.append(l, s); body.appendChild(row);
+      });
+    } else if (p.type === "final") {
+      // 字牌：依取得順序（打散的）排列，玩家依序點入兩列格子
+      ans = p.rows.map(() => []);
+      var pool = PUZZLES.map(x => x.frag); // 每枚只有一張
+      var used = [];
+      var rowsEl = document.createElement("div");
+      var tilesEl = document.createElement("div"); tilesEl.className = "tiles frag-tiles";
+      var redraw = () => {
+        rowsEl.innerHTML = "";
+        p.rows.forEach((r, ri) => {
+          var row = document.createElement("div"); row.className = "frow";
+          var lab = document.createElement("span"); lab.className = "flabel"; lab.textContent = r.label;
+          var box = document.createElement("div"); box.className = "slots";
+          for (var k = 0; k < 4; k++) {
+            ((k) => {
+              var s = document.createElement("button"); s.className = "slot frag"; s.textContent = ans[ri][k] || "？";
+              s.onclick = () => { if (ans[ri][k]) { var ch = ans[ri].splice(k, 1)[0]; used.splice(used.indexOf(ch), 1); redraw(); } };
+              box.appendChild(s);
+            })(k);
+          }
+          row.append(lab, box); rowsEl.appendChild(row);
+        });
+        tilesEl.querySelectorAll(".tile").forEach(t => t.classList.toggle("used", used.includes(t.dataset.t)));
+      };
+      pool.forEach(ch => {
+        var b = document.createElement("button"); b.className = "tile frag"; b.textContent = ch; b.dataset.t = ch;
+        b.onclick = () => {
+          if (used.includes(ch)) return;
+          var ri = ans.findIndex(r => r.length < 4);
+          if (ri < 0) return;
+          ans[ri].push(ch); used.push(ch); redraw();
+        };
+        tilesEl.appendChild(b);
+      });
+      var note2 = document.createElement("p"); note2.className = "note";
+      note2.textContent = "字牌會先填第一列，填滿再填第二列；點格子可以把字牌拿回來。";
+      body.append(rowsEl, tilesEl, note2); redraw();
+    }
+  }
+
+  function submit() {
+    var p = cur; if (!p) return;
+    var i = p.id - 1;
+    var empty =
+      (p.type === "fill" && ans.some(x => !String(x).trim())) ||
+      (p.type === "choice" && ans === null) ||
+      (p.type === "multi" && ans.length === 0) ||
+      (p.type === "order" && ans.length < p.answer.length) ||
+      (p.type === "match" && ans.some(x => !x)) ||
+      (p.type === "final" && ans.some(r => r.length < 4));
+    var fb = $("pFeedback");
+    if (empty) { fb.textContent = "還有空格沒作答喔。"; fb.className = "feedback bad"; return; }
+    if (isCorrect(p, ans)) {
+      st.level = i + 1; save(); blurActive(); hide("puz"); cur = null;
+      var expl = $("sExplain"); expl.textContent = p.explain;
+      var fr = $("sFrag");
+      if (p.frag) { fr.classList.remove("hidden"); $("sFragCh").textContent = p.frag; $("sFragCount").textContent = st.level + " / " + N; }
+      else fr.classList.add("hidden");
+      $("sNext").textContent = p.type === "final" ? "送老爺回府" : "繼續探索";
+      show("solved");
+      if (scene && i < N) scene.solved(i);
+      refreshHud();
+    } else {
+      st.wrong[i]++; save();
+      var hintMsg = st.hints[i] < 3 ? "卡住了可以看下一層提示。" : "";
+      fb.textContent = "機關沒有動靜……" + diagnose(p, ans) + "（本關答錯 " + st.wrong[i] + " 次）" + hintMsg;
+      fb.className = "feedback bad";
+      if (scene) scene.wrong();
+    }
+  }
+
+  function afterSolved() {
+    blurActive(); hide("solved"); if (scene) scene.pause(false);
+    var lv = st.level;
+    if (lv > N) { finishGame(); return; }      // 大門暗語解開
+    if (lv === N) {
+      if (lite) toast("八枚字牌收齊了！點「范家大門」解開最後的暗語", 3500);
+      else { toast("八枚字牌收齊了！走到范家大門，按「走出大門」解開最後的暗語", 4000); if (scene) scene.openGate(); }
+      return;
+    }
+    var prev = actOf(lv - 1), next = actOf(lv);
+    if (next && prev !== next) showAct(ACTS.indexOf(next));
+    else toast("下一個機關：「" + PUZZLES[lv].obj + "」");
+  }
+
+  // 場景或簡易版走到大門時呼叫
+  function atGate() {
+    if (!st || st.finished || busy()) return;
+    if (st.level < N) { toast("還有機關沒解開"); return; }
+    if (st.level === N) { openPuzzle(FINAL); return; }
+    finishGame();
+  }
+  function finishGame() {
+    if (!st || st.finished || st.level < TOTAL) return;
+    st.finished = true; st.end = Date.now(); save(); record(); showEnd();
+  }
+  function record() {
+    if (st.recorded) return;
+    var r = results();
+    r.push({
+      v: 2, class: st.cls, group: st.group, mode: st.mode,
+      startedAt: new Date(st.start).toISOString(), finishedAt: new Date(st.end).toISOString(),
+      seconds: Math.round((st.end - st.start) / 1000),
+      wrongTotal: sum(st.wrong), hintTotal: hintTotal(),
+      answersRevealed: st.hints.filter(h => h >= 3).length,
+      wrongByLevel: st.wrong.slice(), hintByLevel: st.hints.slice()
+    });
+    store.set(KEY_RESULTS, r); st.recorded = true; save();
+  }
+  function showEnd() {
+    hide("hud"); hide("pad"); hide("btnAct"); hide("puz"); hide("solved"); hide("act");
+    $("eCls").textContent = st.cls;
+    $("eGrp").textContent = "第 " + st.group + " 組";
+    $("eTime").textContent = fmt(st.end - st.start);
+    $("eWrong").textContent = sum(st.wrong) + " 次";
+    $("eHint").textContent = hintTotal() + " 層";
+    $("ePass").textContent = PASS;
+    // 卡最久的一關（答錯＋提示最多）
+    var worst = -1, ws = 0;
+    st.wrong.forEach((w, i) => { var s = w + st.hints[i]; if (s > ws) { ws = s; worst = i; } });
+    $("eStuck").textContent = worst >= 0 ? "你們在「" + ALL[worst].obj + "」（第 " + ALL[worst].id + " 關）花了最多力氣。" : "八關加大門一路順暢，沒有答錯也沒看提示！";
+    show("end");
+    if (scene) scene.pause(true);
+  }
+  function restart() {
+    store.del(KEY_STATE); st = null;
+    location.href = new URL(location.href).toString();
+  }
+
+  // ---------- 成績 ----------
+  function results() { return store.get(KEY_RESULTS, []); }
+  function refreshCount() {
+    var n = results().length;
+    $("tCount").textContent = n ? "這台裝置共有 " + n + " 筆通關紀錄。" : "這台裝置目前沒有通關紀錄。";
+  }
+  function download(name, text, type) {
+    var blob = new Blob([text], { type: type }), a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  }
+  function safe(s) { return String(s).replace(/[^0-9A-Za-z_-]/g, "") || "x"; }
+  function stamp() {
+    var d = new Date();
+    return d.getFullYear() + pad2(d.getMonth() + 1) + pad2(d.getDate()) + "-" + pad2(d.getHours()) + pad2(d.getMinutes());
+  }
+  function exportResults(kind) {
+    var r = results();
+    if (!r.length) { toast("目前沒有成績可以匯出"); return; }
+    if (kind === "json") {
+      download("fanjin-escape_results_" + stamp() + ".json",
+        JSON.stringify({ game: "〈范進中舉〉密室逃脫", exportedAt: new Date().toISOString(), results: r }, null, 2),
+        "application/json");
+      return;
+    }
+    var lv = Array.from({ length: TOTAL }, (_, i) => i + 1);
+    var head = ["班級", "組別", "版本", "開始時間", "完成時間", "用時(秒)", "用時", "答錯總數", "提示總層數", "直接看答案關數"]
+      .concat(lv.map(i => (i === TOTAL ? "大門" : "第" + i + "關") + "答錯"))
+      .concat(lv.map(i => (i === TOTAL ? "大門" : "第" + i + "關") + "提示層數"));
+    var q = v => { var s = String(v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+    var pad = (a) => { var x = (a || []).slice(); while (x.length < TOTAL) x.push(""); return x; };
+    var rows = r.map(x => [
+      x.class, x.group, x.mode === "lite" ? "簡易版" : "3D",
+      new Date(x.startedAt).toLocaleString("zh-TW"), new Date(x.finishedAt).toLocaleString("zh-TW"),
+      x.seconds, fmt(x.seconds * 1000), x.wrongTotal, x.hintTotal,
+      x.answersRevealed != null ? x.answersRevealed : ""
+    ].concat(pad(x.wrongByLevel)).concat(pad(x.hintByLevel)));
+    var csv = "﻿" + [head].concat(rows).map(r2 => r2.map(q).join(",")).join("\r\n");
+    download("fanjin-escape_results_" + stamp() + ".csv", csv, "text/csv;charset=utf-8");
+  }
+  function scoreCard() {
+    var c = document.createElement("canvas"); c.width = 1200; c.height = 760;
+    var g = c.getContext("2d"), bg = g.createLinearGradient(0, 0, 0, 760);
+    bg.addColorStop(0, "#f9ecd0"); bg.addColorStop(1, "#ead3a0");
+    g.fillStyle = bg; g.fillRect(0, 0, 1200, 760);
+    g.strokeStyle = "#c99a3a"; g.lineWidth = 14; g.strokeRect(24, 24, 1152, 712);
+    g.strokeStyle = "#8a5e10"; g.lineWidth = 3; g.strokeRect(46, 46, 1108, 668);
+    g.fillStyle = "#2b1d0e"; g.textAlign = "center";
+    var f = '"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif';
+    g.font = "bold 64px " + f; g.fillText("〈范進中舉〉密室逃脫", 600, 150);
+    g.font = "bold 40px " + f; g.fillStyle = "#b5302a"; g.fillText("老爺回府了！", 600, 215);
+    g.fillStyle = "#2b1d0e"; g.font = "38px " + f;
+    g.fillText(st.cls + " 班　第 " + st.group + " 組", 600, 300);
+    g.fillText("用時 " + fmt(st.end - st.start) + "　答錯 " + sum(st.wrong) + " 次　提示 " + hintTotal() + " 層", 600, 365);
+    g.font = "bold 46px " + f; g.fillStyle = "#8a5e10"; g.fillText("前倨後恭　世態炎涼", 600, 440);
+    g.font = "28px " + f; g.fillStyle = "#6d5a3d";
+    g.fillText("各關答錯：" + st.wrong.join("、") + "　各關提示：" + st.hints.join("、"), 600, 505);
+    g.fillText("完成時間：" + new Date(st.end).toLocaleString("zh-TW"), 600, 555);
+    g.fillText("通關暗號：" + PASS, 600, 605);
+    g.fillStyle = "#b5302a"; g.fillRect(990, 580, 110, 110);
+    g.fillStyle = "#fff"; g.font = "bold 64px " + f; g.fillText("中", 1045, 657);
+    c.toBlob(b => {
+      var a = document.createElement("a"); a.href = URL.createObjectURL(b);
+      a.download = "fanjin-escape_scorecard_class-" + safe(st.cls) + "_group-" + st.group + "_" + stamp() + ".png";
+      document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    }, "image/png");
+  }
+
+  // ---------- 簡易版 ----------
+  var ICONS = ["🍶", "🧺", "🐔", "📜", "🥚", "🔪", "🩹", "👘"];
+  function renderLite() {
+    var root = $("lite"); root.innerHTML = "";
+    ACTS.forEach(a => {
+      var h = document.createElement("h3"); h.className = "acthead";
+      h.textContent = "第" + a.no + "幕　" + a.name + "｜" + a.title;
+      root.appendChild(h);
+      var yard = document.createElement("div"); yard.className = "yard";
+      for (var i = a.from; i <= a.to; i++) {
+        ((i) => {
+          var p = PUZZLES[i], b = document.createElement("button");
+          b.className = "card"; b.dataset.n = i;
+          var s = st ? (i < st.level ? "done" : i === st.level ? "cur" : "locked") : "locked";
+          b.classList.add(s);
+          b.innerHTML = '<span class="ic"></span><span></span><small></small>';
+          b.querySelector(".ic").textContent = s === "locked" ? "🔒" : s === "done" ? p.frag : ICONS[i];
+          b.children[1].textContent = "第 " + p.id + " 關｜" + p.obj;
+          b.children[2].textContent = s === "done" ? "已解開・得到字牌" : s === "cur" ? "點我調查" : "尚未開啟";
+          b.onclick = () => tryOpen(i);
+          yard.appendChild(b);
+        })(i);
+      }
+      root.appendChild(yard);
+    });
+    var gy = document.createElement("div"); gy.className = "yard";
+    var gate = document.createElement("button");
+    var ready = st && st.level >= N;
+    gate.className = "card gate" + (ready ? " open" : "");
+    gate.textContent = ready ? "🚪 范家大門：用八枚字牌解開最後的暗語" : "🚪 范家大門（收齊八枚字牌才會打開）";
+    gate.onclick = () => atGate();
+    gy.appendChild(gate); root.appendChild(gy);
+  }
+
+  // ---------- 綁定 ----------
+  function bind() {
+    $("pClose").onclick = closePuzzle;
+    $("pSubmit").onclick = submit;
+    $("pHintBtn").onclick = useHint;
+    $("sNext").onclick = afterSolved;
+    $("btnHelp").onclick = () => { show("help"); if (scene) scene.pause(true); };
+    $("btnMenu").onclick = () => { show("menu"); if (scene) scene.pause(true); };
+    document.querySelectorAll("[data-close]").forEach(b => {
+      b.onclick = () => { hide(b.dataset.close); if (scene && !busy()) scene.pause(false); };
+    });
+    $("mSwitch").onclick = () => { if (st) { st.mode = lite ? "3d" : "lite"; save(); } switchMode(!lite); };
+    $("mRestart").onclick = () => { hide("menu"); confirmBox("放棄進度？", "計時、答錯和提示紀錄都會清掉，從第 1 關重來。", restart); };
+    $("eCard").onclick = scoreCard;
+    $("eRestart").onclick = () => confirmBox("重新開始？", "本組成績已存在這台裝置，重新開始不會刪掉它。", restart);
+    window.addEventListener("keydown", e => { if (e.key === "Escape" && !$("puz").classList.contains("hidden")) closePuzzle(); });
+  }
+
+  lite = wantLite();
+  bind();
+  initStart();
+  if (lite) hide("view");
+  else {
+    var sc = document.createElement("script");
+    sc.src = "scene3d.js";
+    sc.onerror = () => { toast("3D 檔案載入失敗，已改用簡易版", 4000); lite = true; refreshModeLinks(); hide("view"); };
+    document.body.appendChild(sc);
+  }
+  if (st && st.finished) { hide("start"); showEnd(); }
+
+  window.FJ = {
+    PUZZLES: PUZZLES,
+    FINAL: FINAL,
+    ACTS: ACTS,
+    get state() { return st; },
+    get lite() { return lite; },
+    isBusy: busy,
+    tryOpen: tryOpen,
+    finish: atGate,
+    toast: toast,
+    registerScene(s) {
+      scene = s;
+      if (st && !st.finished && $("start").classList.contains("hidden")) {
+        scene.start(); scene.setLevel(Math.min(st.level, N));
+        if (st.level >= N) scene.openGate();
+        if (busy()) scene.pause(true);
+      }
+    },
+    sceneFailed(msg) {
+      scene = null; lite = true; refreshModeLinks();
+      hide("view"); hide("pad"); hide("btnAct");
+      toast(msg || "這台裝置不支援 3D，已改用簡易版", 4000);
+      if (st && $("start").classList.contains("hidden")) { show("lite"); renderLite(); refreshHud(); }
+    }
+  };
+})();
